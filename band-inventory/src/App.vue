@@ -1,4 +1,5 @@
 <script setup>
+import { RouterLink, RouterView } from 'vue-router';
 // import { ref, onMounted } from 'vue'
 // import { supabase } from './lib/supabaseClient'
 
@@ -15,6 +16,7 @@
 </script>
 
 <template>
+  <RouterLink to="/">Login</RouterLink>
   <!-- <ul>
     <li v-for="instrument in instruments" :key="instrument.id">{{ instrument.category }}</li>
   </ul> -->
