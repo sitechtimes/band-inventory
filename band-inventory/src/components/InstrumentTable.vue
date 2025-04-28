@@ -6,7 +6,6 @@
             <!-- head -->
             <thead>
                 <tr>
-                    <th></th>
                     <th>Category</th>
                     <th>Section</th>
                     <th>Serial Model</th>
@@ -48,7 +47,6 @@ const instruments = ref([])
 async function getInstruments() {
     const { data } = await supabase.from('instruments').select()
     instruments.value = data
-    console.log(data)
 }
 
 onMounted(() => {
