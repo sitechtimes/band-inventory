@@ -30,6 +30,7 @@ async function signIn(){
 		})
 
 		if (error) {
+			alert(error);
 			throw error
 		} else {
 			console.log("sucessfully logged in!")
