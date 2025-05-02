@@ -1,0 +1,20 @@
+//this was when it was jsconfig.json
+// {
+//   "compilerOptions": {
+//     "paths": {
+//       "@/*": ["./src/*"]
+//     }
+//   },
+//   "exclude": ["node_modules", "dist"]
+// }
+{
+    "files": [],
+    "references": [
+        {
+            "path": "./tsconfig.node.json"
+        },
+        {
+            "path": "./tsconfig.app.json"
+        }
+    ]
+}
