@@ -5,7 +5,7 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import temptable from '@/components/temptable.vue';
 
 </script>
