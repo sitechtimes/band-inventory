@@ -17,9 +17,14 @@
     "vue-router": "^4.5.0"
   },
   "devDependencies": {
+    "@tsconfig/node20": "^20.1.5",
+    "@types/node": "^22.15.3",
     "@vitejs/plugin-vue": "^5.2.3",
+    "@vue/tsconfig": "^0.7.0",
     "daisyui": "^5.0.14",
+    "typescript": "^5.8.3",
     "vite": "^6.2.4",
-    "vite-plugin-vue-devtools": "^7.7.2"
+    "vite-plugin-vue-devtools": "^7.7.2",
+    "vue-tsc": "^2.2.10"
   }
 }

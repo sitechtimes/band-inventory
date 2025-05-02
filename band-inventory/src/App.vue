@@ -14,6 +14,16 @@ import navBar from './components/navBar.vue';
 // onMounted(() => {
 //    getInstruments()
 // })
+
+// import { ref } from 'vue'
+// import type { Ref } from 'vue'
+
+// const year: Ref<string | number> = ref('2020')
+
+// year.value = 2020 // ok!
+// console.log(year.value)
+
+
 </script>
 
 <template>
