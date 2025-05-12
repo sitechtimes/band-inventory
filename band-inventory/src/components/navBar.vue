@@ -46,7 +46,7 @@
 
 <script setup lang="ts">
 import { supabase } from '../lib/supabaseClient'
-import router from '@/routes'
+import router from '@/routes/index'
 
 async function signOut() {
     try {

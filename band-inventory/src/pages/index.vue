@@ -17,7 +17,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { supabase } from '../lib/supabaseClient'
-import router from '@/routes'
+import router from '@/routes/index'
 
 const user = ref("")
 const pass = ref("")
@@ -34,7 +34,7 @@ async function signIn(){
 			throw error
 		} else {
 			console.log("sucessfully logged in!")
-			router.push({ path: '/test' })
+			router.push({ path: '/temptest' })
 		}
 		
 	} catch (error) {

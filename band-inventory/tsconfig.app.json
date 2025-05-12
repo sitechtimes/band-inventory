@@ -1,10 +1,10 @@
 {
     "extends": "@vue/tsconfig/tsconfig.dom.json",
     "include": [
-        "env.d.ts",
         "src/**/*",
         "src/**/*.vue",
-        "./typed-router.d.ts",
+        "src/**/*.ts",
+        "./typed-router.d.ts", "../typed-router.d.ts",
     ],
     "exclude": [
         "src/**/__tests__/*"
