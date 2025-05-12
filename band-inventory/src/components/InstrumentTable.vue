@@ -43,15 +43,21 @@ import { ref, onMounted } from 'vue'
 import { supabase } from '../lib/supabaseClient'
 
 const instruments = ref([])
+const errorMessage = ref("")
 
 const getInstruments = async () => {
-    const { data, error } = await supabase
-        .from('instruments')
-        .select()
-    if (error) {
-        throw new Error(error.message);
+    try {
+        const { data, error } = await supabase
+            .from('instruments')
+            .select()
+        if (error) {
+            throw new Error(error.message);
+        }
+        instruments.value = data
     }
-    instruments.value = data
+    catch (error) {
+        errorMessage.value = error.message || "An error occured while fetching instruments"
+    }
 }
 onMounted(() => {
     getInstruments()
