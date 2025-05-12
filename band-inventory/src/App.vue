@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router';
 import navBar from './components/navBar.vue';
 // import { ref, onMounted } from 'vue'
