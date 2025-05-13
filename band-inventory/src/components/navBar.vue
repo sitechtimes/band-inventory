@@ -45,14 +45,16 @@
 </template>
 
 <script setup lang="ts">
-import { supabase } from '../lib/supabaseClient'
+import { useUserStore } from '@/stores/authStore'
 import router from '@/routes/index'
+
+const userStore = useUserStore()
 
 async function signOut() {
     try {
-		const { error } = await supabase.auth.signOut()
-		if (error) {
-			throw error
+		  const { error } = await userStore.logOut()
+		  if (error) {
+			  throw error
 		} else {
 			console.log("sucessfully logged out!")
       router.push({ path: '/' })
