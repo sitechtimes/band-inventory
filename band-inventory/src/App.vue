@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router';
-import navBar from './components/navBar.vue';
+import { RouterLink, RouterView } from "vue-router";
+import navBar from "./components/navBar.vue";
 // import { ref, onMounted } from 'vue'
 // import { supabase } from './lib/supabaseClient'
 
@@ -22,8 +22,6 @@ import navBar from './components/navBar.vue';
 
 // year.value = 2020 // ok!
 // console.log(year.value)
-
-
 </script>
 
 <template>
@@ -34,7 +32,7 @@ import navBar from './components/navBar.vue';
   </ul> -->
 
   <div class="content">
-	  <RouterView />
+    <RouterView />
   </div>
 </template>
 
