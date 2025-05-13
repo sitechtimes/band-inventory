@@ -1,15 +1,12 @@
 <template>
-    <div>
+  <div>
     wow willy wickers
     <temptable></temptable>
-    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import temptable from '@/components/temptable.vue';
-
+import temptable from "@/components/temptable.vue";
 </script>
 
-<style>
-
-</style>
+<style></style>

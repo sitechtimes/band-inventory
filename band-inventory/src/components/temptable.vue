@@ -1,28 +1,27 @@
 <template>
-    <div>
+  <div>
     <ul>
-        <li v-for="instrument in instruments" :key="instrument.id">{{ instrument.category }}</li>
+      <li v-for="instrument in instruments" :key="instrument.id">
+        {{ instrument.category }}
+      </li>
     </ul>
-    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { supabase } from '@/lib/supabaseClient'
+import { ref, onMounted } from "vue";
+import { supabase } from "@/lib/supabaseClient";
 
-const instruments = ref([])
+const instruments = ref([]);
 
 async function getInstruments() {
-  const { data } = await supabase.from('instruments').select()
-  instruments.value = data
+  const { data } = await supabase.from("instruments").select();
+  instruments.value = data;
 }
 
 onMounted(() => {
-   getInstruments()
-})
-
+  getInstruments();
+});
 </script>
 
-<style>
-
-</style>
+<style></style>
