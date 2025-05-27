@@ -20,16 +20,16 @@
                 </thead>
                 <tbody>
                     <!-- row 1 -->
-                    <tr v-for="instrument in instruments" :key="instrument.id">
+                    <tr v-for="instrument in instruments" :key="instrument.id" class="cursor-pointer">
                         <td>{{ instrument.category }}</td>
                         <td>{{ instrument.section }}</td>
                         <td>{{ instrument.serial_model }}</td>
-                        <td>{{ instrument.case_number }}</td>
                         <td>{{ instrument.manufacturer }}</td>
-                        <td>{{ instrument.sitech_hs_id }}</td>
+                        <td>{{ instrument.case_number }}</td>
+                        <td>{{ instrument.siths_id }}</td>
                         <td>{{ instrument.assigned_to }}</td>
                         <td>{{ instrument.condition }}</td>
-                        <td>{{ instrument.year_of_purchase }}</td>
+                        <td>{{ instrument.year_purchased }}</td>
                         <td>{{ instrument.barcode }}</td>
                     </tr>
                 </tbody>
@@ -42,7 +42,21 @@
 import { ref, onMounted } from 'vue'
 import { supabase } from '../lib/supabaseClient'
 
-const instruments = ref([])
+interface Instrument {
+    id: number;
+    category: string;
+    section: string;
+    serial_model: string;
+    case_number: string;
+    manufacturer: string;
+    siths_id: string;
+    assigned_to: string;
+    condition: string;
+    year_purchased: number;
+    barcode: string;
+}
+
+const instruments = ref<Instrument[]>([])
 const errorMessage = ref("")
 
 const getInstruments = async () => {
@@ -55,8 +69,9 @@ const getInstruments = async () => {
         }
         instruments.value = data
     }
-    catch (error) {
-        errorMessage.value = error.message || "An error occured while fetching instruments"
+    catch (err) {
+        const error = err as Error;
+        errorMessage.value = error.message || "An error occurred while fetching instruments";
     }
 }
 onMounted(() => {
