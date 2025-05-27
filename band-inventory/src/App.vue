@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { RouterLink, RouterView } from "vue-router";
+import navBar from "./components/navBar.vue";
 // import { ref, onMounted } from 'vue'
 // import { supabase } from './lib/supabaseClient'
 
@@ -20,15 +22,18 @@
 
 // year.value = 2020 // ok!
 // console.log(year.value)
-
-
 </script>
 
 <template>
+  <navBar></navBar>
+  <RouterLink to="/">Login</RouterLink>
   <!-- <ul>
     <li v-for="instrument in instruments" :key="instrument.id">{{ instrument.category }}</li>
   </ul> -->
-  <h1>asdh</h1>
+
+  <div class="content">
+    <RouterView />
+  </div>
 </template>
 
 <style></style>
