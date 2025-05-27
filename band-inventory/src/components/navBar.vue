@@ -59,14 +59,17 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
 import { useUserStore } from "@/stores/authStore";
 import router from "@/routes/index";
+import type { Ref } from "vue";
 
 const userStore = useUserStore();
+const nullify: Ref<null> = ref(null)
 
 async function signOut() {
   try {
-    const { error } = await userStore.logOut();
+    const { error } = await userStore.logOut(nullify.value);
     if (error) {
       throw error;
     } else {

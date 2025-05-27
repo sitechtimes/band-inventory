@@ -18,10 +18,11 @@
 import { ref } from "vue";
 import { useUserStore } from "@/stores/authStore";
 import router from "@/routes/index";
+import type { Ref } from "vue";
 
 const userStore = useUserStore();
-const email = ref("");
-const password = ref("");
+const email: Ref<string> = ref("")
+const password: Ref<string> = ref("")
 
 async function signIn() {
   try {
