@@ -1,5 +1,8 @@
 <template>
-  <userLogin />
+  <div class="bg-regal-blue">
+    <userLogin />
+  </div>
+  
 </template>
 
 <script setup lang="ts">
