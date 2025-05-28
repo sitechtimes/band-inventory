@@ -2,10 +2,9 @@
     <div class="p-4">
         <h1 class="font-bold my-8 text-xl">Instrument Listing</h1>
         <div class="overflow-x-auto">
-            <table class="table">
-                <!-- head -->
+            <table class="table text-center text-base">
                 <thead>
-                    <tr>
+                    <tr class="bg-sky-50">
                         <th>Category</th>
                         <th>Section</th>
                         <th>Serial Model</th>
@@ -19,7 +18,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- row 1 -->
                     <tr v-for="instrument in instruments" :key="instrument.id" class="cursor-pointer">
                         <td>{{ instrument.category }}</td>
                         <td>{{ instrument.section }}</td>
