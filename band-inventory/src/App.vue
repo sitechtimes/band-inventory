@@ -1,9 +1,18 @@
-<script setup>
-import InstrumentTable from './components/InstrumentTable.vue'
+<script setup lang="ts">
+import { RouterLink, RouterView } from "vue-router";
+import navBar from "./components/navBar.vue";
 </script>
 
 <template>
-  <InstrumentTable></InstrumentTable>
+  <navBar></navBar>
+  <RouterLink to="/">Login</RouterLink>
+  <!-- <ul>
+    <li v-for="instrument in instruments" :key="instrument.id">{{ instrument.category }}</li>
+  </ul> -->
+
+  <div class="content">
+    <RouterView />
+  </div>
 </template>
 
 <style></style>
