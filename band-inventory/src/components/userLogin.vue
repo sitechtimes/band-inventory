@@ -32,7 +32,7 @@ async function signIn() {
       throw error;
     } else {
       console.log("sucessfully logged in!");
-      router.push({ path: "/temptest" });
+      router.push({ path: "/home" });
     }
   } catch (error) {
     console.log(error);
