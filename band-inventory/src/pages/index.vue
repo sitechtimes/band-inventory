@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-regal-blue">
+  <div class="bg-deep-blue h-svh">
     <userLogin />
   </div>
   
