@@ -1,14 +1,9 @@
 <template>
-  <navBar></navBar>
-  <div>
-    wow willy wickers
-    <temptable></temptable>
-  </div>
+  <InstrumentTable></InstrumentTable>
 </template>
 
 <script setup lang="ts">
-import temptable from "@/components/temptable.vue";
-import navBar from "@/components/navBar.vue";
+import InstrumentTable from './components/InstrumentTable.vue'
 </script>
 
 <style></style>
