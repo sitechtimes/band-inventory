@@ -1,16 +1,18 @@
 <template>
-  <div>
+  <div class="bg-white flex flex-col h-1/3">
+    <div class="grid grid-rows-4 items-center justify-items-center">
     <h1>Log In Page</h1>
     <div class="inputContainer">
-      <label for="email"> Email: </label>
-      <input type="email" id="email" v-model="email" />
+      <!-- <label for="email"> Email: </label> -->
+      <input class="input" placeholder="email" type="email" id="email" v-model="email" />
     </div>
 
     <div class="inputContainer">
-      <label for="email"> Password: </label>
-      <input type="password" id="password" v-model="password" />
+      <!-- <label for="email"> Password: </label> -->
+      <input class="input" placeholder="password" type="password" id="password" v-model="password" />
     </div>
-    <button @click="signIn">Sign In</button>
+    <button class="btn w-50" @click="signIn">Sign In</button>
+    </div>
   </div>
 </template>
 
