@@ -1,5 +1,5 @@
 <template>
-  <div class="absolute top-30 right-0 md:right-50 bg-white flex flex-col h-1/2 w-full md:w-3/5 lg:w-5/8 place-content-center md:place-self-center md:rounded-lg">
+  <div class="absolute top-30 right-0 md:right-50 xl:right-70 bg-white flex flex-col h-1/2 w-full md:w-3/5 lg:w-5/8 place-content-center md:place-self-center md:rounded-lg">
     <div class="grid grid-rows-4 justify-items-center gap-y-4 place-content-center">
       <div>
       <h1 class="text-xl font-bold">SITHS Band Inventory</h1>
