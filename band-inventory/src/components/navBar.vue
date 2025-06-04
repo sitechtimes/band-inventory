@@ -74,7 +74,7 @@ async function signOut() {
       throw error;
     } else {
       console.log("sucessfully logged out!");
-      router.push({ path: "/" });
+      router.replace({ path: "/" });
     }
   } catch (error) {
     console.log(error);
