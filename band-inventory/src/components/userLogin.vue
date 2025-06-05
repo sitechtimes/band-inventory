@@ -10,6 +10,7 @@
         <h2 class="text-md font-semibold place-self-center">Log In</h2>
       </div>
       <div class="inputContainer w-12/8 items-center">
+        <label for="email" class="sr-only">Email</label>
         <input
           class="input"
           placeholder="email"
@@ -20,6 +21,7 @@
       </div>
 
       <div class="inputContainer w-12/8 self-center">
+        <label for="password" class="sr-only">Password</label>
         <input
           class="input"
           placeholder="password"
