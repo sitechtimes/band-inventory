@@ -1,8 +1,7 @@
 <template>
-  <div class="bg-deep-blue h-svh">
+  <div class="bg-deep-blue min-h-screen flex">
     <userLogin />
   </div>
-  
 </template>
 
 <script setup lang="ts">
