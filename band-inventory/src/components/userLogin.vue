@@ -6,10 +6,12 @@
       <h2 class="text-md font-semibold place-self-center">Log In</h2>
       </div>
     <div class="inputContainer w-12/8 items-center">
+      <label for="email" class="sr-only"> Email </label>
       <input class="input" placeholder="email" type="email" id="email" v-model="email" />
     </div>
 
     <div class="inputContainer w-12/8 self-center">
+      <label for="email" class="sr-only"> Password </label>
       <input class="input" placeholder="password" type="password" id="password" v-model="password" />
     </div>
     <button class="btn w-50 bg-green" @click="signIn">Sign In</button>
