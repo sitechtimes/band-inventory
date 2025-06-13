@@ -1,13 +1,14 @@
 <template>
   <navBar></navBar>
+  <instrumentFilter></instrumentFilter>
   <InstrumentTable></InstrumentTable>
-  <filter></filter>
+  
 </template>
 
 <script setup lang="ts">
 import navBar from '@/components/navBar.vue';
 import InstrumentTable from '../components/InstrumentTable.vue'
-import filter from "../components/filter.vue";
+import instrumentFilter from "../components/instrumentFilter.vue";
 </script>
 
 <style></style>
