@@ -3,7 +3,7 @@ import { ref } from "vue";
 import type {Ref} from 'vue';
 import { supabase } from "@/lib/supabaseClient";
 
-export interface Instrument {
+interface Instrument {
     id: number;
     category: string;
     section: string;
@@ -17,30 +17,41 @@ export interface Instrument {
     barcode: string;
     }
 
-// export const useInstrumentStore = defineStore("instrument", () => {
-//     const instruments: Ref<Instrument[] | null> = ref(null)
+export const useInstrumentStore = defineStore("instrument", () => {
+    const instruments: Ref<Instrument[] | null> = ref(null)
 
-//     const get = async() => {
-//         return await supabase
-//             .from('instruments')
-//             .select()
-//     }
-// //      const login = async (email: string, password: string)  => {
-// //     user.value = email
-// //     return await supabase.auth.signInWithPassword({
-// //       email,
-// //       password,
-// //     });
-// //   };
+    const getInstruments = async () => {
+        const { data, error } = await supabase
+            .from('instruments')
+            .select()
+        if (error) {
+            throw new Error(error.message);
+        }
+        instruments.value = data
+    }
 
-//     // const { data, error } = await supabase
-//     //         .from('instruments')
-//     //         .select()
-//     //     if (error) {
-//     //         throw new Error(error.message);
-//     //     }
-//     //     instruments.value = data
 
-//     return { instruments, get }
+    // const get = async() => {
+    //     return await supabase
+    //         .from('instruments')
+    //         .select()
+    // }
+//      const login = async (email: string, password: string)  => {
+//     user.value = email
+//     return await supabase.auth.signInWithPassword({
+//       email,
+//       password,
+//     });
+//   };
+
+    // const { data, error } = await supabase
+    //         .from('instruments')
+    //         .select()
+    //     if (error) {
+    //         throw new Error(error.message);
+    //     }
+    //     instruments.value = data
+
+    return { instruments, getInstruments }
   
-// }); //revisit this later where you store the instrument value here
+}); //revisit this later where you store the instrument value here

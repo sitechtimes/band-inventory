@@ -18,12 +18,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="instrument in instruments" :key="instrument.id" class="cursor-pointer">
+                    <tr v-for="instrument in instrumentStore.instruments" :key="instrument.id" class="cursor-pointer">
                         <td>{{ instrument.category }}</td>
                         <td>{{ instrument.section }}</td>
                         <td>{{ instrument.serial_model }}</td>
-                        <td>{{ instrument.manufacturer }}</td>
                         <td>{{ instrument.case_number }}</td>
+                        <td>{{ instrument.manufacturer }}</td>
                         <td>{{ instrument.siths_id }}</td>
                         <td>{{ instrument.assigned_to }}</td>
                         <td>{{ instrument.condition }}</td>
@@ -38,22 +38,15 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { supabase } from '../lib/supabaseClient'
-//import { useInstrumentStore } from '@/stores/instrumentStore'
-import type { Instrument } from '@/stores/instrumentStore'
+import { useInstrumentStore } from '@/stores/instrumentStore'
 
-const instruments = ref<Instrument[]>([])
+
+const instrumentStore = useInstrumentStore()
 const errorMessage = ref("")
 
 const getInstruments = async () => {
     try {
-        const { data, error } = await supabase
-            .from('instruments')
-            .select()
-        if (error) {
-            throw new Error(error.message);
-        }
-        instruments.value = data
+        instrumentStore.getInstruments()
     }
     catch (err) {
         const error = err as Error;
