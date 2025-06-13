@@ -39,20 +39,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { supabase } from '../lib/supabaseClient'
-
-interface Instrument {
-    id: number;
-    category: string;
-    section: string;
-    serial_model: string;
-    case_number: string;
-    manufacturer: string;
-    siths_id: string;
-    assigned_to: string;
-    condition: string;
-    year_purchased: number;
-    barcode: string;
-}
+//import { useInstrumentStore } from '@/stores/instrumentStore'
+import type { Instrument } from '@/stores/instrumentStore'
 
 const instruments = ref<Instrument[]>([])
 const errorMessage = ref("")
@@ -69,9 +57,10 @@ const getInstruments = async () => {
     }
     catch (err) {
         const error = err as Error;
-        errorMessage.value = error.message || "An error occurred while fetching instruments";
+        errorMessage.value = error.message || "An error occurred while fetching instruments"; 
     }
 }
+
 onMounted(() => {
     getInstruments()
 })
