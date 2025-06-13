@@ -2,3 +2,10 @@
 
 @import "tailwindcss";
 @plugin "daisyui";
+
+@theme {
+  --color-deep-blue: #2F576A;
+  --color-white: #FCFCFC;
+  --color-green: #239C7B;
+  --color-gray: #BFBFBF;
+}
