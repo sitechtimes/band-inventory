@@ -1,16 +1,37 @@
 <template>
-  <div>
-    <h1>Log In Page</h1>
-    <div class="inputContainer">
-      <label for="email"> Email: </label>
-      <input type="email" id="email" v-model="email" />
-    </div>
+  <div
+    class="m-auto h-fit py-20 bg-white flex flex-col w-full md:w-3/5 lg:w-5/8 place-content-center md:place-self-center md:rounded-lg"
+  >
+    <div
+      class="grid grid-rows-4 justify-items-center gap-y-4 place-content-center"
+    >
+      <div>
+        <h1 class="text-xl font-bold">SITHS Band Inventory</h1>
+        <h2 class="text-md font-semibold place-self-center">Log In</h2>
+      </div>
+      <div class="inputContainer w-12/8 items-center">
+        <label for="email" class="sr-only">Email</label>
+        <input
+          class="input"
+          placeholder="email"
+          type="email"
+          id="email"
+          v-model="email"
+        />
+      </div>
 
-    <div class="inputContainer">
-      <label for="email"> Password: </label>
-      <input type="password" id="password" v-model="password" />
+      <div class="inputContainer w-12/8 self-center">
+        <label for="password" class="sr-only">Password</label>
+        <input
+          class="input"
+          placeholder="password"
+          type="password"
+          id="password"
+          v-model="password"
+        />
+      </div>
+      <button class="btn w-50 bg-green" @click="signIn">Sign In</button>
     </div>
-    <button @click="signIn">Sign In</button>
   </div>
 </template>
 
@@ -21,8 +42,8 @@ import router from "@/routes/index";
 import type { Ref } from "vue";
 
 const userStore = useUserStore();
-const email: Ref<string> = ref("")
-const password: Ref<string> = ref("")
+const email: Ref<string> = ref("");
+const password: Ref<string> = ref("");
 
 async function signIn() {
   try {
