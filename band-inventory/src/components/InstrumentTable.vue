@@ -18,7 +18,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="instrument in instrumentStore.instruments" :key="instrument.id" class="cursor-pointer">
+                    <tr v-for="instrument in instrumentStore.showedInstruments" :key="instrument.id" class="cursor-pointer">
                         <td>{{ instrument.category }}</td>
                         <td>{{ instrument.section }}</td>
                         <td>{{ instrument.serial_model }}</td>

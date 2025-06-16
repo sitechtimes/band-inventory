@@ -17,50 +17,40 @@
           id="manufacturer"
           v-model="manufacturer"
         />
+
+        <!-- <label for="manufacturer" class="sr-only">manufacturer</label>
+        <input
+          class="input"
+          placeholder="manufacturer"
+          type="manufacturer"
+          id="manufacturer"
+          v-model="manufacturer"
+        /> -->
       </div>
       <button class="btn" @click="filter">filter</button>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { supabase } from '../lib/supabaseClient'
-//import { useInstrumentStore } from '@/stores/instrumentStore'
-//import type { Instrument } from '@/stores/instrumentStore'
+import { useInstrumentStore } from '@/stores/instrumentStore'
 import type { Ref } from 'vue'
 
-// const instruments = ref<Instrument[]>([])
-// const errorMessage = ref("")
-
-// const getInstruments = async () => {
-//     try {
-//         const { data, error } = await supabase
-//             .from('instruments')
-//             .select()
-//         if (error) {
-//             throw new Error(error.message);
-//         }
-//         instruments.value = data
-//     }
-//     catch (err) {
-//         const error = err as Error;
-//         errorMessage.value = error.message || "An error occurred while fetching instruments"; 
-//     }
-// }
-
-// onMounted(() => {
-//     getInstruments()
-// })
+const instrumentStore = useInstrumentStore()
+const allInstruments = instrumentStore.allInstruments
+const showInstruments = instrumentStore.showedInstruments
 
 const condition: Ref<string> = ref("")
 const manufacturer: Ref<string> = ref("")
 
-// async function filter(){
-//     const thing = instruments.value.filter((instrument) => 
-//         instrument.condition !== condition.value &&
-//         instrument.manufacturer !== manufacturer.value
-//     )
-//     console.log(thing)
-// }
+async function filter(){
+    const filteredInstruments = allInstruments!.filter((instrument) => 
+        instrument.condition === condition.value &&
+        instrument.manufacturer === manufacturer.value
+    )
+  showInstruments?.splice(0, showInstruments.length);
+  filteredInstruments.forEach((instrument) => showInstruments?.push(instrument))
+
+}
 
 
 

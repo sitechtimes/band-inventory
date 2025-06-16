@@ -18,7 +18,8 @@ interface Instrument {
     }
 
 export const useInstrumentStore = defineStore("instrument", () => {
-    const instruments: Ref<Instrument[] | null> = ref(null)
+    const allInstruments: Ref<Instrument[]> = ref([])
+    let showedInstruments: Ref<Instrument[] | null> = ref(null)
 
     const getInstruments = async () => {
         const { data, error } = await supabase
@@ -27,31 +28,12 @@ export const useInstrumentStore = defineStore("instrument", () => {
         if (error) {
             throw new Error(error.message);
         }
-        instruments.value = data
+        allInstruments.value = data
+        showedInstruments.value = data
     }
 
 
-    // const get = async() => {
-    //     return await supabase
-    //         .from('instruments')
-    //         .select()
-    // }
-//      const login = async (email: string, password: string)  => {
-//     user.value = email
-//     return await supabase.auth.signInWithPassword({
-//       email,
-//       password,
-//     });
-//   };
 
-    // const { data, error } = await supabase
-    //         .from('instruments')
-    //         .select()
-    //     if (error) {
-    //         throw new Error(error.message);
-    //     }
-    //     instruments.value = data
-
-    return { instruments, getInstruments }
+    return { allInstruments, getInstruments, showedInstruments }
   
-}); //revisit this later where you store the instrument value here
+}); 
