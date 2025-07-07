@@ -18,7 +18,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="instrument in instruments" :key="instrument.id" class="cursor-pointer">
+                    <tr v-for="instrument in instruments" :key="instrument.id" class="cursor-pointer" @click="clickInstrument(instrument.id)">
                         <td>{{ instrument.category }}</td>
                         <td>{{ instrument.section }}</td>
                         <td>{{ instrument.serial_model }}</td>
@@ -39,6 +39,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { supabase } from '../lib/supabaseClient'
+import router from "@/routes/index";
 
 interface Instrument {
     id: number;
@@ -75,4 +76,8 @@ const getInstruments = async () => {
 onMounted(() => {
     getInstruments()
 })
+
+function clickInstrument(instrumentId) {
+    router.push({ path: `/instruments/${ instrumentId }` });
+}
 </script>
