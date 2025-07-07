@@ -47,9 +47,9 @@ async function filter(){
         instrument.condition === condition.value &&
         instrument.manufacturer === manufacturer.value
     )
+    console.log(filteredInstruments)
   showInstruments?.splice(0, showInstruments.length);
   filteredInstruments.forEach((instrument) => showInstruments?.push(instrument))
-
 }
 
 

@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 import type {Ref} from 'vue';
 import { supabase } from "@/lib/supabaseClient";
+import type { RefSymbol } from "@vue/reactivity";
 
 interface Instrument {
     id: number;
@@ -19,7 +20,7 @@ interface Instrument {
 
 export const useInstrumentStore = defineStore("instrument", () => {
     const allInstruments: Ref<Instrument[]> = ref([])
-    let showedInstruments: Ref<Instrument[] | null> = ref(null)
+    let showedInstruments: Ref<Instrument[]> = ref([])
 
     const getInstruments = async () => {
         const { data, error } = await supabase
@@ -29,11 +30,9 @@ export const useInstrumentStore = defineStore("instrument", () => {
             throw new Error(error.message);
         }
         allInstruments.value = data
-        showedInstruments.value = data
+        allInstruments.value.forEach((instrument) => showedInstruments.value?.push(instrument))
     }
 
-
-
-    return { allInstruments, getInstruments, showedInstruments }
+    return { allInstruments, getInstruments, showedInstruments}
   
 }); 
