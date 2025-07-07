@@ -65,11 +65,10 @@ import router from "@/routes/index";
 import type { Ref } from "vue";
 
 const userStore = useUserStore();
-const nullify: Ref<null> = ref(null)
 
 async function signOut() {
   try {
-    const { error } = await userStore.logOut(nullify.value);
+    const { error } = await userStore.logOut(null);
     if (error) {
       throw error;
     } else {
