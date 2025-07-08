@@ -43,16 +43,16 @@ import router from "@/routes/index";
 
 interface Instrument {
     id: number;
+    siths_id: number;
     category: string;
     section: string;
     serial_model: string;
     case_number: string;
     manufacturer: string;
-    siths_id: string;
     assigned_to: string;
     condition: string;
     year_purchased: number;
-    barcode: string;
+    barcode: number;
 }
 
 const instruments = ref<Instrument[]>([])
@@ -77,7 +77,7 @@ onMounted(() => {
     getInstruments()
 })
 
-function clickInstrument(instrumentId) {
+function clickInstrument(instrumentId: number) {
     router.push({ path: `/instruments/${ instrumentId }` });
 }
 </script>
