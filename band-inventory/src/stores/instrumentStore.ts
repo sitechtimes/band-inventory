@@ -8,14 +8,14 @@ interface Instrument {
     id: number;
     category: string;
     section: string;
-    serial_model: string;
-    case_number: string;
+    serial_model: number;
+    case_number: number;
     manufacturer: string;
-    siths_id: string;
+    siths_id: number;
     assigned_to: string;
     condition: string;
     year_purchased: number;
-    barcode: string;
+    barcode: number;
     }
 
 export const useInstrumentStore = defineStore("instrument", () => {
