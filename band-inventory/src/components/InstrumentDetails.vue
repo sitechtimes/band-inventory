@@ -4,7 +4,11 @@
         <h1 class="text-2xl font-bold mt-4">Instrument Details</h1>
         <div class="mt-12 border border-gray-300 p-4">
             <h2 class="text-3xl">{{ instrument.category }}</h2>
-            <h3 class="mt-2 italic">Details</h3>
+            <div class="flex justify-items-start">
+                <h3 class="mt-2 italic w-1/3">Details</h3>
+                <h3 class="mt-2 italic w-1/3">Identifiers</h3>
+                <h3 class="mt-2 italic w-1/3">Value Details</h3>
+            </div>
         </div>
         <div class="flex">
             <div class="border border-gray-300 p-4 grid grid-cols-2 gap-6 w-1/3">
