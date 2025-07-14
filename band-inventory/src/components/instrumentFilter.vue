@@ -122,11 +122,11 @@ const barcode: Ref<number | undefined> = ref()
 
 
 async function filter(){
-    const filteredInstruments = allInstruments!.filter((instrument) => 
+    const filteredInstruments = allInstruments.filter((instrument) => 
         instrument.category === category.value ||
         instrument.section === section.value ||
         instrument.serial_model == serial_model.value ||
-        instrument.case_number == case_number.value ||
+        instrument.case_number === case_number.value ||
         instrument.manufacturer === manufacturer.value ||
         instrument.siths_id == siths_id.value ||
         instrument.assigned_to === assigned_to.value ||
