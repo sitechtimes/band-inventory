@@ -62,6 +62,10 @@
                 </div>
             </div>
         </div>
+        <div class="mt-8">
+            <h1 class="text-2xl">Instrument Management</h1>
+        </div>
+
     </div>
 </template>
 
