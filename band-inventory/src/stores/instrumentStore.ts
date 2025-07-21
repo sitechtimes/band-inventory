@@ -30,7 +30,8 @@ export const useInstrumentStore = defineStore("instrument", () => {
             throw new Error(error.message);
         }
         allInstruments.value = data
-        allInstruments.value.forEach((instrument) => showedInstruments.value?.push(instrument))
+        //allInstruments.value.forEach((instrument) => showedInstruments.value?.push(instrument))
+        showedInstruments.value = data
     }
 
     return { allInstruments, getInstruments, showedInstruments}
