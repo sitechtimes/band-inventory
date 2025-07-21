@@ -5,7 +5,7 @@
         <input
           class="input md:w-1/5"
           placeholder="category (ex: Violin)"
-          type="category"
+          type="text"
           id="category"
           v-model="category"
         />
@@ -14,7 +14,7 @@
         <input
           class="input md:w-1/5"
           placeholder="section (ex: Strings)"
-          type="section"
+          type="text"
           id="section"
           v-model="section"
         />
@@ -24,7 +24,7 @@
         <input
           class="input md:w-1/5"
           placeholder="serial model"
-          type="serial_model"
+          type="text"
           id="serial_model"
           v-model="serial_model"
         />
@@ -33,7 +33,7 @@
         <input
           class="input md:w-1/5"
           placeholder="case number"
-          type="case_number"
+          type="text"
           id="case_number"
           v-model="case_number"
         />
@@ -42,7 +42,7 @@
         <input
           class="input md:w-1/5"
           placeholder="manufacturer"
-          type="manufacturer"
+          type="text"
           id="manufacturer"
           v-model="manufacturer"
         />
@@ -51,7 +51,7 @@
         <input
           class="input md:w-1/5"
           placeholder="siths id"
-          type="siths_id"
+          type="text"
           id="siths_id"
           v-model="siths_id"
         />
@@ -60,7 +60,7 @@
         <input
           class="input md:w-1/5"
           placeholder="assigned to"
-          type="assigned_to"
+          type="text"
           id="assigned_to"
           v-model="assigned_to"
         />
@@ -69,7 +69,7 @@
         <input
           class="input md:w-1/5"
           placeholder="condition"
-          type="condition"
+          type="text"
           id="condition"
           v-model="condition"
         />
@@ -78,7 +78,7 @@
         <input
           class="input md:w-1/5"
           placeholder="year purchased"
-          type="year_purchased"
+          type="text"
           id="year_purchased"
           v-model="year_purchased"
         />
@@ -87,7 +87,7 @@
         <input
           class="input md:w-1/5"
           placeholder="barcode"
-          type="barcode"
+          type="text"
           id="barcode"
           v-model="barcode"
         />
@@ -123,16 +123,16 @@ const barcode: Ref<number | undefined> = ref()
 
 async function filter(){
     const filteredInstruments = allInstruments.filter((instrument) => 
-        instrument.category === category.value ||
-        instrument.section === section.value ||
-        instrument.serial_model == serial_model.value ||
-        instrument.case_number === case_number.value ||
-        instrument.manufacturer === manufacturer.value ||
-        instrument.siths_id == siths_id.value ||
-        instrument.assigned_to === assigned_to.value ||
-        instrument.condition === condition.value ||
-        instrument.year_purchased == year_purchased.value ||
-        instrument.barcode == barcode.value
+        instrument.category === category.value.charAt(0).toUpperCase() + category.value.slice(1) ||
+        instrument.section === section.value.charAt(0).toUpperCase() + section.value.slice(1) ||
+        instrument.serial_model === Number(serial_model.value) ||
+        instrument.case_number === Number(case_number.value) ||
+        instrument.manufacturer === manufacturer.value.charAt(0).toUpperCase() + manufacturer.value.slice(1) ||
+        instrument.siths_id === Number(siths_id.value) ||
+        instrument.assigned_to === assigned_to.value.charAt(0).toUpperCase() + assigned_to.value.slice(1) ||
+        instrument.condition === condition.value.charAt(0).toUpperCase() + condition.value.slice(1) ||
+        instrument.year_purchased == Number(year_purchased.value) ||
+        instrument.barcode == Number(barcode.value)
     )
     console.log(filteredInstruments)
   showInstruments?.splice(0, showInstruments.length);
