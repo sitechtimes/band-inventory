@@ -20,7 +20,7 @@ interface Instrument {
 
 export const useInstrumentStore = defineStore("instrument", () => {
     const allInstruments: Ref<Instrument[]> = ref([])
-    let showedInstruments: Ref<Instrument[]> = ref([])
+    const showedInstruments: Ref<Instrument[]> = ref([])
 
     const getInstruments = async () => {
         const { data, error } = await supabase

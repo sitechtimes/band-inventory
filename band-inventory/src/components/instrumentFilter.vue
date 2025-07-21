@@ -104,10 +104,12 @@
 import { ref, onMounted } from 'vue'
 import { useInstrumentStore } from '@/stores/instrumentStore'
 import type { Ref } from 'vue'
+import { storeToRefs } from 'pinia'
 
 const instrumentStore = useInstrumentStore()
-const allInstruments = instrumentStore.allInstruments
-const showInstruments = instrumentStore.showedInstruments
+const instrumentStoretoRef = storeToRefs(instrumentStore)
+const allInstruments = instrumentStoretoRef.allInstruments
+const showInstruments = instrumentStoretoRef.showedInstruments
 
 const category: Ref<string> = ref("")
 const section: Ref<string> = ref("")
@@ -122,7 +124,10 @@ const barcode: Ref<number | undefined> = ref()
 
 
 async function filter(){
-    const filteredInstruments = allInstruments.filter((instrument) => 
+    // if(allInstruments != ){
+
+    // }
+    const filteredInstruments = allInstruments.value.filter((instrument) => 
         instrument.category === category.value.charAt(0).toUpperCase() + category.value.slice(1) ||
         instrument.section === section.value.charAt(0).toUpperCase() + section.value.slice(1) ||
         instrument.serial_model === Number(serial_model.value) ||
@@ -135,13 +140,13 @@ async function filter(){
         instrument.barcode == Number(barcode.value)
     )
     console.log(filteredInstruments)
-  showInstruments?.splice(0, showInstruments.length);
-  filteredInstruments.forEach((instrument) => showInstruments?.push(instrument))
+  showInstruments.value = []
+  filteredInstruments.forEach((instrument) => showInstruments.value.push(instrument))
 }
 
 async function reset() {
-  showInstruments?.splice(0, showInstruments.length);
-  allInstruments.forEach((instrument) => showInstruments.push(instrument))
+  showInstruments.value = []
+  allInstruments.value.forEach((instrument) => showInstruments.value.push(instrument))
   category.value = section.value = manufacturer.value = assigned_to.value = condition.value = ""
   serial_model.value = case_number.value = siths_id.value = year_purchased.value = barcode.value = undefined
 }
