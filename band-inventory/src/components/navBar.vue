@@ -60,16 +60,14 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { useUserStore } from "@/stores/authStore";
 import router from "@/routes/index";
 import type { Ref } from "vue";
+import { supabase } from "@/lib/supabaseClient";
 
-const userStore = useUserStore();
-const nullify: Ref<null> = ref(null)
 
 async function signOut() {
   try {
-    const { error } = await userStore.logOut(nullify.value);
+    const { error } = await supabase.auth.signOut();
     if (error) {
       throw error;
     } else {
