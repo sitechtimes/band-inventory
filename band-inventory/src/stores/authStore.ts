@@ -15,10 +15,5 @@ export const useUserStore = defineStore("auth", () => {
     });
   };
 
-  const logOut = async (email: null) => {
-    user.value = email
-    return await supabase.auth.signOut();
-  };
-
-  return { user, login, logOut };
+  return { user, login };
 });
