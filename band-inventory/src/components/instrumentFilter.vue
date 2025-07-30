@@ -1,97 +1,75 @@
 <template>
   <div class="inputContainer flex flex-col bg-deep-blue rounded-lg m-2 border-1">
-   <div class="inputFields flex flex-wrap gap-y-1.5 gap-x-1.5 bg-light-blue rounded-lg p-2 md:pb-8 border-1">
-        <label for="category" class="sr-only">category</label>
-        <input
-          class="input md:w-1/5"
-          placeholder="category (ex: Violin)"
-          type="text"
-          id="category"
-          v-model="category"
-        />
-   
-        <label for="section" class="sr-only">section</label>
-        <input
-          class="input md:w-1/5"
-          placeholder="section (ex: Strings)"
-          type="text"
-          id="section"
-          v-model="section"
-        />
+    <div class="inputFields flex flex-wrap gap-y-1.5 gap-x-1.5 bg-light-blue rounded-lg p-2 md:pb-8 border-1">
+       <filterCategories
+        :title="'category'"
+        :id="'category'" 
+        :placeholder="'category (ex: Violin)'"
+        v-model="category"
+      />
 
+      <filterCategories
+        :title="'section'"
+        :id="'section'" 
+        :placeholder="'section (ex: Strings)'"
+        v-model="section"
+      />
 
-        <label for="serial_model" class="sr-only">serial model</label>
-        <input
-          class="input md:w-1/5"
-          placeholder="serial model"
-          type="text"
-          id="serial_model"
-          v-model="serial_model"
-        />
+      <filterCategories
+        :title="'serial model'"
+        :id="'serial_model'" 
+        :placeholder="'serial model'"
+        v-model="serial_model"
+      />
 
-        <label for="case_number" class="sr-only">case number</label>
-        <input
-          class="input md:w-1/5"
-          placeholder="case number"
-          type="text"
-          id="case_number"
-          v-model="case_number"
-        />
+      <filterCategories
+        :title="'case number'"
+        :id="'case_number'" 
+        :placeholder="'case number'"
+        v-model="case_number"
+      />
 
-        <label for="manufacturer" class="sr-only">manufacturer</label>
-        <input
-          class="input md:w-1/5"
-          placeholder="manufacturer"
-          type="text"
-          id="manufacturer"
-          v-model="manufacturer"
-        />
+      <filterCategories
+        :title="'manufacturer'"
+        :id="'manufacturer'" 
+        :placeholder="'manufacturer'"
+        v-model="manufacturer"
+      />
 
-        <label for="siths_id" class="sr-only">siths id</label>
-        <input
-          class="input md:w-1/5"
-          placeholder="siths id"
-          type="text"
-          id="siths_id"
-          v-model="siths_id"
-        />
+      <filterCategories
+        :title="'siths id'"
+        :id="'siths_id'" 
+        :placeholder="'siths id'"
+        v-model="siths_id"
+      />
 
-        <label for="assigned_to" class="sr-only">assigned to</label>
-        <input
-          class="input md:w-1/5"
-          placeholder="assigned to"
-          type="text"
-          id="assigned_to"
-          v-model="assigned_to"
-        />
+      <filterCategories
+        :title="'assigned to'"
+        :id="'assigned_to'" 
+        :placeholder="'assigned to'"
+        v-model="assigned_to"
+      />
 
-        <label for="condition" class="sr-only">condition</label>
-        <input
-          class="input md:w-1/5"
-          placeholder="condition"
-          type="text"
-          id="condition"
-          v-model="condition"
-        />
+      <filterCategories
+        :title="'condition'"
+        :id="'condition'" 
+        :placeholder="'condition'"
+        v-model="condition"
+      />
 
-        <label for="year_purchased" class="sr-only">year purchased</label>
-        <input
-          class="input md:w-1/5"
-          placeholder="year purchased"
-          type="text"
-          id="year_purchased"
-          v-model="year_purchased"
-        />
+      <filterCategories
+        :title="'year purchased'"
+        :id="'year_purchased'" 
+        :placeholder="'year purchased'"
+        v-model="year_purchased"
+      />
 
-        <label for="barcode" class="sr-only">barcode</label>
-        <input
-          class="input md:w-1/5"
-          placeholder="barcode"
-          type="text"
-          id="barcode"
-          v-model="barcode"
-        />
-
+      <filterCategories
+        :title="'barcode'"
+        :id="'barcode'" 
+        :placeholder="'barcode'"
+        v-model="barcode"
+      />
     </div>
     <div class="p-2 flex flex-wrap gap-x-2">
     <button class="btn shadow-none" @click="filter">filter</button>
@@ -103,13 +81,14 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useInstrumentStore } from '@/stores/instrumentStore'
+import filterCategories from './filterCategories.vue'
 import type { Ref } from 'vue'
 import { storeToRefs } from 'pinia'
+import { assign } from 'unplugin-vue-router/runtime'
 
 const instrumentStore = useInstrumentStore()
-const instrumentStoretoRef = storeToRefs(instrumentStore)
-const allInstruments = instrumentStoretoRef.allInstruments
-const showInstruments = instrumentStoretoRef.showedInstruments
+const { allInstruments, showedInstruments } = storeToRefs(instrumentStore)
+
 
 const category: Ref<string> = ref("")
 const section: Ref<string> = ref("")
@@ -134,19 +113,26 @@ async function filter(){
         instrument.case_number === Number(case_number.value) ||
         instrument.manufacturer === manufacturer.value.charAt(0).toUpperCase() + manufacturer.value.slice(1) ||
         instrument.siths_id === Number(siths_id.value) ||
-        instrument.assigned_to === assigned_to.value.charAt(0).toUpperCase() + assigned_to.value.slice(1) ||
+        //instrument.assigned_to.toLowerCase() == assigned_to.value.toLowerCase() ||
         instrument.condition === condition.value.charAt(0).toUpperCase() + condition.value.slice(1) ||
         instrument.year_purchased == Number(year_purchased.value) ||
         instrument.barcode == Number(barcode.value)
     )
-    console.log(filteredInstruments)
-  showInstruments.value = []
-  filteredInstruments.forEach((instrument) => showInstruments.value.push(instrument))
+    showedInstruments.value = []
+    if(assigned_to.value != ""){
+      allInstruments.value.forEach((instrument) => {
+        if(instrument.assigned_to.toLowerCase().includes(assigned_to.value)){
+          showedInstruments.value.push(instrument)
+        }
+      }
+    )
+    }
+  filteredInstruments.forEach((instrument) => showedInstruments.value.push(instrument))
 }
 
 async function reset() {
-  showInstruments.value = []
-  allInstruments.value.forEach((instrument) => showInstruments.value.push(instrument))
+  showedInstruments.value = []
+  allInstruments.value.forEach((instrument) => showedInstruments.value.push(instrument))
   category.value = section.value = manufacturer.value = assigned_to.value = condition.value = ""
   serial_model.value = case_number.value = siths_id.value = year_purchased.value = barcode.value = undefined
 }

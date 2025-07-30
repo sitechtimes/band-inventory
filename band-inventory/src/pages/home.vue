@@ -7,10 +7,10 @@
     
   </div>
   <div v-else>
-     <navBar></navBar>
+     <navBar/>
     <h1 class="p-2 font-bold text-2xl">Instruments</h1>
-    <instrumentFilter></instrumentFilter>
-    <InstrumentTable></InstrumentTable>
+    <instrumentFilter/>
+    <InstrumentTable/>
   </div>
 
   
