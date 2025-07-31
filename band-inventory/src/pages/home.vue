@@ -4,7 +4,6 @@
       <RouterLink to="/" class="underline text-blue-600">here</RouterLink>
       .
     </span>
-    
   </div>
   <div v-else>
      <navBar/>
