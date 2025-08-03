@@ -103,9 +103,6 @@ const barcode: Ref<number | undefined> = ref()
 
 
 async function filter(){
-    // if(allInstruments != ){
-
-    // }
     const filteredInstruments = allInstruments.value.filter((instrument) => 
         instrument.category === category.value.charAt(0).toUpperCase() + category.value.slice(1) ||
         instrument.section === section.value.charAt(0).toUpperCase() + section.value.slice(1) ||

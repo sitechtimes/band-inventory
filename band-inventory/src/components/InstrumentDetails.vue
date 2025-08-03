@@ -82,7 +82,7 @@ const errorMessage = ref("")
 
 const getDetails = async (id: number) => {
     try {
-        await detailStore.getDetails(id)
+       await detailStore.getDetails(id)
     }
     catch (err) {
         const error = err as Error;
@@ -90,9 +90,10 @@ const getDetails = async (id: number) => {
     }
 }
 
-onMounted(() => {
+onMounted(async () => {
     const { id } = route.params as { id: number }
-    getDetails(id)
+    await getDetails(id)
+    console.log(errorMessage.value)
 })
 
 watch(() => (route.params as { id: string }).id, (newId) => {

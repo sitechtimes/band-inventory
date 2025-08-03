@@ -46,22 +46,22 @@ const route = useRoute()
 const router = useRouter()
 const { id } = route.params as { id: number }
 
-const getInstrument = async (id: number) => {
-    try {
-        const { data, error } = await supabase
-            .from('instruments')
-            .select('*')
-            .eq('id', id)
-            .single()
-        if (error) {
-            throw new Error(error.message)
-        }
-        instrument.value = data
-    } catch (err) {
-        const error = err as Error
-        errorMessage.value = error.message || "Error loading instrument"
-    }
-}
+// const getInstrument = async (id: number) => {
+//     try {
+//         const { data, error } = await supabase
+//             .from('instruments')
+//             .select('*')
+//             .eq('id', id)
+//             .single()
+//         if (error) {
+//             throw new Error(error.message)
+//         }
+//         instrument.value = data
+//     } catch (err) {
+//         const error = err as Error
+//         errorMessage.value = error.message || "Error loading instrument"
+//     }
+// }
 const getRepairs = async (model: number) => {
     try {
         const { data, error } = await supabase
@@ -83,10 +83,10 @@ function addRepairs() {
     router.push({ path: `/instruments/${id}/management/repair` });
 }
 onMounted(async () => {
-    await getInstrument(id)
-    if (instrument.value?.serial_model) {
-        await getRepairs(instrument.value.serial_model)
-    }
+    // await getInstrument(id)
+    // if (instrument.value?.serial_model) {
+    //     await getRepairs(instrument.value.serial_model)
+    // }
 })
 </script>
 

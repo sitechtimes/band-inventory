@@ -37,7 +37,7 @@ type PurchaseInfo = {
     retired: boolean;
 };
 
-export const useDetailStore = defineStore("instrument", () => {
+export const useDetailStore = defineStore("details", () => {
     const shownInstrument: Ref<Instrument | undefined> = ref();
 
     const getDetails = async (id: number) => {
@@ -54,6 +54,7 @@ export const useDetailStore = defineStore("instrument", () => {
 
         shownInstrument.value = data;
     };
+
 
     return { getDetails, shownInstrument };
 });
