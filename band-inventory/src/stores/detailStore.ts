@@ -43,7 +43,7 @@ export const useDetailStore = defineStore("instrument", () => {
     const getDetails = async (id: number) => {
         const { data, error } = await supabase
             .from('instruments')
-            .select('*')
+            .select()
             .eq('id', id)
             .single();
 
