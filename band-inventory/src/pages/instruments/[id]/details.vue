@@ -5,7 +5,7 @@
       .
     </span>
   </div>
-  <div v-else>
+  <div>
     <navBar></navBar>
     <instrumentDetails></instrumentDetails>
     <InstrumentManagement></InstrumentManagement>
