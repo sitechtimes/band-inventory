@@ -46,8 +46,7 @@ export const useDetailStore = defineStore("details", () => {
             .select()
             .eq('id', id)
             .single();
-
-            console.log(data)
+            
         if (error) {
             throw new Error(error.message);
         }
