@@ -30,10 +30,20 @@ export const useInstrumentStore = defineStore("instrument", () => {
             throw new Error(error.message);
         }
         allInstruments.value = data
-        //allInstruments.value.forEach((instrument) => showedInstruments.value?.push(instrument))
         showedInstruments.value = data
     }
 
-    return { allInstruments, getInstruments, showedInstruments}
+    const allAssignments: Ref<Array<string>> = ref([])
+
+    const add = async (value: string) => {
+        await supabase
+            .from('instruments') 
+            .update({ assigned_to: `${value}` })
+            .eq('id', 1)
+
+        //allAssignments.value.push(value)
+    }
+
+    return { allInstruments, getInstruments, showedInstruments, allAssignments, add}
   
 }); 

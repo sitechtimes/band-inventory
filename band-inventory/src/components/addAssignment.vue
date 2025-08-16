@@ -18,20 +18,19 @@
 import { ref } from 'vue';
 import type { Ref } from 'vue'
 import { supabase } from '@/lib/supabaseClient';
+import { useInstrumentStore } from '@/stores/instrumentStore';
 
 const assigned_to: Ref<string> = ref("")
+
+const instrumentStore = useInstrumentStore()
     
 async function updateAssigned(){
-    console.log('hi')
-    const { error } = await supabase
-        .from('instruments') 
-        .update({ assigned_to: `${assigned_to.value}` }) //update needs a where clause add tmrw
+    try {
+       await instrumentStore.add('maamamam')
 
-  if (error) {
-    console.error('Error updating record:', error.message);
-  } else {
-    console.log('hi');
-  }
+    } catch (error) {
+        alert(error)
+    }
 }
 
 </script>
