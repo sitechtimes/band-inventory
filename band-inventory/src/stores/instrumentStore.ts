@@ -2,25 +2,45 @@ import { defineStore } from "pinia";
 import { ref, reactive } from "vue";
 import type {Ref} from 'vue';
 import { supabase } from "@/lib/supabaseClient";
-import type { RefSymbol } from "@vue/reactivity";
 
-interface Instrument {
+interface Instrument extends RepairInfo, AssignmentInfo, PurchaseInfo {
     id: number;
     category: string;
     section: string;
-    serial_model: number;
-    case_number: number;
+    serial_model: string;
+    case_number: string;
     manufacturer: string;
+    location: string;
+    barcode: number;
+    notes: string;
+    description: string;
+}
+
+type RepairInfo = {
+    repair_needed: string;
+    repair_date: Date;
+    repair_notes: string;
+    requested_by: string;
+};
+
+type AssignmentInfo = {
     siths_id: number;
     assigned_to: string;
-    condition: string;
+    assign_date: Date;
+    return_date: Date;
+};
+
+type PurchaseInfo = {
     year_purchased: number;
-    barcode: number;
-    }
+    price: number;
+    condition: string;
+    retired: boolean;
+};
 
 export const useInstrumentStore = defineStore("instrument", () => {
     const allInstruments: Ref<Instrument[]> = ref([])
     const showedInstruments: Ref<Instrument[]> = ref([])
+    const idInstrument = ref<Instrument>()
 
     const getInstruments = async () => {
         const { data, error } = await supabase
@@ -33,17 +53,13 @@ export const useInstrumentStore = defineStore("instrument", () => {
         showedInstruments.value = data
     }
 
-    const allAssignments: Ref<Array<string>> = ref([])
-
-    const add = async (value: string) => {
+    const changeAssignment = async (value: string) => {
         await supabase
             .from('instruments') 
             .update({ assigned_to: `${value}` })
             .eq('id', 1)
-
-        //allAssignments.value.push(value)
     }
 
-    return { allInstruments, getInstruments, showedInstruments, allAssignments, add}
+    return { allInstruments, getInstruments, showedInstruments, changeAssignment, idInstrument}
   
 }); 

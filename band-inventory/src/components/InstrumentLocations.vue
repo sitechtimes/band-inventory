@@ -17,42 +17,12 @@ import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
 import { supabase } from '../lib/supabaseClient'
+import { useInstrumentStore } from '@/stores/instrumentStore'
+import { storeToRefs } from 'pinia'
 
-interface Instrument extends RepairInfo, AssignmentInfo, PurchaseInfo {
-    id: number;
-    category: string;
-    section: string;
-    serial_model: string;
-    case_number: string;
-    manufacturer: string;
-    location: string;
-    barcode: number;
-    notes: string;
-    description: string;
-}
+const instrumentStore = useInstrumentStore()
 
-type RepairInfo = {
-    repair_needed: string;
-    repair_date: Date;
-    repair_notes: string;
-    requested_by: string;
-};
-
-type AssignmentInfo = {
-    siths_id: number;
-    assigned_to: string;
-    assign_date: Date;
-    return_date: Date;
-};
-
-type PurchaseInfo = {
-    year_purchased: number;
-    price: number;
-    condition: string;
-    retired: boolean;
-};
-
-const instrument = ref<Instrument>()
+const instrument = storeToRefs(instrumentStore).idInstrument
 const errorMessage = ref("")
 const route = useRoute()
 const router = useRouter()

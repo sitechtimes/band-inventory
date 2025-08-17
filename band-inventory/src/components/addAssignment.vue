@@ -2,7 +2,7 @@
     <div class="bg-blue-600 gap-x-4">
         <div class="flex flex-col">
             <label>Assign to</label>
-            <input type="text" placeholder="Type here" class="input" v-model="assigned_to"/>
+            <input type="text" placeholder="Type here" class="input" v-model="assigned"/>
         </div>
         <div class="flex flex-col">
             <label>Return Date (optional)</label>
@@ -17,17 +17,14 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import type { Ref } from 'vue'
-import { supabase } from '@/lib/supabaseClient';
 import { useInstrumentStore } from '@/stores/instrumentStore';
 
-const assigned_to: Ref<string> = ref("")
-
+const assigned: Ref<string> = ref("")
 const instrumentStore = useInstrumentStore()
-    
+
 async function updateAssigned(){
     try {
-       await instrumentStore.add('maamamam')
-
+       await instrumentStore.changeAssignment(assigned.value)
     } catch (error) {
         alert(error)
     }
