@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { ref, reactive } from "vue";
 import type {Ref} from 'vue';
 import { supabase } from "@/lib/supabaseClient";
+import type { time } from "console";
 
 interface Instrument extends RepairInfo, AssignmentInfo, PurchaseInfo {
     id: number;
@@ -53,11 +54,14 @@ export const useInstrumentStore = defineStore("instrument", () => {
         showedInstruments.value = data
     }
 
-    const changeAssignment = async (value: string) => {
-        await supabase
+    const changeAssignment = async (value: string, time_assigned: string, time_return: Date | undefined) => {
+        const { error } = await supabase
             .from('instruments') 
-            .update({ assigned_to: `${value}` })
+            .update({ assigned_to: `${value}`, assign_date: `${time_assigned}`, return_date: `${time_return}`})
             .eq('id', 1)
+        if (error) {
+            throw new Error(error.message);
+        }
     }
 
     return { allInstruments, getInstruments, showedInstruments, changeAssignment, idInstrument}

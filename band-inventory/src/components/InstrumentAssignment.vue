@@ -3,15 +3,17 @@
         <div class="p-6 flex justify-between mt-6 mr-4">
             <h2 class="text-xl font-bold">Assignments</h2>
             <button class="btn btn-md" @click="addAssignment">
-                + Assign Instruments
+                + Assign Instrument
             </button>
         </div>
         <div v-if="instrument" class="bg-blue-600">
-            <div>{{ instrument.assigned_to }}</div>
+            <p>{{ instrument.assigned_to }}</p>
+            <p>{{ instrument.return_date }}</p>
         </div>
-        <div>
-            the v-else "no assignment click to add one" thing
-            also make the addAssignment assigned to required tmrw
+        <div v-else class="bg-sky-50 border-1 rounded-sm border-gray p-8 text-center space-y-2">
+            <p>No current assignments on this instrument</p>
+            <p class="font-semibold">Adding assignments to your instruments will help you keep track of who has the instrument</p>
+            <button class="btn btn-md bg-deep-green text-white" @click="addAssignment">+ Add an assignment</button>
         </div>
     </div>
 </template>
