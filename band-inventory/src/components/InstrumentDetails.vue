@@ -72,7 +72,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useDetailStore } from '@/stores/detailStore'
 
@@ -93,10 +93,5 @@ const getDetails = async (id: number) => {
 onMounted(() => {
     const { id } = route.params as { id: number }
     getDetails(id)
-})
-watch(() => (route.params as { id: string }).id, (newId) => {
-  if (newId) {
-    getDetails(parseInt(newId as string))
-  }
 })
 </script>

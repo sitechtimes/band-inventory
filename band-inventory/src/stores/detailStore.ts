@@ -7,7 +7,7 @@ interface Instrument extends RepairInfo, AssignmentInfo, PurchaseInfo {
     id: number;
     category: string;
     section: string;
-    serial_model: string;
+    serial_model: number;
     case_number: string;
     manufacturer: string;
     location: string;
@@ -17,10 +17,14 @@ interface Instrument extends RepairInfo, AssignmentInfo, PurchaseInfo {
 }
 
 type RepairInfo = {
+    id?: number;
     repair_needed: string;
-    repair_date: Date;
+    repair_date: string;
+    repair_end?: string;
     repair_notes: string;
     requested_by: string;
+    serial_model?: number;
+    completed?: boolean;
 };
 
 type AssignmentInfo = {
@@ -37,9 +41,18 @@ type PurchaseInfo = {
     retired: boolean;
 };
 
-export const useDetailStore = defineStore("instrument", () => {
-    const shownInstrument: Ref<Instrument | undefined> = ref();
+interface RepairData {
+    repair_date: string;
+    repair_needed: string;
+    requested_by: string;
+    repair_notes: string;
+    instrument_id: number;
+    completed: boolean;
+}
 
+export const useDetailStore = defineStore("detail", () => {
+    const shownInstrument: Ref<Instrument | undefined> = ref()
+    const repairs = ref<RepairInfo[]>([])
     const getDetails = async (id: number) => {
         const { data, error } = await supabase
             .from('instruments')
@@ -51,8 +64,88 @@ export const useDetailStore = defineStore("instrument", () => {
             throw new Error(error.message);
         }
 
-        shownInstrument.value = data;
+        shownInstrument.value = data
+        await getRepairs(id)
     };
 
-    return { getDetails, shownInstrument };
+    const getRepairs = async (instrumentId: number) => {
+        const { data: instrumentData, error: instrumentError } = await supabase
+            .from('instruments')
+            .select('serial_model')
+            .eq('id', instrumentId)
+            .single();
+
+        if (instrumentError) {
+            console.error('Error fetching instrument:', instrumentError)
+            return
+        }
+        const { data, error } = await supabase
+            .from('repairs')
+            .select('*')
+            .eq('serial_model', instrumentData.serial_model)
+            .order('repair_date', { ascending: false })
+
+        if (error) {
+            console.error('Error fetching repairs:', error)
+            return
+        }
+
+        repairs.value = data || []
+    };
+
+    const addRepair = async (repairData: RepairData) => {
+
+        const { data: instrumentData, error: instrumentError } = await supabase
+            .from('instruments')
+            .select('serial_model')
+            .eq('id', repairData.instrument_id)
+            .single()
+        if (instrumentError) {
+            throw new Error(instrumentError.message)
+        }
+
+
+        const repairDataToInsert = {
+            repair_date: repairData.repair_date,
+            repair_needed: repairData.repair_needed,
+            requested_by: repairData.requested_by,
+            repair_notes: repairData.repair_notes,
+            serial_model: instrumentData.serial_model,
+            completed: repairData.completed
+        }
+
+        const { data, error } = await supabase
+            .from('repairs')
+            .insert([repairDataToInsert])
+            .select()
+
+        if (error) {
+            throw new Error(error.message)
+        }
+
+        if (shownInstrument.value) {
+            await getRepairs(shownInstrument.value.id)
+        }
+        return data
+    };
+
+    const updateRepair = async (repairId: number, updateData: Partial<RepairInfo>) => {
+        const { data, error } = await supabase
+            .from('repairs')
+            .update(updateData)
+            .eq('id', repairId)
+            .select()
+
+        if (error) {
+            throw new Error(error.message)
+        }
+
+        if (shownInstrument.value) {
+            await getRepairs(shownInstrument.value.id)
+        }
+
+        return data
+    };
+
+    return { getDetails, getRepairs, addRepair, updateRepair, shownInstrument, repairs }
 });

@@ -10,7 +10,6 @@
                 <option>Auditorium</option>
                 <option>Storage</option>
                 <option>Other place</option>
-                <option>(˶ᵔ ᵕ ᵔ˶)</option>
             </select>
         </div>
         <div class="mt-12"> 
