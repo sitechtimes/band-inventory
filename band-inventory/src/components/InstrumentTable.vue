@@ -1,10 +1,15 @@
 <template>
     <div class="p-4">
         <h1 class="font-bold my-8 text-xl">Instrument Listing</h1>
+        <div class="flex items-center gap-3 mb-3" v-if="selectedIds.length > 0">
+            <span class="text-sm">{{ selectedIds.length }} selected</span>
+            <button class="btn btn-error btn-sm" @click="onDeleteSelected" :disabled="isDeleting">Delete</button>
+        </div>
         <div class="overflow-x-auto">
             <table class="table text-center text-base">
                 <thead>
                     <tr class="bg-sky-50">
+                        <th class="w-10"><input type="checkbox" :checked="allChecked" @change="toggleAll" /></th>
                         <th>Category</th>
                         <th>Section</th>
                         <th>Serial Model</th>
@@ -19,6 +24,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="instrument in instrumentStore.showedInstruments" :key="instrument.id" class="cursor-pointer">
+                        <td><input type="checkbox" :value="instrument.id" v-model="selectedIds" /></td>
                         <td>{{ instrument.category }}</td>
                         <td>{{ instrument.section }}</td>
                         <td>{{ instrument.serial_model }}</td>
@@ -37,12 +43,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useInstrumentStore } from '@/stores/instrumentStore'
 
 
 const instrumentStore = useInstrumentStore()
 const errorMessage = ref("")
+const selectedIds = ref<number[]>([])
+const isDeleting = ref(false)
 
 const getInstruments = async () => {
     try {
@@ -57,4 +65,34 @@ const getInstruments = async () => {
 onMounted(() => {
     getInstruments()
 })
+
+const allChecked = computed(() => {
+    const list = instrumentStore.showedInstruments
+    if (!list || list.length === 0) return false
+    return list.every(i => selectedIds.value.includes(i.id))
+})
+
+const toggleAll = () => {
+    const list = instrumentStore.showedInstruments
+    if (!list || list.length === 0) return
+    if (allChecked.value) {
+        selectedIds.value = []
+    } else {
+        selectedIds.value = list.map(i => i.id)
+    }
+}
+
+const onDeleteSelected = async () => {
+    if (selectedIds.value.length === 0) return
+    try {
+        isDeleting.value = true
+        await instrumentStore.deleteInstruments(selectedIds.value)
+        selectedIds.value = []
+    } catch (e) {
+        const err = e as Error
+        errorMessage.value = err.message
+    } finally {
+        isDeleting.value = false
+    }
+}
 </script>
