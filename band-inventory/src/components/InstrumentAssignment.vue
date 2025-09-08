@@ -6,9 +6,10 @@
                 + Assign Instrument
             </button>
         </div>
-        <div v-if="instrument" class="bg-blue-600">
-            <p>{{ instrument.assigned_to }}</p>
-            <p>{{ instrument.return_date }}</p>
+        <div v-if="instrument" class="bg-white border border-gray rounded-md flex flex-row space-x-4">
+            <p><b>Name</b> {{ instrument.assigned_to }}</p>
+            <p><b>Assigned Date</b> {{ instrument.assign_date }}</p>
+            <p><b>Return Date</b> {{ instrument.return_date }}</p>
         </div>
         <div v-else class="bg-sky-50 border-1 rounded-sm border-gray p-8 text-center space-y-2">
             <p>No current assignments on this instrument</p>
