@@ -45,7 +45,19 @@ export const useInstrumentStore = defineStore("instrument", () => {
         await getInstruments()
         return data
     }
+    const addSingleInstrument = async (instrument: Omit<Instrument, 'id'>) => {
+        const { data, error } = await supabase
+            .from('instruments')
+            .insert([instrument])
+            .select()
+        
+        if (error) {
+            throw new Error(error.message);
+        }
+        await getInstruments()
+        return data
+    }
 
-    return { allInstruments, getInstruments, showedInstruments, bulkUploadInstruments }
+    return { allInstruments, getInstruments, showedInstruments, bulkUploadInstruments, addSingleInstrument }
   
 }); 

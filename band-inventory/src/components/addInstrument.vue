@@ -3,6 +3,32 @@
     <div class="bg-white rounded-lg shadow-lg p-6">
       <h1 class="text-3xl font-bold text-gray-800 mb-6">Add Instruments</h1>
       <div class="mb-8">
+        <div class="flex space-x-4 mb-6">
+          <button
+            @click="activeTab = 'excel'"
+            :class="[
+              'px-4 py-2 text-sm font-medium rounded-md transition-colors',
+              activeTab === 'excel'
+                ? 'bg-blue-500 text-white'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            ]"
+          >
+            Upload Excel File
+          </button>
+          <button
+            @click="activeTab = 'manual'"
+            :class="[
+              'px-4 py-2 text-sm font-medium rounded-md transition-colors',
+              activeTab === 'manual'
+                ? 'bg-blue-500 text-white'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            ]"
+          >
+            Add Manually
+          </button>
+        </div>
+      </div>
+      <div v-if="activeTab === 'excel'" class="mb-8">
         <div class="flex items-center justify-between mb-4">
           <h2 class="text-xl font-semibold text-gray-700">Upload Excel File</h2>
         </div>
@@ -10,11 +36,7 @@
           class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">
           <input type="file" ref="fileInput" @change="handleFileUpload" accept=".xlsx,.xls" class="hidden" />
           <div v-if="!selectedFile" @click="fileInput?.click()" class="cursor-pointer">
-            <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-              <path
-                d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
+            <img src="/upload.png" alt="Upload" class="mx-auto h-12 w-12 text-gray-400" />
             <p class="mt-2 text-sm text-gray-600">Click to upload Excel file</p>
             <p class="text-xs text-gray-500 mt-1">Supports .xlsx and .xls files</p>
           </div>
@@ -45,7 +67,10 @@
           </div>
         </div>
       </div>
-      <div v-if="message" class="mt-6 p-4 rounded-md"
+      <div v-if="activeTab === 'manual'">
+        <manuallyAdd />
+      </div>
+      <div v-if="message && activeTab === 'excel'" class="mt-6 p-4 rounded-md"
         :class="messageType === 'success' ? 'bg-green-50 text-green-800 border border-green-200' : 'bg-red-50 text-red-800 border border-red-200'">
         {{ message }}
       </div>
@@ -57,8 +82,11 @@
 import { ref } from 'vue'
 import * as XLSX from 'xlsx'
 import { useInstrumentStore } from '@/stores/instrumentStore'
+import manuallyAdd from './manuallyAdd.vue'
 
 const instrumentStore = useInstrumentStore()
+
+const activeTab = ref<'excel' | 'manual'>('excel')
 
 const fileInput = ref<HTMLInputElement>()
 const selectedFile = ref<File | null>(null)
