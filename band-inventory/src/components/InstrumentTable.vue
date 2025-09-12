@@ -18,7 +18,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr @click=clickInstrument(instrument.id) v-for="instrument in instrumentStore.showedInstruments" :key="instrument.id" class="cursor-pointer">
+                    <tr @click="clickInstrument(instrument.id)" v-for="instrument in instrumentStore.showedInstruments" :key="instrument.id" class="cursor-pointer">
                         <td>{{ instrument.category }}</td>
                         <td>{{ instrument.section }}</td>
                         <td>{{ instrument.serial_model }}</td>
@@ -59,6 +59,6 @@ onMounted(() => {
 })
 
 function clickInstrument(instrumentId: number) {
-    router.push({ path: `/instruments/${ instrumentId }/details` });
+    router.push(`/instruments/${ instrumentId }/details`);
 }
 </script>
