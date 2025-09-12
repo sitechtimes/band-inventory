@@ -200,13 +200,6 @@ const processExcelData = async () => {
   }
 }
 
-const handleSuccess = (msg: string) => {
-  showMessage(msg, 'success')
-}
-const handleError = (msg: string) => {
-  showMessage(msg, 'error')
-}
-
 const clearFile = () => {
   selectedFile.value = null
   excelData.value = []
