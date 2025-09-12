@@ -80,7 +80,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import * as XLSX from 'xlsx'
+import * as ExcelJS from 'exceljs'
 import { useInstrumentStore } from '@/stores/instrumentStore'
 import manuallyAdd from './manuallyAdd.vue'
 
@@ -97,7 +97,7 @@ const isProcessing = ref(false)
 const message = ref('')
 const messageType = ref<'success' | 'error'>('success')
 
-const handleFileUpload = (event: Event) => {
+const handleFileUpload = async (event: Event) => {
   const target = event.target as HTMLInputElement
   const file = target.files?.[0]
 
@@ -110,38 +110,52 @@ const handleFileUpload = (event: Event) => {
   }
 
   selectedFile.value = file
-  parseExcelFile(file)
+  await parseExcelFile(file)
 }
 
-const parseExcelFile = (file: File) => {
-  const reader = new FileReader()
-
-  reader.onload = (e) => {
-    try {
-      const data = new Uint8Array(e.target?.result as ArrayBuffer)
-      const workbook = XLSX.read(data, { type: 'array' })
-      const sheetName = workbook.SheetNames[0]
-      const worksheet = workbook.Sheets[sheetName]
-      const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 })
-      const headers = jsonData[0] as string[]
-      tableHeaders.value = headers
-
-      const dataRows = jsonData.slice(1) as any[][]
-      excelData.value = dataRows.map(row => {
-        const obj: any = {}
-        headers.forEach((header, index) => {
-          obj[header] = row[index] || ''
-        })
-        return obj
-      })
-
-      showMessage(`Successfully parsed ${excelData.value.length} rows from Excel file`, 'success')
-    } catch (error) {
-      showMessage('Error parsing Excel file. Please ensure it\'s a valid Excel file.', 'error')
-      console.error('Excel parsing error:', error)
+const parseExcelFile = async (file: File) => {
+  try {
+    const workbook = new ExcelJS.Workbook()
+    const arrayBuffer = await file.arrayBuffer()
+    await workbook.xlsx.load(arrayBuffer)
+    
+    const worksheet = workbook.worksheets[0]
+    if (!worksheet) {
+      showMessage('No worksheet found in Excel file', 'error')
+      return
     }
+
+    const rows: any[][] = []
+    worksheet.eachRow((row) => {
+      const rowData: any[] = []
+      row.eachCell((cell, colNumber) => {
+        rowData[colNumber - 1] = cell.value || ''
+      })
+      rows.push(rowData)
+    })
+
+    if (rows.length === 0) {
+      showMessage('No data found in Excel file', 'error')
+      return
+    }
+
+    const headers = rows[0] as string[]
+    tableHeaders.value = headers
+
+    const dataRows = rows.slice(1)
+    excelData.value = dataRows.map(row => {
+      const obj: any = {}
+      headers.forEach((header, index) => {
+        obj[header] = row[index] || ''
+      })
+      return obj
+    })
+
+    showMessage(`Successfully parsed ${excelData.value.length} rows from Excel file`, 'success')
+  } catch (error) {
+    showMessage('Error parsing Excel file. Please ensure it is a valid Excel file.', 'error')
+    console.error('Excel parsing error:', error)
   }
-  reader.readAsArrayBuffer(file)
 }
 
 const processExcelData = async () => {
