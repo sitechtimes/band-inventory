@@ -30,7 +30,7 @@ import { storeToRefs } from 'pinia';
 
 const assigned: Ref<string> = ref("")
 const return_date: Ref<Date | undefined> = ref(undefined)
-const assign_date = new Date()
+const assigned_date = new Date()
 const instrumentStore = useInstrumentStore()
 
 const route = useRoute()
@@ -40,7 +40,7 @@ const { id } = route.params as { id: number }
 async function updateAssigned(){
     try {
        if (assigned.value !== ""){
-        await instrumentStore.changeAssignment(assigned.value, assign_date.toDateString() , return_date?.value)
+        await instrumentStore.changeAssignment(assigned.value, assigned_date.toDateString() , return_date.value)
         router.push({ path: `/instruments/${id}/details` })
        } else {
         alert('Please enter in an assignment.')

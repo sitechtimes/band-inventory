@@ -20,7 +20,6 @@ import InstrumentDetails from '@/components/InstrumentDetails.vue'
 import InstrumentManagement from '@/components/InstrumentAssignment.vue'
 import InstrumentRepair from '@/components/InstrumentRepair.vue'
 import InstrumentLocations from '@/components/InstrumentLocations.vue'
-import { onMounted, ref } from 'vue';
 import { useUserStore } from "@/stores/authStore";
 import { RouterLink } from 'vue-router';
 
