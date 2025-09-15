@@ -37,10 +37,12 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue'
-import { useRoute } from 'vue-router'
 import { useDetailStore } from '@/stores/detailStore'
 
-const route = useRoute()
+const props = defineProps<{
+    instrumentId: string | number
+}>()
+
 const detailStore = useDetailStore()
 
 const repairData = reactive({
@@ -54,8 +56,9 @@ const repairData = reactive({
 
 const addRepair = async () => {
     try {
-        const { id } = route.params as { id: string }
-        repairData.instrument_id = parseInt(id)
+        repairData.instrument_id = typeof props.instrumentId === 'string' 
+            ? parseInt(props.instrumentId) 
+            : props.instrumentId
         
         await detailStore.addRepair(repairData)
         
