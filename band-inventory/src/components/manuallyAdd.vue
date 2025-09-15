@@ -83,8 +83,8 @@
             Assigned To
           </label>
           <input
-            id="assigned_to"
-            v-model="formData.assigned_to"
+            id="assigned_to2"
+            v-model="formData.assigned_to2"
             type="text"
             class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder="Enter student or staff name"
@@ -171,7 +171,7 @@ const formData = reactive({
   case_number: 0,
   manufacturer: '',
   siths_id: 0,
-  assigned_to: '',
+  assigned_to2: '',
   condition: 'Good',
   year_purchased: 0,
   barcode: 0
@@ -198,7 +198,7 @@ const submitInstrument = async () => {
       case_number: formData.case_number || 0,
       manufacturer: formData.manufacturer.trim(),
       siths_id: formData.siths_id || 0,
-      assigned_to: formData.assigned_to.trim(),
+      assigned_to2: formData.assigned_to2.trim(),
       condition: formData.condition,
       year_purchased: formData.year_purchased || 0,
       barcode: formData.barcode || 0
@@ -225,7 +225,7 @@ const resetForm = () => {
     case_number: 0,
     manufacturer: '',
     siths_id: 0,
-    assigned_to: '',
+    assigned_to2: '',
     condition: 'Good',
     year_purchased: 0,
     barcode: 0

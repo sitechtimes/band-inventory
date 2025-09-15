@@ -11,7 +11,7 @@ interface Instrument {
     case_number: number;
     manufacturer: string;
     siths_id: number;
-    assigned_to: string;
+    assigned_to2: string;
     condition: string;
     year_purchased: number;
     barcode: number;
