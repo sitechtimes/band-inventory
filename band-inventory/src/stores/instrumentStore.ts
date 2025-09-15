@@ -3,6 +3,7 @@ import { ref, reactive } from "vue";
 import type {Ref} from 'vue';
 import { supabase } from "@/lib/supabaseClient";
 import type { time } from "console";
+import { assign } from "unplugin-vue-router/runtime";
 
 interface AssignmentInfo {
     assigned_to: string;
@@ -64,30 +65,25 @@ export const useInstrumentStore = defineStore("instrument", () => {
     //         throw new Error(error.message);
     //     }
     // }
-
-    // const get = async () => {
-    //     const { data } = await supabase
-    //         .from('insrtuments')
-    //         .select('assignments')
-
-    //     console.log(data)
-    // }
-
-    // get()
     const changeAssignment = async (value: string, time_assigned: string, time_return: Date | undefined) => {
         const { data } = await supabase
-            .from('insrtuments')
+            .from('instruments')
             .select('assignments')
+            .eq('id', 1)
+            .single()
+
+        const newAssignment = {
+            assigned_to: `${value}`,
+            assigned_date: `${time_assigned}`,
+            return_date: `${time_return}`
+        };
+
 
         const { error } = await supabase
             .from('instruments')
-            .update([data, { 
-                assignments: [{
-                    assigned_to: `${value}`,
-                    assigned_date: `${time_assigned}`,
-                    return_date: `${time_return}`
-                }]
-            }])
+              .update({
+                assignments: [newAssignment, ...data?.assignments]
+                })
             .eq('id', 1)
             .select()
         if (error) {
