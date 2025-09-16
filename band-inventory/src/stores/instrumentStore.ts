@@ -11,10 +11,12 @@ interface Instrument {
     case_number: number;
     manufacturer: string;
     siths_id: number;
-    assigned_to2: string;
     condition: string;
     year_purchased: number;
     barcode: number;
+    price: number;
+    retired: string;
+    notes: string;
     }
 
 export const useInstrumentStore = defineStore("instrument", () => {

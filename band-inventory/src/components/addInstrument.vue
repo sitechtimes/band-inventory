@@ -170,10 +170,12 @@ const processExcelData = async () => {
       case_number: parseInt(row.case_number || row['Case Number'] || row['CaseNumber'] || '0') || 0,
       manufacturer: row.manufacturer || row.Manufacturer || '',
       siths_id: parseInt(row.siths_id || row['SITHS ID'] || row['SITHS_ID'] || '0') || 0,
-      assigned_to: row.assigned_to || row['Assigned To'] || row['AssignedTo'] || '',
       condition: row.condition || row.Condition || 'Good',
       year_purchased: parseInt(row.year_purchased || row['Year Purchased'] || row['YearPurchased'] || '0') || 0,
-      barcode: parseInt(row.barcode || row.Barcode || '0') || 0
+      price: parseInt(row.price || row['Price'] || row['Price'] || '0') || 0,
+      retired: row.retired || row.Retired || 'Active',
+      barcode: parseInt(row.barcode || row.Barcode || '0') || 0,
+      notes: row.notes || row.Notes || '',
     }))
 
     const validInstruments = instruments.filter(instrument =>
