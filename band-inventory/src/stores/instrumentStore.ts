@@ -51,20 +51,6 @@ export const useInstrumentStore = defineStore("instrument", () => {
     selectedInstrument.value = data;
   };
 
-  const updateLocation = async (id: number, newLocation: string) => {
-    const { error } = await supabase
-      .from("instruments")
-      .update({ location: newLocation })
-      .eq("id", id);
-
-    if (error) {
-      errorMessage.value = error.message;
-      return;
-    }
-
-    await fetchInstrument(id);
-  };
-
   return {
     allInstruments,
     showedInstruments,
@@ -72,6 +58,5 @@ export const useInstrumentStore = defineStore("instrument", () => {
     errorMessage,
     getInstruments,
     fetchInstrument,
-    updateLocation,
   };
 });
