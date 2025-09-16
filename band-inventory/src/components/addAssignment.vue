@@ -40,7 +40,7 @@ const { id } = route.params as { id: number }
 async function updateAssigned(){
     try {
        if (assigned.value !== ""){
-        await instrumentStore.changeAssignment(assigned.value, assigned_date.toDateString() , return_date.value)
+        await instrumentStore.changeAssignment(assigned.value, assigned_date.toDateString() , return_date.value, id)
         router.push({ path: `/instruments/${id}/details` })
        } else {
         alert('Please enter in an assignment.')

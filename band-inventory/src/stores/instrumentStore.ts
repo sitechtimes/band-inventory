@@ -6,9 +6,9 @@ import type { time } from "console";
 import { assign } from "unplugin-vue-router/runtime";
 
 interface AssignmentInfo {
-    assigned_to: string;
-    assigned_date: Date;
-    return_date: Date;
+    assigned_to: string | null;
+    assigned_date: Date | null;
+    return_date: Date | null;
 };
 
 interface Instrument extends RepairInfo, AssignmentInfo, PurchaseInfo {
@@ -22,7 +22,7 @@ interface Instrument extends RepairInfo, AssignmentInfo, PurchaseInfo {
     barcode: number;
     notes: string;
     description: string;
-    assignments: AssignmentInfo
+    assignments: AssignmentInfo[]
 }
 
 type RepairInfo = {
@@ -65,11 +65,11 @@ export const useInstrumentStore = defineStore("instrument", () => {
     //         throw new Error(error.message);
     //     }
     // }
-    const changeAssignment = async (value: string, time_assigned: string, time_return: Date | undefined) => {
+    const changeAssignment = async (value: string, time_assigned: string, time_return: Date | undefined, id_number: number) => {
         const { data } = await supabase
             .from('instruments')
             .select('assignments')
-            .eq('id', 1)
+            .eq('id', id_number)
             .single()
 
         const newAssignment = {
@@ -82,9 +82,9 @@ export const useInstrumentStore = defineStore("instrument", () => {
         const { error } = await supabase
             .from('instruments')
               .update({
-                assignments: [newAssignment, ...data?.assignments]
+                assignments: [newAssignment, ...(data?.assignments || [])]
                 })
-            .eq('id', 1)
+            .eq('id', id_number)
             .select()
         if (error) {
             throw new Error(error.message);

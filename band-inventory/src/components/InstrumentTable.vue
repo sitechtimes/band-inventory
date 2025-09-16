@@ -24,8 +24,8 @@
                         <td>{{ instrument.serial_model }}</td>
                         <td>{{ instrument.case_number }}</td>
                         <td>{{ instrument.manufacturer }}</td>
-                        <td>{{ instrument.siths_id }}</td>
-                        <td>{{ instrument.assigned_to }}</td>
+                        <td>{{ instrument.id }}</td>
+                        <td>{{ instrument.assignments?.[0]?.assigned_to }}</td>
                         <td>{{ instrument.condition }}</td>
                         <td>{{ instrument.year_purchased }}</td>
                         <td>{{ instrument.barcode }}</td>
