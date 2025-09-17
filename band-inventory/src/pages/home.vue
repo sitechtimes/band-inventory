@@ -1,11 +1,11 @@
 <template>
-  <!-- <div v-if=!userStore.user>
+  <div v-if=!userStore.user>
     <span>You don't have access to this page. Please sign in 
       <RouterLink to="/" class="underline text-blue-600">here</RouterLink>
       .
     </span>
-  </div> -->
-  <div>
+  </div>
+  <div v-else>
      <navBar/>
     <h1 class="p-2 font-bold text-2xl">Instruments</h1>
     <instrumentFilter/>

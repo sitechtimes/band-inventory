@@ -6,10 +6,12 @@
                 + Assign Instrument
             </button>
         </div>
-        <div v-if="instrument" class="bg-white border border-gray rounded-md flex flex-row space-x-4">
-            <p><b>Name</b> {{ instrument.assignments[0].assigned_to }}</p>
-            <p><b>Assigned Date</b> {{ instrument.assignments[0].assigned_date }}</p>
-            <p><b>Return Date</b> {{ instrument.assignments[0].return_date }}</p>
+        <div v-if="instrument" v-for="assignment in instrument.assignments" class="bg-white border border-gray rounded-md flex flex-row space-x-4">
+            <p v-if="assignment.open"><b>Status</b> Open</p>
+            <p v-else><b>Status</b> Closed</p>
+            <p><b>Name</b> {{ assignment.assigned_to }}</p>
+            <p><b>Assigned Date</b> {{ assignment.assigned_date }}</p>
+            <p><b>Return Date</b> {{ assignment.return_date }}</p>
         </div>
         <div v-else class="bg-sky-50 border-1 rounded-sm border-gray p-8 text-center space-y-2">
             <p>No current assignments on this instrument</p>
