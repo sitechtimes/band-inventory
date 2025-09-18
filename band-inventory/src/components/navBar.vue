@@ -65,7 +65,6 @@ import type { Ref } from "vue";
 import { supabase } from "@/lib/supabaseClient";
 import { RouterLink } from "vue-router";
 
-
 async function signOut() {
   try {
     const { error } = await supabase.auth.signOut();

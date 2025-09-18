@@ -1,6 +1,7 @@
 <template>
-  <div v-if=!userStore.user>
-    <span>You don't have access to this page. Please sign in 
+  <div v-if="!userStore.user">
+    <span
+      >You don't have access to this page. Please sign in
       <RouterLink to="/" class="underline text-blue-600">here</RouterLink>
       .
     </span>
@@ -15,14 +16,13 @@
 </template>
 
 <script setup lang="ts">
-import navBar from '@/components/navBar.vue'
-import InstrumentDetails from '@/components/InstrumentDetails.vue'
-import InstrumentManagement from '@/components/InstrumentAssignment.vue'
-import InstrumentRepair from '@/components/InstrumentRepair.vue'
-import InstrumentLocations from '@/components/InstrumentLocations.vue'
+import navBar from "@/components/navBar.vue";
+import InstrumentDetails from "@/components/InstrumentDetails.vue";
+import InstrumentManagement from "@/components/InstrumentAssignment.vue";
+import InstrumentRepair from "@/components/InstrumentRepair.vue";
+import InstrumentLocations from "@/components/InstrumentLocations.vue";
 import { useUserStore } from "@/stores/authStore";
-import { RouterLink } from 'vue-router';
+import { RouterLink } from "vue-router";
 
-const userStore = useUserStore()
-
+const userStore = useUserStore();
 </script>
