@@ -4,26 +4,18 @@
       <h1 class="text-3xl font-bold text-gray-800 mb-6">Add Instruments</h1>
       <div class="mb-8">
         <div class="flex space-x-4 mb-6">
-          <button
-            @click="activeTab = 'excel'"
-            :class="[
-              'px-4 py-2 text-sm font-medium rounded-md transition-colors',
-              activeTab === 'excel'
+          <button class='px-4 py-2 text-sm font-medium rounded-md transition-colors' @click="activeTab = 'excel'"
+            :class="activeTab === 'excel'
                 ? 'bg-blue-500 text-white'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            ]"
-          >
+              ">
             Upload Excel File
           </button>
-          <button
-            @click="activeTab = 'manual'"
-            :class="[
-              'px-4 py-2 text-sm font-medium rounded-md transition-colors',
-              activeTab === 'manual'
+          <button class='px-4 py-2 text-sm font-medium rounded-md transition-colors' @click="activeTab = 'manual'"
+            :class="activeTab === 'manual'
                 ? 'bg-blue-500 text-white'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            ]"
-          >
+              ">
             Add Manually
           </button>
         </div>
@@ -118,7 +110,7 @@ const parseExcelFile = async (file: File) => {
     const workbook = new ExcelJS.Workbook()
     const arrayBuffer = await file.arrayBuffer()
     await workbook.xlsx.load(arrayBuffer)
-    
+
     const worksheet = workbook.worksheets[0]
     if (!worksheet) {
       showMessage('No worksheet found in Excel file', 'error')
