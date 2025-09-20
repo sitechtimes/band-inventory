@@ -6,9 +6,9 @@ import type { time } from "console";
 import { assign } from "unplugin-vue-router/runtime";
 
 interface AssignmentInfo {
-  assigned_to: string | null;
-  assigned_date: Date | null;
-  return_date: Date | null;
+  assigned_to: string;
+  assigned_date: Date;
+  return_date: Date | undefined;
   open: true | false;
 }
 
@@ -55,9 +55,9 @@ export const useInstrumentStore = defineStore("instrument", () => {
   };
 
   const changeAssignment = async (
-    name: string | null,
-    time_assigned: Date | null,
-    time_return: Date | null,
+    name: string,
+    time_assigned: Date,
+    time_return: Date | undefined,
     id_number: number,
   ) => {
     const { data } = await supabase
@@ -86,9 +86,9 @@ export const useInstrumentStore = defineStore("instrument", () => {
   };
 
   const closeAssignment = async (
-    name: string | null,
-    time_assigned: Date | null |string,
-    time_return: Date | null,
+    name: string,
+    time_assigned: Date | string,
+    time_return: Date | undefined,
     id_number: number,
   ) => {
     const { data } = await supabase
@@ -117,7 +117,6 @@ export const useInstrumentStore = defineStore("instrument", () => {
     if (error) {
       throw new Error(error.message);
     }
-    console.log(oldAssignments);
   };
   return {
     allInstruments,

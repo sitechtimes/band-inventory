@@ -3,6 +3,13 @@ import { ref } from "vue";
 import type { Ref } from "vue";
 import { supabase } from "@/lib/supabaseClient";
 
+interface AssignmentInfo {
+  assigned_to: string | null;
+  assigned_date: Date | null;
+  return_date: Date | null;
+  open: true | false;
+}
+
 interface Instrument extends RepairInfo, AssignmentInfo, PurchaseInfo {
   id: number;
   category: string;
@@ -14,6 +21,7 @@ interface Instrument extends RepairInfo, AssignmentInfo, PurchaseInfo {
   barcode: number;
   notes: string;
   description: string;
+  assignments: AssignmentInfo[];
 }
 
 type RepairInfo = {
@@ -21,13 +29,6 @@ type RepairInfo = {
   repair_date: Date;
   repair_notes: string;
   requested_by: string;
-};
-
-type AssignmentInfo = {
-  siths_id: number;
-  assigned_to: string;
-  assign_date: Date;
-  return_date: Date;
 };
 
 type PurchaseInfo = {
