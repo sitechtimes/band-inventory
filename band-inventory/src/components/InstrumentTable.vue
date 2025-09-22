@@ -1,5 +1,5 @@
 <template>
-    <div class="p-4">
+    <div class="p-6">
         <h1 class="font-bold my-8 text-xl">Instrument Listing</h1>
         <div class="overflow-x-auto">
             <table class="table text-center text-base">
@@ -11,7 +11,6 @@
                         <th>Case Number</th>
                         <th>Manufacturer</th>
                         <th>SI Tech HS ID</th>
-                        <th>Assigned to</th>
                         <th>Condition</th>
                         <th>Year of Purchase</th>
                         <th>Barcode</th>
@@ -25,7 +24,6 @@
                         <td>{{ instrument.case_number }}</td>
                         <td>{{ instrument.manufacturer }}</td>
                         <td>{{ instrument.siths_id }}</td>
-                        <td>{{ instrument.assigned_to }}</td>
                         <td>{{ instrument.condition }}</td>
                         <td>{{ instrument.year_purchased }}</td>
                         <td>{{ instrument.barcode }}</td>
