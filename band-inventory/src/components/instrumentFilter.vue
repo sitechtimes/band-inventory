@@ -44,13 +44,6 @@
       />
 
       <filterCategories
-        :title="'assigned to'"
-        :id="'assigned_to'" 
-        :placeholder="'assigned to'"
-        v-model="assigned_to"
-      />
-
-      <filterCategories
         :title="'condition'"
         :id="'condition'" 
         :placeholder="'condition'"
@@ -96,7 +89,6 @@ const serial_model: Ref<number | undefined> = ref()
 const case_number: Ref<number | undefined> = ref()
 const manufacturer: Ref<string> = ref("")
 const siths_id: Ref<number | undefined> = ref()
-const assigned_to: Ref<string> = ref("")
 const condition: Ref<string> = ref("")
 const year_purchased: Ref<number | undefined> = ref()
 const barcode: Ref<number | undefined> = ref()
@@ -113,27 +105,18 @@ async function filter(){
         instrument.case_number === Number(case_number.value) ||
         instrument.manufacturer === manufacturer.value.charAt(0).toUpperCase() + manufacturer.value.slice(1) ||
         instrument.siths_id === Number(siths_id.value) ||
-        //instrument.assigned_to.toLowerCase() == assigned_to.value.toLowerCase() ||
         instrument.condition === condition.value.charAt(0).toUpperCase() + condition.value.slice(1) ||
         instrument.year_purchased == Number(year_purchased.value) ||
         instrument.barcode == Number(barcode.value)
     )
     showedInstruments.value = []
-    if(assigned_to.value != ""){
-      allInstruments.value.forEach((instrument) => {
-        if(instrument.assigned_to.toLowerCase().includes(assigned_to.value)){
-          showedInstruments.value.push(instrument)
-        }
-      }
-    )
-    }
   filteredInstruments.forEach((instrument) => showedInstruments.value.push(instrument))
 }
 
 async function reset() {
   showedInstruments.value = []
   allInstruments.value.forEach((instrument) => showedInstruments.value.push(instrument))
-  category.value = section.value = manufacturer.value = assigned_to.value = condition.value = ""
+  category.value = section.value = manufacturer.value =  condition.value = ""
   serial_model.value = case_number.value = siths_id.value = year_purchased.value = barcode.value = undefined
 }
 
