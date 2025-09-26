@@ -1,5 +1,5 @@
 <template>
-    <div class="p-4">
+    <div class="p-6">
         <h1 class="font-bold my-8 text-xl">Instrument Listing</h1>
         <div class="flex items-center gap-3 mb-3" v-if="selectedIds.length > 0">
             <span class="text-sm">{{ selectedIds.length }} selected</span>
@@ -16,7 +16,6 @@
                         <th>Case Number</th>
                         <th>Manufacturer</th>
                         <th>SI Tech HS ID</th>
-                        <th>Assigned to</th>
                         <th>Condition</th>
                         <th>Year of Purchase</th>
                         <th>Barcode</th>
@@ -31,7 +30,6 @@
                         <td>{{ instrument.case_number }}</td>
                         <td>{{ instrument.manufacturer }}</td>
                         <td>{{ instrument.siths_id }}</td>
-                        <td>{{ instrument.assigned_to }}</td>
                         <td>{{ instrument.condition }}</td>
                         <td>{{ instrument.year_purchased }}</td>
                         <td>{{ instrument.barcode }}</td>
