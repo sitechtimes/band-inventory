@@ -11,11 +11,12 @@ interface Instrument {
     case_number: number;
     manufacturer: string;
     siths_id: number;
-    assigned_to: string;
     condition: string;
     year_purchased: number;
     barcode: number;
-    location: string;
+    price: number;
+    retired: string;
+    notes: string;
     }
 
 export const useInstrumentStore = defineStore("instrument", () => {
@@ -36,27 +37,31 @@ export const useInstrumentStore = defineStore("instrument", () => {
         showedInstruments.value = data
   };
 
-  const fetchInstrument = async (id: number) => {
-    const { data, error } = await supabase
-      .from("instruments")
-      .select("*")
-      .eq("id", id)
-      .single();
-
-    if (error) {
-      errorMessage.value = error.message;
-      selectedInstrument.value = null;
-      return;
+    const bulkUploadInstruments = async (instruments: Omit<Instrument, 'id'>[]) => {
+        const { data, error } = await supabase
+            .from('instruments')
+            .insert(instruments)
+            .select()
+        
+        if (error) {
+            throw new Error(error.message);
+        }
+        await getInstruments()
+        return data
     }
-    selectedInstrument.value = data;
-  };
+    const addSingleInstrument = async (instrument: Omit<Instrument, 'id'>) => {
+        const { data, error } = await supabase
+            .from('instruments')
+            .insert([instrument])
+            .select()
+        
+        if (error) {
+            throw new Error(error.message);
+        }
+        await getInstruments()
+        return data
+    }
 
-  return {
-    allInstruments,
-    showedInstruments,
-    selectedInstrument,
-    errorMessage,
-    getInstruments,
-    fetchInstrument,
-  };
-});
+    return { allInstruments, getInstruments, showedInstruments, bulkUploadInstruments, addSingleInstrument }
+  
+}); 
