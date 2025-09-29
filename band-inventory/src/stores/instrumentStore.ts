@@ -54,76 +54,12 @@ export const useInstrumentStore = defineStore("instrument", () => {
     showedInstruments.value = data;
   };
 
-  const changeAssignment = async (
-    name: string,
-    time_assigned: Date,
-    time_return: Date | undefined,
-    id_number: number,
-  ) => {
-    const { data } = await supabase
-      .from("instruments")
-      .select("assignments")
-      .eq("id", id_number)
-      .single();
+  
 
-    const newAssignment = {
-      assigned_to: `${name}`,
-      assigned_date: `${time_assigned}`,
-      return_date: `${time_return}`,
-      open: true,
-    };
-
-    const { error } = await supabase
-      .from("instruments")
-      .update({
-        assignments: [newAssignment, ...(data?.assignments || [])],
-      })
-      .eq("id", id_number)
-      .select();
-    if (error) {
-      throw new Error(error.message);
-    }
-  };
-
-  const closeAssignment = async (
-    name: string,
-    time_assigned: Date | string,
-    time_return: Date | undefined,
-    id_number: number,
-  ) => {
-    const { data } = await supabase
-      .from("instruments")
-      .select("assignments")
-      .eq("id", id_number)
-      .single();
-
-    const oldAssignments = data?.assignments.filter(
-      (assignment: any) => !assignment.assigned_to.includes(name),
-    );
-    const closeAssignment = {
-      assigned_to: `${name}`,
-      assigned_date: `${time_assigned}`,
-      return_date: `${time_return}`,
-      open: false,
-    };
-
-    const { error } = await supabase
-      .from("instruments")
-      .update({
-        assignments: [closeAssignment, ...(oldAssignments || [])],
-      })
-      .eq("id", id_number)
-      .select();
-    if (error) {
-      throw new Error(error.message);
-    }
-  };
   return {
     allInstruments,
     getInstruments,
     showedInstruments,
-    changeAssignment,
-    idInstrument,
-    closeAssignment,
+    idInstrument
   };
 });

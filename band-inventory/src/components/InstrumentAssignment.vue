@@ -55,7 +55,7 @@
     <div class="modal-action">
       <form method="dialog" class="space-x-4">
         <button class="btn">Go Back</button>
-        <button class="btn" @click="instrumentStore.closeAssignment(instrument!.assignments[i].assigned_to, instrument!.assignments[i].assigned_date, instrument?.assignments[i].return_date, id)">Confirm</button>
+        <button class="btn" @click="detailStore.closeAssignment(instrument!.assignments[i].assigned_to, instrument!.assignments[i].assigned_date, instrument?.assignments[i].return_date, id)">Confirm</button>
       </form>
     </div>
   </div>
@@ -64,12 +64,14 @@
 
 <script setup lang="ts">
 import { useRoute, useRouter } from "vue-router";
+import { useDetailStore } from "@/stores/detailStore";
 import { useInstrumentStore } from "@/stores/instrumentStore";
 import { storeToRefs } from "pinia";
 import { close } from "fs";
 import { ref } from "vue";
 
-const instrumentStore = useInstrumentStore();
+const detailStore = useDetailStore();
+const instrumentStore = useInstrumentStore()
 const instrument = storeToRefs(instrumentStore).idInstrument;
 const route = useRoute();
 const router = useRouter();

@@ -45,13 +45,13 @@
 import { ref } from "vue";
 import type { Ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { useInstrumentStore } from "@/stores/instrumentStore";
+import { useDetailStore } from "@/stores/detailStore";
 import { storeToRefs } from "pinia";
 
 const assigned: Ref<string> = ref("");
 const return_date: Ref<Date | undefined> = ref(undefined);
 const assigned_date = new Date();
-const instrumentStore = useInstrumentStore();
+const detailStore = useDetailStore();
 
 const route = useRoute();
 const router = useRouter();
@@ -60,7 +60,7 @@ const { id } = route.params as { id: number };
 async function updateAssigned() {
   try {
     if (assigned.value !== "") {
-      await instrumentStore.changeAssignment(
+      await detailStore.changeAssignment(
         assigned.value,
         assigned_date.toDateString(),
         return_date.value,
