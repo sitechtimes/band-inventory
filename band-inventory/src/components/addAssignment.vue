@@ -62,7 +62,7 @@ async function updateAssigned() {
     if (assigned.value !== "") {
       await detailStore.changeAssignment(
         assigned.value,
-        assigned_date.toDateString(),
+        assigned_date,
         return_date.value,
         id,
       );

@@ -30,7 +30,15 @@
             <td>{{ instrument.case_number }}</td>
             <td>{{ instrument.manufacturer }}</td>
             <td>{{ instrument.id }}</td>
-            <td>{{ instrument.assignments?.[0]?.assigned_to }}</td>
+            <td>
+              <div v-for="(assignment, i) in instrument.assignments">
+                <div v-if="instrument.assignments?.[i].open">
+                <div v-for="(assignment, index) in instrument.assignments">
+                {{ instrument.assignments?.[index]?.assigned_to }}
+                </div>
+              </div>
+              </div>
+            </td>
             <td>{{ instrument.condition }}</td>
             <td>{{ instrument.year_purchased }}</td>
             <td>{{ instrument.barcode }}</td>
@@ -45,6 +53,7 @@
 import { ref, onMounted } from "vue";
 import { useInstrumentStore } from "@/stores/instrumentStore";
 import router from "@/routes/index";
+import Index from "@/pages/index.vue";
 
 const instrumentStore = useInstrumentStore();
 const errorMessage = ref("");
@@ -58,6 +67,8 @@ const getInstruments = async () => {
       error.message || "An error occurred while fetching instruments";
   }
 };
+
+
 
 onMounted(() => {
   getInstruments();

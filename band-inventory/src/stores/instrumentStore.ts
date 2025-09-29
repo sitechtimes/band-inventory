@@ -79,6 +79,6 @@ export const useInstrumentStore = defineStore("instrument", () => {
         return data
     }
 
-    return { allInstruments, getInstruments, showedInstruments, bulkUploadInstruments, addSingleInstrument }
+    return { allInstruments, getInstruments, showedInstruments, bulkUploadInstruments, addSingleInstrument, idInstrument }
   
 }); 
