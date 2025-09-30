@@ -22,7 +22,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="instrument in instrumentStore.showedInstruments" :key="instrument.id" class="cursor-pointer">
+                    <tr @click="clickInstrument(instrument.id)" v-for="instrument in instrumentStore.showedInstruments" :key="instrument.id" class="cursor-pointer">
                         <td><input type="checkbox" :value="instrument.id" v-model="selectedIds" /></td>
                         <td>{{ instrument.category }}</td>
                         <td>{{ instrument.section }}</td>
@@ -43,7 +43,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useInstrumentStore } from '@/stores/instrumentStore'
-
+import router from "@/routes/index";
 
 const instrumentStore = useInstrumentStore()
 const errorMessage = ref("")
@@ -63,6 +63,10 @@ const getInstruments = async () => {
 onMounted(() => {
     getInstruments()
 })
+
+function clickInstrument(instrumentId: number) {
+    router.push(`/instruments/${ instrumentId }/details`);
+}
 
 const allChecked = computed(() => {
     const list = instrumentStore.showedInstruments

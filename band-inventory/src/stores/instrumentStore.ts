@@ -22,6 +22,8 @@ interface Instrument {
 export const useInstrumentStore = defineStore("instrument", () => {
     const allInstruments: Ref<Instrument[]> = ref([])
     const showedInstruments: Ref<Instrument[]> = ref([])
+    const selectedInstrument: Ref<Instrument | null> = ref(null);
+    const errorMessage: Ref<string | null> = ref(null);
 
     const getInstruments = async () => {
         const { data, error } = await supabase
@@ -33,7 +35,7 @@ export const useInstrumentStore = defineStore("instrument", () => {
         allInstruments.value = data
         //allInstruments.value.forEach((instrument) => showedInstruments.value?.push(instrument))
         showedInstruments.value = data
-    }
+  };
 
     const deleteInstruments = async (ids: number[]) => {
         if (!ids || ids.length === 0) return
