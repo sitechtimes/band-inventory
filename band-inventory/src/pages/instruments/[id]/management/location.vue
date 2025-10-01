@@ -1,9 +1,9 @@
 <template>
   <navBar></navBar>
-  <updateLocation></updateLocation>
+  <UpdateLocation></UpdateLocation>
 </template>
 
 <script setup lang="ts">
-import navBar from '@/components/navBar.vue'
-import updateLocation from '@/components/updateLocation.vue';
+import navBar from "@/components/navBar.vue";
+import UpdateLocation from "@/components/UpdateLocation.vue";
 </script>

@@ -34,7 +34,7 @@
             <li><a>Add Instrument</a></li>
           </ul>
         </div>
-        <a class="btn btn-ghost text-xl">daisyUI</a>
+        <RouterLink to="/home" class="btn btn-ghost text-xl">home</RouterLink>
       </div>
       <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal px-1">
@@ -63,7 +63,7 @@ import { ref } from "vue";
 import router from "@/routes/index";
 import type { Ref } from "vue";
 import { supabase } from "@/lib/supabaseClient";
-
+import { RouterLink } from "vue-router";
 
 async function signOut() {
   try {

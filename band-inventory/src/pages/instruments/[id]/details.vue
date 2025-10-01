@@ -1,16 +1,28 @@
 <template>
-  <navBar></navBar>
-  <instrumentDetails></instrumentDetails>
-  <repairSection :instrument-id="(route.params as any).id"></repairSection>
-  <instrumentLocations></instrumentLocations>
+  <div v-if="!userStore.user">
+    <span
+      >You don't have access to this page. Please sign in
+      <RouterLink to="/" class="underline text-blue-600">here</RouterLink>
+      .
+    </span>
+  </div>
+  <div>
+    <navBar></navBar>
+    <instrumentDetails></instrumentDetails>
+    <InstrumentManagement></InstrumentManagement>
+    <InstrumentRepair></InstrumentRepair>
+    <InstrumentLocations></InstrumentLocations>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
-import navBar from '@/components/navBar.vue'
-import instrumentDetails from '@/components/instrumentDetails.vue'
-import repairSection from '@/components/repairSection.vue'
-import instrumentLocations from '@/components/instrumentLocations.vue'
+import navBar from "@/components/navBar.vue";
+import InstrumentDetails from "@/components/InstrumentDetails.vue";
+import InstrumentManagement from "@/components/InstrumentAssignment.vue";
+import InstrumentRepair from "@/components/InstrumentRepair.vue";
+import InstrumentLocations from "@/components/InstrumentLocations.vue";
+import { useUserStore } from "@/stores/authStore";
+import { RouterLink } from "vue-router";
 
-const route = useRoute()
+const userStore = useUserStore();
 </script>
