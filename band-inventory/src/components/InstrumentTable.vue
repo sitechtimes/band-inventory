@@ -58,6 +58,7 @@ import Index from "@/pages/index.vue";
 const instrumentStore = useInstrumentStore();
 const errorMessage = ref("");
 
+
 const getInstruments = async () => {
   try {
     instrumentStore.getInstruments();
@@ -78,3 +79,4 @@ function clickInstrument(instrumentId: number) {
   router.push({ path: `/instruments/${instrumentId}/details` });
 }
 </script>
+
