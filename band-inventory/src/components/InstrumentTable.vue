@@ -23,7 +23,7 @@
                 </thead>
                 <tbody>
                     <tr @click="clickInstrument(instrument.id)" v-for="instrument in instrumentStore.showedInstruments" :key="instrument.id" class="cursor-pointer">
-                        <td><input type="checkbox" :value="instrument.id" v-model="selectedIds" /></td>
+                        <td><input type="checkbox" @click.stop :value="instrument.id" v-model="selectedIds"/></td>
                         <td>{{ instrument.category }}</td>
                         <td>{{ instrument.section }}</td>
                         <td>{{ instrument.serial_model }}</td>
