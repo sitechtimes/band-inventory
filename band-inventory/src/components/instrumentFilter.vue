@@ -1,6 +1,6 @@
 <template>
-  <div class="inputContainer flex flex-col bg-deep-blue rounded-lg m-2 border-1">
-    <div class="inputFields flex flex-wrap gap-y-1.5 gap-x-1.5 bg-light-blue rounded-lg p-2 md:pb-8 border-1">
+  <div class="inputContainer flex flex-col">
+    <div class="inputFields flex flex-wrap gap-y-3 gap-x-3 p-4">
        <filterCategories
         :title="'category'"
         :id="'category'" 
@@ -71,9 +71,9 @@
         v-model="barcode"
       />
     </div>
-    <div class="p-2 flex flex-wrap gap-x-2">
-    <button class="btn shadow-none" @click="filter">filter</button>
-    <button class="btn shadow-none" @click="reset">reset</button>
+    <div class="p-4 flex flex-wrap gap-x-4 border-t border-gray-200 bg-gray-50 rounded-b-lg">
+      <button class="btn bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg" @click="filter">Apply Filter</button>
+      <button class="btn bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg" @click="reset">Reset</button>
     </div>
   </div>
 </template>
@@ -85,6 +85,10 @@ import filterCategories from './filterCategories.vue'
 import type { Ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { assign } from 'unplugin-vue-router/runtime'
+
+const emit = defineEmits<{
+  close: []
+}>()
 
 const instrumentStore = useInstrumentStore()
 const { allInstruments, showedInstruments } = storeToRefs(instrumentStore)
@@ -128,6 +132,7 @@ async function filter(){
     )
     }
   filteredInstruments.forEach((instrument) => showedInstruments.value.push(instrument))
+  emit('close')
 }
 
 async function reset() {
