@@ -1,10 +1,10 @@
 <template>
-    <div class="p-4">
+    <div class="px-4">
         <div class="flex justify-between items-center my-8">
-            <h1 class="font-bold text-xl">Instrument Listing</h1>
+            <h1 class="font-bold text-2xl">Instrument Listing</h1>
             <button 
                 @click="showFilterPopup = true" 
-                class="btn bg-emerald-600 hover:bg-emerald-700 text-white px-7 py-2 rounded-lg flex items-center gap-2"
+                class="btn bg-green hover:bg-emerald-700 text-white px-7 py-2 rounded-md flex items-center gap-2"
             >
                 Filter
             </button>

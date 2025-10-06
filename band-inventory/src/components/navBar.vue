@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="navbar bg-base-100 shadow-sm">
+    <div class="navbar bg-deep-blue text-white shadow-sm">
       <div class="navbar-start">
         <div class="dropdown">
           <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
@@ -27,16 +27,17 @@
             <li><a>Add Instruments</a></li>
           </ul>
         </div>
-        <a class="btn btn-ghost text-xl">Band Inventory</a>
+        <a class="btn btn-ghost text-2xl">Band Inventory</a>
       </div>
       <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal px-1">
-          <li><a>Home</a></li>
-          <li><a>Add Instruments</a></li>
+          <li class="text-lg italic "><a>Home</a></li>
+          <li><p class="text-lg">|</p></li>
+          <li class="text-lg italic"><a>Add Instruments</a></li>
         </ul>
       </div>
       <div class="navbar-end">
-        <a class="btn" @click="signOut">sign out</a>
+        <a class="btn" @click="signOut">Sign Out</a>
       </div>
     </div>
   </div>

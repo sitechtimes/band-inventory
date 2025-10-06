@@ -8,7 +8,6 @@
   </div>
   <div v-else>
      <navBar/>
-    <h1 class="p-2 font-bold text-2xl">Instruments</h1>
     <InstrumentTable/>
   </div>
 
