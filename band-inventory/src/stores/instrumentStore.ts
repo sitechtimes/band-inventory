@@ -19,6 +19,7 @@ interface Instrument extends RepairInfo, AssignmentInfo, PurchaseInfo {
   serial_model: string;
   case_number: string;
   manufacturer: string;
+  siths_id: number;
   location: string;
   barcode: number;
   notes: string;
@@ -54,6 +55,19 @@ export const useInstrumentStore = defineStore("instrument", () => {
     showedInstruments.value = data;
   };
 
+    const deleteInstruments = async (ids: number[]) => {
+        if (!ids || ids.length === 0) return
+        const { error } = await supabase
+            .from('instruments')
+            .delete()
+            .in('id', ids)
+        if (error) {
+            throw new Error(error.message)
+        }
+        allInstruments.value = allInstruments.value.filter(i => !ids.includes(i.id))
+        showedInstruments.value = showedInstruments.value.filter(i => !ids.includes(i.id))
+    }
+
     const bulkUploadInstruments = async (instruments: Omit<Instrument, 'id'>[]) => {
         const { data, error } = await supabase
             .from('instruments')
@@ -79,6 +93,6 @@ export const useInstrumentStore = defineStore("instrument", () => {
         return data
     }
 
-    return { allInstruments, getInstruments, showedInstruments, bulkUploadInstruments, addSingleInstrument, idInstrument }
+    return { allInstruments, getInstruments, showedInstruments, bulkUploadInstruments, addSingleInstrument, idInstrument, deleteInstruments }
   
 }); 
