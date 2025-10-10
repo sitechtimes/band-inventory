@@ -16,9 +16,10 @@ interface Instrument extends RepairInfo, AssignmentInfo, PurchaseInfo {
   id: number;
   category: string;
   section: string;
-  serial_model: string;
-  case_number: string;
+  serial_model: number;
+  case_number: number;
   manufacturer: string;
+  siths_id: number;
   location: string;
   barcode: number;
   notes: string;
@@ -54,31 +55,44 @@ export const useInstrumentStore = defineStore("instrument", () => {
     showedInstruments.value = data;
   };
 
-    const bulkUploadInstruments = async (instruments: Omit<Instrument, 'id'>[]) => {
-        const { data, error } = await supabase
-            .from('instruments')
-            .insert(instruments)
-            .select()
-        
-        if (error) {
-            throw new Error(error.message);
-        }
-        await getInstruments()
-        return data
+  const deleteInstruments = async (ids: number[]) => {
+    if (!ids || ids.length === 0) return
+    const { error } = await supabase
+      .from('instruments')
+      .delete()
+      .in('id', ids)
+    if (error) {
+      throw new Error(error.message)
     }
-    const addSingleInstrument = async (instrument: Omit<Instrument, 'id'>) => {
-        const { data, error } = await supabase
-            .from('instruments')
-            .insert([instrument])
-            .select()
-        
-        if (error) {
-            throw new Error(error.message);
-        }
-        await getInstruments()
-        return data
-    }
+    allInstruments.value = allInstruments.value.filter(i => !ids.includes(i.id))
+    showedInstruments.value = showedInstruments.value.filter(i => !ids.includes(i.id))
+  }
 
-    return { allInstruments, getInstruments, showedInstruments, bulkUploadInstruments, addSingleInstrument, idInstrument }
-  
+  const bulkUploadInstruments = async (instruments: Omit<Instrument, 'id'>[]) => {
+    const { data, error } = await supabase
+      .from('instruments')
+      .insert(instruments)
+      .select()
+
+    if (error) {
+      throw new Error(error.message);
+    }
+    await getInstruments()
+    return data
+  }
+  const addSingleInstrument = async (instrument: Omit<Instrument, 'id'>) => {
+    const { data, error } = await supabase
+      .from('instruments')
+      .insert([instrument])
+      .select()
+
+    if (error) {
+      throw new Error(error.message);
+    }
+    await getInstruments()
+    return data
+  }
+
+  return { allInstruments, getInstruments, showedInstruments, bulkUploadInstruments, addSingleInstrument, idInstrument, deleteInstruments }
+
 }); 

@@ -165,9 +165,20 @@ const processExcelData = async () => {
       condition: row.condition || row.Condition || 'Good',
       year_purchased: parseInt(row.year_purchased || row['Year Purchased'] || row['YearPurchased'] || '0') || 0,
       price: parseInt(row.price || row['Price'] || row['Price'] || '0') || 0,
-      retired: row.retired || row.Retired || 'Active',
+      retired: (row.retired || row.Retired || 'Active') === 'Retired',
       barcode: parseInt(row.barcode || row.Barcode || '0') || 0,
       notes: row.notes || row.Notes || '',
+      location: row.location || row.Location || '',
+      description: row.description || row.Description || '',
+      assignments: [],
+      repair_needed: '',
+      repair_date: new Date(),
+      repair_notes: '',
+      requested_by: '',
+      assigned_to: '',
+      assigned_date: new Date(),
+      return_date: undefined,
+      open: false
     }))
 
     const validInstruments = instruments.filter(instrument =>
