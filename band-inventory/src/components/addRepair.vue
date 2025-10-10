@@ -22,8 +22,8 @@
                 <label class="input">
                     <span class="label">Completion Status</span>
                     <select v-model="repairData.completed" required class="w-full p-2 border border-gray-300 rounded">
-                        <option value="false">Not Completed</option>
-                        <option value="true">Completed</option>
+                        <option :value="false">Not Completed</option>
+                        <option :value="true">Completed</option>
                     </select>
                 </label>
             </form>

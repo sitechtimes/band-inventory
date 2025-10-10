@@ -10,7 +10,7 @@
     <navBar></navBar>
     <instrumentDetails></instrumentDetails>
     <InstrumentManagement></InstrumentManagement>
-    <InstrumentRepair></InstrumentRepair>
+    <RepairSection :instrument-id="route.params.id"></RepairSection>
     <InstrumentLocations></InstrumentLocations>
   </div>
 </template>
@@ -19,10 +19,11 @@
 import navBar from "@/components/navBar.vue";
 import InstrumentDetails from "@/components/InstrumentDetails.vue";
 import InstrumentManagement from "@/components/InstrumentAssignment.vue";
-import InstrumentRepair from "@/components/InstrumentRepair.vue";
+import RepairSection from "@/components/RepairSection.vue";
 import InstrumentLocations from "@/components/InstrumentLocations.vue";
 import { useUserStore } from "@/stores/authStore";
-import { RouterLink } from "vue-router";
+import { RouterLink, useRoute } from "vue-router";
 
 const userStore = useUserStore();
+const route = useRoute();
 </script>

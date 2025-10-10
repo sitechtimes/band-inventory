@@ -83,6 +83,7 @@ const errorMessage = ref("")
 const getDetails = async (id: number) => {
     try {
         await detailStore.getDetails(id)
+        await detailStore.getRepairs(id)
     }
     catch (err) {
         const error = err as Error;

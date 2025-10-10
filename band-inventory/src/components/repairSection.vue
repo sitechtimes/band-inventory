@@ -78,8 +78,8 @@
                                 <label class="block text-sm font-medium text-gray-700">Completion Status</label>
                                 <select v-model="editForm.completed" required
                                     class="w-full p-2 border border-gray-300 rounded">
-                                    <option value="false">Not Completed</option>
-                                    <option value="true">Completed</option>
+                                    <option :value="false">Not Completed</option>
+                                    <option :value="true">Completed</option>
                                 </select>
                             </div>
                         </div>

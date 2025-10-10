@@ -172,9 +172,20 @@ const submitInstrument = async () => {
       condition: formData.condition,
       year_purchased: formData.year_purchased || 0,
       price: formData.price || 0,
-      retired: formData.retired,
+      retired: formData.retired === 'Retired',
       barcode: formData.barcode || 0,
-      notes: formData.notes.trim()
+      notes: formData.notes.trim(),
+      location: '',
+      description: '',
+      assignments: [],
+      repair_needed: '',
+      repair_date: new Date(),
+      repair_notes: '',
+      requested_by: '',
+      assigned_to: '',
+      assigned_date: new Date(),
+      return_date: undefined,
+      open: false
     }
 
     await instrumentStore.addSingleInstrument(instrumentData)

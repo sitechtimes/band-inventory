@@ -55,7 +55,7 @@
     <div class="modal-action">
       <form method="dialog" class="space-x-4">
         <button class="btn">Go Back</button>
-        <button class="btn" @click="detailStore.closeAssignment(instrument!.assignments[i].assigned_to, instrument!.assignments[i].assigned_date, instrument?.assignments[i].return_date, id)">Confirm</button>
+        <button type="button" class="btn" @click="confirmCloseAssignment">Confirm</button>
       </form>
     </div>
   </div>
@@ -72,7 +72,7 @@ import { ref } from "vue";
 
 const detailStore = useDetailStore();
 const instrumentStore = useInstrumentStore()
-const instrument = storeToRefs(instrumentStore).idInstrument;
+const instrument = storeToRefs(detailStore).shownInstrument;
 const route = useRoute();
 const router = useRouter();
 const i = ref()
@@ -85,6 +85,19 @@ function chosenIndex(index: number) {
 
 function addAssignment() {
   router.push({ path: `/instruments/${id}/management/assignment` });
+}
+
+async function confirmCloseAssignment() {
+  if (instrument.value && i.value !== undefined) {
+    await detailStore.closeAssignment(
+      instrument.value.assignments[i.value].assigned_to,
+      instrument.value.assignments[i.value].assigned_date,
+      instrument.value.assignments[i.value].return_date,
+      id
+    );
+    const modal = document.getElementById('closeAlert') as HTMLDialogElement;
+    modal?.close();
+  }
 }
 </script>
 
