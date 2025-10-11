@@ -129,7 +129,7 @@ async function filter() {
       if (instrument.assigned_to.toLowerCase().includes(assigned_to.value)) {
         showedInstruments.value.push(instrument);
       }
-    )
+  })
     }
   filteredInstruments.forEach((instrument) => showedInstruments.value.push(instrument))
   emit('close')
