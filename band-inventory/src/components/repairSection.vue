@@ -3,29 +3,32 @@
         <div class="p-6 mt-6 mr-4">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-bold">Repair History</h2>
+                <RouterLink :to="`/instruments/${instrumentId}/management/repair`"
+                    class="btn btn-md bg-green text-white">
+                    + Add a repair
+                </RouterLink>
             </div>
             <div v-if="detailStore.repairs.length === 0"
                 class="bg-sky-50 border-1 rounded-sm border-gray p-8 text-center space-y-2">
                 <p>No current repairs on this instrument</p>
                 <p class="font-semibold">Instruments in poor quality will need to have their repairs tracked.</p>
-                <RouterLink :to="`/instruments/${instrumentId}/management/repair`" class="btn btn-md bg-green-800 text-white">+ Add a repair</RouterLink>
+                <RouterLink :to="`/instruments/${instrumentId}/management/repair`"
+                    class="btn btn-md bg-green-800 text-white">+ Add a repair</RouterLink>
             </div>
 
             <div v-else class="space-y-4">
                 <div v-for="repair in detailStore.repairs" :key="repair.id"
                     class="border border-gray-300 p-4 rounded-lg">
                     <div class="flex justify-between items-start mb-3">
-                        <div class="flex items-center gap-2">
-                            <span
-                                :class="repair.completed ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'"
-                                class="px-2 py-1 rounded-full text-xs font-medium">
-                                {{ repair.completed ? 'Completed' : 'In Progress' }}
-                            </span>
-                            <button @click="editRepair(repair)"
-                                class="text-blue-600 hover:text-blue-800 text-sm underline">
-                                Edit
-                            </button>
-                        </div>
+                        <span
+                            :class="repair.completed ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'"
+                            class="px-2 py-1 rounded-full text-xs font-medium">
+                            {{ repair.completed ? 'Completed' : 'In Progress' }}
+                        </span>
+                        <button @click="editRepair(repair)"
+                            class="text-blue-500 hover:text-blue-800 text-md font-bold underline">
+                            Edit Repair
+                        </button>
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
@@ -50,7 +53,7 @@
             </div>
 
             <div v-if="editingRepair" class="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50">
-                <div class="bg-white border border-black-300 p-6 rounded-lg max-w-md w-full mx-4">
+                <div class="bg-white border-2 border-gray-300 p-6 rounded-lg max-w-md w-full mx-4">
                     <h3 class="text-lg font-bold mb-4">Edit Repair</h3>
                     <form @submit.prevent="saveRepairEdit">
                         <div class="space-y-4">

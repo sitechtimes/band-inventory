@@ -1,20 +1,20 @@
 <template>
   <div class="max-w-4xl mx-auto p-6 mt-6">
     <div class="bg-white rounded-lg shadow-lg p-6">
-      <h1 class="text-3xl font-bold text-gray-800 mb-6">Add Instruments</h1>
+      <h1 class="text-2xl font-bold text-gray-800 mb-6">Add Instruments</h1>
       <div class="mb-8">
         <div class="flex space-x-4 mb-6">
-          <button class='px-4 py-2 text-sm font-medium rounded-md transition-colors' @click="activeTab = 'excel'"
+          <button class='px-4 py-2 text-sm font-medium rounded-sm transition-colors' @click="activeTab = 'excel'"
             :class="activeTab === 'excel'
-                ? 'bg-blue-500 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              ? 'bg-grey-blue text-white'
+              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               ">
             Upload Excel File
           </button>
-          <button class='px-4 py-2 text-sm font-medium rounded-md transition-colors' @click="activeTab = 'manual'"
+          <button class='px-4 py-2 text-sm font-medium rounded-sm transition-colors' @click="activeTab = 'manual'"
             :class="activeTab === 'manual'
-                ? 'bg-blue-500 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              ? 'bg-grey-blue text-white'
+              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               ">
             Add Manually
           </button>
@@ -22,7 +22,7 @@
       </div>
       <div v-if="activeTab === 'excel'" class="mb-8">
         <div class="flex items-center justify-between mb-4">
-          <h2 class="text-xl font-semibold text-gray-700">Upload Excel File</h2>
+          <h2 class="text-xl font-semibold text-gray-700">Upload Excel File of Instruments</h2>
         </div>
         <div
           class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">
@@ -50,7 +50,7 @@
             <div v-if="excelData.length > 0" class="space-y-4">
               <div class="flex items-center justify-between">
                 <button @click="processExcelData" :disabled="isProcessing"
-                  class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                  class="bg-green text-white px-4 py-2 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed">
                   <span v-if="isProcessing">Processing...</span>
                   <span v-else>Upload to Database</span>
                 </button>

@@ -67,7 +67,6 @@
         <div class="mt-8">
             <h1 class="text-2xl">Instrument Management</h1>
         </div>
-
     </div>
 </template>
 
@@ -87,7 +86,7 @@ const getDetails = async (id: number) => {
     }
     catch (err) {
         const error = err as Error;
-        errorMessage.value = error.message || "An error occurred while fetching details about instrument"; 
+        errorMessage.value = error.message || "An error occurred while fetching details about instrument";
     }
 }
 

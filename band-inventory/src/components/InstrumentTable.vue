@@ -1,10 +1,12 @@
 <template>
   <div class="p-6">
-    <h1 class="font-bold my-8 text-xl">Instrument Listing</h1>
-    <button @click="showFilterPopup = true"
-      class="btn bg-green hover:bg-emerald-700 text-white px-7 py-2 rounded-md flex items-center gap-2">
-      Filter
-    </button>
+    <div class="flex justify-between items-center mt-2 mb-8">
+      <h1 class="font-bold text-2xl">Instrument Listing</h1>
+      <button @click="showFilterPopup = true"
+        class="btn bg-green hover:bg-emerald-700 text-white px-7 py-2 rounded-md flex items-center gap-2">
+        Filter
+      </button>
+    </div>
     <div class="flex items-center gap-3 mb-3" v-if="selectedIds.length > 0">
       <span class="text-sm">{{ selectedIds.length }} selected</span>
       <button class="btn bg-red-400 btn-sm" @click="showDeleteConfirmation" :disabled="isDeleting">Delete</button>
@@ -12,7 +14,7 @@
     <div class="overflow-x-auto">
       <table class="table text-center text-base">
         <thead>
-          <tr class="bg-sky-50">
+          <tr class="bg-sky-blue">
             <th class="w-10"><input type="checkbox" :checked="allChecked" @change="toggleAll" /></th>
             <th>Category</th>
             <th>Section</th>
@@ -58,7 +60,7 @@
         @click.stop>
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-xl font-bold">Filter Instruments</h2>
-          <button @click="showFilterPopup = false" class="text-gray-600 hover:text-gray-800">
+          <button @click="showFilterPopup = false" class="text-gray-600 hover:text-gray-800 hover:cursor-pointer">
             Close
           </button>
         </div>
@@ -94,6 +96,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useInstrumentStore } from '@/stores/instrumentStore'
 import router from "@/routes/index";
+import instrumentFilter from './instrumentFilter.vue';
 
 const instrumentStore = useInstrumentStore()
 const errorMessage = ref("")

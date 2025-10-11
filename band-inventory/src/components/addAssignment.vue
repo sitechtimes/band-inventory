@@ -1,7 +1,7 @@
 <template>
   <div class="m-4">
-    <RouterLink to="/home" class="text-emerald-600 font-bold">
-      🡨 Back to Instrument details</RouterLink
+    <a @click="$router.back()" class="text-emerald-600 font-bold hover:cursor-pointer hover:underline">
+      🡨 Back to Instrument details</a
     >
     <h2 class="font-bold text-2xl my-4">Assign Instrument</h2>
     <div class="shadow-sm rounded-sm gap-x-4">
