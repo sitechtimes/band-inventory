@@ -4,11 +4,10 @@ import { supabase } from "@/lib/supabaseClient";
 import type { Ref } from "vue";
 
 export const useUserStore = defineStore("auth", () => {
+  const user: Ref<string | null> = ref(null);
 
-  const user: Ref<string | null> = ref(null)
-
-  const login = async (email: string, password: string)  => {
-    user.value = email
+  const login = async (email: string, password: string) => {
+    user.value = email;
     return await supabase.auth.signInWithPassword({
       email,
       password,

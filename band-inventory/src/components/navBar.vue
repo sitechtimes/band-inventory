@@ -48,7 +48,7 @@ import { ref } from "vue";
 import router from "@/routes/index";
 import type { Ref } from "vue";
 import { supabase } from "@/lib/supabaseClient";
-
+import { RouterLink } from "vue-router";
 
 async function signOut() {
   try {
