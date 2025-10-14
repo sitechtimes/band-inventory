@@ -3,7 +3,7 @@
     <div class="p-6 mt-6 mr-4">
       <div class="flex justify-between items-center mb-4">
         <h2 class="text-xl font-bold">Locations</h2>
-        <button class="btn btn-md bg-green text-white" @click="goUpdate">
+        <button class="btn btn-md bg-deep-green text-white" @click="goUpdate">
           Update Location
         </button>
       </div>

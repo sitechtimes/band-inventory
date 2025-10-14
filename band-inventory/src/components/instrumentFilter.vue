@@ -72,7 +72,7 @@
       />
     </div>
     <div class="p-4 flex flex-wrap gap-x-4 border-t border-gray-200 bg-gray-50">
-      <button class="btn bg-green hover:bg-emerald-700 text-white px-6 py-2 rounded-md" @click="filter">Apply Filter</button>
+      <button class="btn bg-deep-green hover:bg-emerald-700 text-white px-6 py-2 rounded-md" @click="filter">Apply Filter</button>
       <button class="btn bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-md" @click="reset">Reset</button>
     </div>
   </div>

@@ -74,7 +74,7 @@
       </div>
       <div>
         <button type="submit" :disabled="isSubmitting"
-          class="btn mx-2 md:ml-4 my-4 align-self-center bg-green hover:bg-deep-green text-white">
+          class="btn mx-2 md:ml-4 my-4 align-self-center bg-deep-green hover:bg-deep-green text-white">
           <span v-if="isSubmitting">Adding Instrument...</span>
           <span v-else>Add Instrument</span>
         </button>

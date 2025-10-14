@@ -50,7 +50,7 @@
             <div v-if="excelData.length > 0" class="space-y-4">
               <div class="flex items-center justify-between">
                 <button @click="processExcelData" :disabled="isProcessing"
-                  class="bg-green text-white px-4 py-2 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                  class="bg-deep-green text-white px-4 py-2 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed">
                   <span v-if="isProcessing">Processing...</span>
                   <span v-else>Upload to Database</span>
                 </button>

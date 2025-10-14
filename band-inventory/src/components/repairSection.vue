@@ -4,7 +4,7 @@
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-bold">Repair History</h2>
                 <RouterLink :to="`/instruments/${instrumentId}/management/repair`"
-                    class="btn btn-md bg-green text-white">
+                    class="btn btn-md bg-deep-green text-white">
                     + Add a repair
                 </RouterLink>
             </div>
