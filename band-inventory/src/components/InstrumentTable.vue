@@ -3,7 +3,7 @@
     <div class="flex justify-between items-center mt-2 mb-8">
       <h1 class="font-bold text-2xl">Instrument Listing</h1>
       <button @click="showFilterPopup = true"
-        class="btn bg-deep-green hover:bg-emerald-700 text-white px-7 py-2 rounded-md flex items-center gap-2">
+        class="btn bg-deep-green hover:bg-emerald-900 text-white px-7 py-2 rounded-md flex items-center gap-2">
         Filter
       </button>
     </div>
@@ -39,11 +39,9 @@
             <td>{{ instrument.manufacturer }}</td>
             <td>{{ instrument.siths_id }}</td>
             <td>
-              <div v-for="(assignment, i) in instrument.assignments">
-                <div v-if="instrument.assignments?.[i].open">
-                  <div v-for="(assignment, index) in instrument.assignments">
-                    {{ instrument.assignments?.[index]?.assigned_to }}
-                  </div>
+              <div v-for="(assignment, i) in instrument.assignments" :key="i">
+                <div v-if="assignment.open">
+                  {{ assignment.assigned_to }}
                 </div>
               </div>
             </td>
