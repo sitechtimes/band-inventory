@@ -25,7 +25,7 @@
           <h2 class="text-xl font-semibold text-gray-700">Upload Excel File of Instruments</h2>
         </div>
         <div
-          class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">
+          class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-grey-blue transition-colors">
           <input type="file" ref="fileInput" @change="handleFileUpload" accept=".xlsx,.xls" class="hidden" />
           <div v-if="!selectedFile" @click="fileInput?.click()" class="cursor-pointer">
             <img src="/upload.png" alt="Upload" class="mx-auto h-12 w-12 text-gray-400" />
@@ -36,10 +36,7 @@
           <div v-else class="text-left">
             <div class="flex items-center justify-between mb-4">
               <div class="flex items-center">
-                <svg class="h-8 w-8 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+                <p class="text-green font-bold text-xl mr-4">✓</p>
                 <span class="font-medium text-gray-900">{{ selectedFile.name }}</span>
               </div>
               <button @click="clearFile" class="text-red-500 hover:text-red-700 text-sm font-medium">
@@ -50,7 +47,7 @@
             <div v-if="excelData.length > 0" class="space-y-4">
               <div class="flex items-center justify-between">
                 <button @click="processExcelData" :disabled="isProcessing"
-                  class="bg-green text-white px-4 py-2 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                  class="bg-deep-green text-white px-4 py-2 rounded-md hover:bg-emerald-900 disabled:opacity-50 disabled:cursor-not-allowed">
                   <span v-if="isProcessing">Processing...</span>
                   <span v-else>Upload to Database</span>
                 </button>
