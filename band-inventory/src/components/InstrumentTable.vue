@@ -39,11 +39,9 @@
             <td>{{ instrument.manufacturer }}</td>
             <td>{{ instrument.siths_id }}</td>
             <td>
-              <div v-for="(assignment, i) in instrument.assignments">
-                <div v-if="instrument.assignments?.[i].open">
-                  <div v-for="(assignment, index) in instrument.assignments">
-                    {{ instrument.assignments?.[index]?.assigned_to }}
-                  </div>
+              <div v-for="(assignment, i) in instrument.assignments" :key="i">
+                <div v-if="assignment.open">
+                  {{ assignment.assigned_to }}
                 </div>
               </div>
             </td>
