@@ -117,7 +117,7 @@ async function filter() {
         manufacturer.value.charAt(0).toUpperCase() +
           manufacturer.value.slice(1) ||
       instrument.siths_id === Number(siths_id.value) ||
-      //instrument.assigned_to.toLowerCase() == assigned_to.value.toLowerCase() ||
+      instrument.assigned_to.toLowerCase() == assigned_to.value.toLowerCase() ||
       instrument.condition ===
         condition.value.charAt(0).toUpperCase() + condition.value.slice(1) ||
       instrument.year_purchased == Number(year_purchased.value) ||
@@ -126,7 +126,7 @@ async function filter() {
   showedInstruments.value = [];
   if (assigned_to.value != "") {
     allInstruments.value.forEach((instrument) => {
-      if (instrument.assigned_to.toLowerCase().includes(assigned_to.value)) {
+      if (instrument.assigned_to.includes(assigned_to.value)) {
         showedInstruments.value.push(instrument);
       }
   })
