@@ -1,65 +1,77 @@
 <template>
-  <div class="mx-8">
-    <div class="p-6 flex justify-between mt-6 mr-4">
-      <h2 class="text-xl font-bold">Assignments</h2>
-      <button class="btn btn-md" @click="addAssignment">
-        + Assign Instrument
-      </button>
-    </div>
-    <div
-      v-if="instrument?.assignments"
-      v-for="(assignment, index) in instrument.assignments"
-      class="bg-white border border-gray rounded-md flex flex-row space-x-8 grid grid-cols-8 p-4 md:grid-cols-0"
-    >
-      <p ref="i" class="place-self-center"> {{ index }} </p>
-      <span v-if="assignment.open" class="badge flex flex-col place-self-center col-span-2 bg-green-600">Open</span>
-      <span v-else class="badge flex flex-col place-self-center col-span-2 bg-orange-700">Closed</span>
-      <div class="space-y-5 col-span-4 lg:flex lg:flex-row lg:space-x-4">
-         <p class="flex flex-col self-center"><b>Name</b> {{ assignment.assigned_to }}</p>
-        <p class="flex flex-col"><b>Assigned Date</b> {{ assignment.assigned_date }}</p>
-        <p class="flex flex-col"><b>Return Date</b> {{ assignment.return_date }}</p>
+  <div class="mx-8 mt-8">
+    <div class="p-6 mt-6 mr-4">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-bold">Assignments</h2>
+        <button class="btn btn-md bg-deep-green text-white" @click="addAssignment">
+          + Assign Instrument
+        </button>
       </div>
-      <button v-if="!assignment.open" disabled class="btn flex-col col-start-7 col-span-2 lg:col-span-1 place-self-center">
-        <img src="/trash-svgrepo-com.svg" class= "h-8"/>
-      </button>
-      <button
-        v-else
-        class="btn col-start-7 col-span-2 lg:col-span-1 place-self-center"
-        onclick="closeAlert.showModal()"
-        @click="chosenIndex(index)">
-         <img src="/trash-svgrepo-com.svg" class= "h-8"/>
-      </button>
-    </div>
-    
-    <div
-      v-else
-      class="bg-sky-50 border-1 rounded-sm border-gray p-8 text-center space-y-2"
-    >
-      <p>No current assignments on this instrument</p>
-      <p class="font-semibold">
-        Adding assignments to your instruments will help you keep track of who
-        has the instrument
-      </p>
-      <button
-        class="btn btn-md bg-deep-green text-white"
-        @click="addAssignment"
-      >
-        + Add an assignment
-      </button>
+      <div v-if="!instrument?.assignments || instrument.assignments.length === 0"
+        class="bg-sky-50 border-1 rounded-sm border-gray p-8 text-center space-y-2">
+        <p>No current assignments on this instrument</p>
+        <p class="font-semibold">
+          Adding assignments to your instruments will help you keep track of who
+          has the instrument
+        </p>
+      </div>
+      <div v-else class="space-y-4">
+        <div v-for="(assignment, index) in recentAssignments" :key="index"
+          class="border border-gray-300 p-4 rounded-lg">
+          <div class="flex justify-between items-start mb-3">
+            <span v-if="assignment.open"
+              class="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+              Open
+            </span>
+            <span v-else class="px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
+              Closed
+            </span>
+            <button v-if="assignment.open" @click="chosenIndex(assignment.originalIndex)"
+              class="text-red-500 hover:text-red-800 text-md font-bold underline">
+              Close Assignment
+            </button>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <h4 class="font-bold text-gray-400">Assigned To</h4>
+              <p>{{ assignment.assigned_to }}</p>
+            </div>
+            <div>
+              <h4 class="font-bold text-gray-400">Assigned Date</h4>
+              <p>{{ formatDate(assignment.assigned_date) }}</p>
+            </div>
+            <div v-if="assignment.return_date">
+              <h4 class="font-bold text-gray-400">Return Date</h4>
+              <p>{{ formatDate(assignment.return_date) }}</p>
+            </div>
+          </div>
+        </div>
+        <div v-if="instrument.assignments.length > 3" class="text-center mt-6">
+          <button 
+            @click="viewAllAssignments"
+            class="px-6 py-2 bg-deep-green text-white rounded-sm hover:bg-emerald-900 font-semibold">
+            View All Assignments ({{ instrument.assignments.length }})
+          </button>
+        </div>
+      </div>
     </div>
   </div>
-<dialog id="closeAlert" class="modal">
-  <div class="modal-box">
-    <h3 class="text-lg font-bold">Are you sure you want to close this assignment?</h3>
-    <p class="py-4 text-red-600">This action is cannot be reversed.</p>
-    <div class="modal-action">
-      <form method="dialog" class="space-x-4">
-        <button class="btn">Go Back</button>
-        <button type="button" class="btn" @click="confirmCloseAssignment">Confirm</button>
-      </form>
+
+  <div v-if="showDeleteModal" class="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50">
+    <div class="bg-white border-2 border-gray-300 p-6 rounded-lg max-w-md w-full mx-4">
+      <h3 class="text-lg font-bold mb-4">Are you sure you want to close this assignment?</h3>
+      <p class="py-4 text-red-600">This action cannot be reversed.</p>
+      <div class="flex justify-end gap-2 mt-6">
+        <button @click="showDeleteModal = false"
+          class="px-4 py-2 text-gray-600 border border-gray-300 rounded hover:bg-gray-50">
+          Go Back
+        </button>
+        <button @click="confirmCloseAssignment" class="px-4 py-2 bg-red-400 rounded hover:bg-red-500">
+          Confirm
+        </button>
+      </div>
     </div>
   </div>
-</dialog>
 </template>
 
 <script setup lang="ts">
@@ -67,24 +79,41 @@ import { useRoute, useRouter } from "vue-router";
 import { useDetailStore } from "@/stores/detailStore";
 import { useInstrumentStore } from "@/stores/instrumentStore";
 import { storeToRefs } from "pinia";
-import { close } from "fs";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 const detailStore = useDetailStore();
-const instrumentStore = useInstrumentStore()
 const instrument = storeToRefs(detailStore).shownInstrument;
 const route = useRoute();
 const router = useRouter();
 const i = ref()
+const showDeleteModal = ref(false)
 
 const { id } = route.params as { id: number };
 
+const recentAssignments = computed(() => {
+  if (!instrument.value?.assignments) return [];
+  return instrument.value.assignments
+    .map((assignment, index) => ({ ...assignment, originalIndex: index }))
+    .slice(0, 3);
+});
+
+const formatDate = (dateInput: string | Date) => {
+  const date = new Date(dateInput)
+  date.setDate(date.getDate() + 1)
+  return date.toLocaleDateString()
+}
+
 function chosenIndex(index: number) {
   i.value = index;
+  showDeleteModal.value = true;
 }
 
 function addAssignment() {
   router.push({ path: `/instruments/${id}/management/assignment` });
+}
+
+function viewAllAssignments() {
+  router.push({ path: `/instruments/${id}/all-assignments` });
 }
 
 async function confirmCloseAssignment() {
@@ -95,8 +124,7 @@ async function confirmCloseAssignment() {
       instrument.value.assignments[i.value].return_date,
       id
     );
-    const modal = document.getElementById('closeAlert') as HTMLDialogElement;
-    modal?.close();
+    showDeleteModal.value = false;
   }
 }
 </script>

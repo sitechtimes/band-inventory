@@ -30,9 +30,7 @@
           v-model="password"
         />
       </div>
-      <button class="btn w-50 bg-deep-green text-white" @click="signIn">
-        Sign In
-      </button>
+      <button class="btn w-50 bg-deep-green text-white" @click="signIn">Sign In</button>
     </div>
   </div>
 </template>

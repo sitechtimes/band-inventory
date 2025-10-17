@@ -1,58 +1,32 @@
 <template>
   <div>
-    <div class="navbar bg-base-100 shadow-sm">
+    <div class="navbar bg-deep-blue text-white shadow-sm">
       <div class="navbar-start">
         <div class="dropdown">
-          <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 6h16M4 12h8m-8 6h16"
-              />
+          <div tabindex="0" role="button" class="ml-2 lg:hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
             </svg>
           </div>
-          <ul
-            tabindex="0"
-            class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
-          >
-            <li><a>Home</a></li>
-            <!-- <li>
-              <a>Parent</a>
-              <ul class="p-2">
-                <li><a>Submenu 1</a></li>
-                <li><a>Submenu 2</a></li>
-              </ul>
-            </li> -->
-            <li><a>Add Instrument</a></li>
+          <ul tabindex="0" class="menu menu-sm dropdown-content bg-deep-blue rounded-box z-1 mt-3 w-52 p-2 shadow">
+            <li><router-link to="/home">Home</router-link></li>
+            <li><router-link to="/add-instrument">Add Instruments</router-link></li>
           </ul>
         </div>
-        <RouterLink to="/home" class="btn btn-ghost text-xl">home</RouterLink>
+        <h1 class="ml-4 text-2xl">Band Inventory</h1>
       </div>
       <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal px-1">
-          <li><router-link to="/home">Home</router-link></li>
-          <!-- <li>
-            <details>
-              <summary>Parent</summary>
-              <ul class="p-2">
-                <li><a>Submenu 1</a></li>
-                <li><a>Submenu 2</a></li>
-              </ul>
-            </details>
-          </li> -->
-          <li><router-link to="/add-instrument">Add Instrument</router-link></li>
+          <li class="text-lg italic "><router-link to="/home">Home</router-link></li>
+          <li>
+            <p class="text-lg">|</p>
+          </li>
+          <li class="text-lg italic"><router-link to="/add-instrument">Add Instruments</router-link></li>
         </ul>
       </div>
       <div class="navbar-end">
-        <a class="btn" @click="signOut">sign out</a>
+        <a class="btn mr-4" @click="signOut">Sign Out</a>
       </div>
     </div>
   </div>

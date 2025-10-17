@@ -1,22 +1,13 @@
 <template>
-    <div class="mx-8 mt-8">
-        <div class="p-6 mt-6 mr-4">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-bold">Repair History</h2>
-                <RouterLink :to="`/instruments/${instrumentId}/management/repair`"
-                    class="btn btn-md bg-deep-green text-white">
-                    + Add a repair
-                </RouterLink>
-            </div>
-            <div v-if="detailStore.repairs.length === 0"
-                class="bg-sky-50 border-1 rounded-sm border-gray p-8 text-center space-y-2">
-                <p>No current repairs on this instrument</p>
-                <p class="font-semibold">Instruments in poor quality will need to have their repairs tracked.</p>
-                <RouterLink :to="`/instruments/${instrumentId}/management/repair`"
-                    class="btn btn-md bg-green-800 text-white">+ Add a repair</RouterLink>
-            </div>
-            <div v-else class="space-y-4">
-                <div v-for="repair in recentRepairs" :key="repair.id"
+    <div>
+        <navBar />
+        <div class="mx-6 mt-6">
+            <RouterLink :to="`/instruments/${id}/details`" class="text-emerald-600 font-bold">
+                🡨 Back to Instrument Details
+            </RouterLink>
+            <h1 class="text-2xl font-bold mt-4 mb-6">All Repairs</h1>
+            <div class="space-y-4">
+                <div v-for="repair in detailStore.repairs" :key="repair.id"
                     class="border border-gray-300 p-4 rounded-lg">
                     <div class="flex justify-between items-start mb-3">
                         <span
@@ -47,13 +38,6 @@
                             <p>{{ repair.repair_notes }}</p>
                         </div>
                     </div>
-                </div>
-                <div v-if="detailStore.repairs.length > 3" class="text-center mt-6">
-                    <button 
-                        @click="viewAllRepairs"
-                        class="px-6 py-2 bg-deep-green text-white rounded-sm hover:bg-emerald-900 font-semibold">
-                        View All Repairs ({{ detailStore.repairs.length }})
-                    </button>
                 </div>
             </div>
             <div v-if="editingRepair" class="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50">
@@ -108,79 +92,73 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
-import { useDetailStore } from '@/stores/detailStore'
-import type { RepairInfo } from '@/stores/detailStore'
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import { useDetailStore } from '@/stores/detailStore';
+import type { RepairInfo } from '@/stores/detailStore';
+import navBar from "@/components/navBar.vue";
 
-interface Props {
-    instrumentId: string | number
-}
+const route = useRoute();
+const detailStore = useDetailStore();
+const { id } = route.params as { id: string };
 
-const props = defineProps<Props>()
-const detailStore = useDetailStore()
-const router = useRouter()
-
-const editingRepair = ref(false)
-const editingRepairId = ref<number | null>(null)
+const editingRepair = ref(false);
+const editingRepairId = ref<number | null>(null);
 const editForm = ref({
     repair_date: '',
     repair_needed: '',
     requested_by: '',
     repair_notes: '',
     completed: false
-})
+});
 
-const recentRepairs = computed(() => {
-    return detailStore.repairs.slice(0, 3)
-})
+onMounted(async () => {
+    await detailStore.getDetails(Number(id));
+    await detailStore.getRepairs(Number(id));
+});
 
 const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
-    date.setDate(date.getDate() + 1)
-    return date.toLocaleDateString()
-}
+    const date = new Date(dateString);
+    date.setDate(date.getDate() + 1);
+    return date.toLocaleDateString();
+};
 
 const editRepair = (repair: RepairInfo) => {
-    editingRepair.value = true
-    editingRepairId.value = repair.id ?? null
+    editingRepair.value = true;
+    editingRepairId.value = repair.id ?? null;
     editForm.value = {
         repair_date: repair.repair_date,
         repair_needed: repair.repair_needed,
         requested_by: repair.requested_by,
         repair_notes: repair.repair_notes || '',
         completed: Boolean(repair.completed)
-    }
-}
+    };
+};
 
 const saveRepairEdit = async () => {
     try {
         if (editingRepairId.value) {
-            await detailStore.updateRepair(editingRepairId.value, editForm.value)
-            editingRepair.value = false
-            editingRepairId.value = null
+            await detailStore.updateRepair(editingRepairId.value, editForm.value);
+            editingRepair.value = false;
+            editingRepairId.value = null;
         }
     } catch (error) {
-        console.error('Error updating repair:', error)
-        alert('Failed to update repair. Please try again.')
+        console.error('Error updating repair:', error);
+        alert('Failed to update repair. Please try again.');
     }
-}
+};
 
 const cancelEdit = () => {
-    editingRepair.value = false
-    editingRepairId.value = null
+    editingRepair.value = false;
+    editingRepairId.value = null;
     editForm.value = {
         repair_date: '',
         repair_needed: '',
         requested_by: '',
         repair_notes: '',
         completed: false
-    }
-}
-
-const viewAllRepairs = () => {
-    router.push({ path: `/instruments/${props.instrumentId}/all-repairs` })
-}
+    };
+};
 </script>
 
 <style></style>
