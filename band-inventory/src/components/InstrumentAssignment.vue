@@ -31,7 +31,7 @@
               Close Assignment
             </button>
           </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
               <h4 class="font-bold text-gray-400">Assigned To</h4>
               <p>{{ assignment.assigned_to }}</p>
