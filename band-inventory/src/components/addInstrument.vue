@@ -23,6 +23,7 @@
       <div v-if="activeTab === 'excel'" class="mb-8">
         <div class="flex items-center justify-between mb-4">
           <h2 class="text-xl font-semibold text-gray-700">Upload Excel File of Instruments</h2>
+          <TemplateDownload />
         </div>
         <div
           class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-grey-blue transition-colors">
@@ -72,6 +73,7 @@ import { ref } from 'vue'
 import * as ExcelJS from 'exceljs'
 import { useInstrumentStore } from '@/stores/instrumentStore'
 import manuallyAdd from './manuallyAdd.vue'
+import TemplateDownload from './TemplateDownload.vue'
 
 const instrumentStore = useInstrumentStore()
 
