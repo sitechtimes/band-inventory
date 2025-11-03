@@ -35,7 +35,6 @@ const downloadTemplate = async () => {
       fgColor: { argb: 'FFD3E3F4' }
     }
     worksheet.getRow(1).alignment = { vertical: 'middle', horizontal: 'center' }
-    //uhhh example rows
     worksheet.addRow({
       category: 'Brass',
       section: 'Trumpet',
