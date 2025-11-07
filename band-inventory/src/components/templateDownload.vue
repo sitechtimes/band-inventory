@@ -26,6 +26,7 @@ const downloadTemplate = async () => {
       { header: 'Barcode', key: 'barcode', width: 15 },
       { header: 'Location', key: 'location', width: 20 },
       { header: 'Description', key: 'description', width: 30 },
+      { header: 'Assignment', key: 'assignment', width: 30 },
       { header: 'Notes', key: 'notes', width: 30 }
     ]
     worksheet.getRow(1).font = { bold: true, size: 12 }
@@ -49,6 +50,7 @@ const downloadTemplate = async () => {
       barcode: '100001',
       location: 'Band Room',
       description: 'Student trumpet',
+      assignment: null,   
       notes: 'Needs mouthpiece'
     })
     worksheet.addRow({
@@ -65,11 +67,12 @@ const downloadTemplate = async () => {
       barcode: '100002',
       location: 'Storage',
       description: 'Professional clarinet',
-      notes: ''
+      assignment: null,
+      notes: 'hallo hallo'
     })
     worksheet.addRow([])
-    const noteRow = worksheet.addRow(['Note: The first two rows are examples. Delete them and add your own data.'])
-    noteRow.font = { italic: true}
+    const noteRow = worksheet.addRow(['Notes: The first two rows are examples. Please remove them and add your own data. Set assignment to null for now and then add any assignments on the instrument details page. DELETE THIS NOTE BEFORE UPLOADING PLEASE.'])
+    noteRow.font = { italic: true, bold: true }
     const buffer = await workbook.xlsx.writeBuffer()
     const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
     const url = window.URL.createObjectURL(blob)
@@ -83,4 +86,3 @@ const downloadTemplate = async () => {
   }
 }
 </script>
-
