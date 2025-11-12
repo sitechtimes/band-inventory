@@ -1,7 +1,7 @@
 <template>
   <div class="inputContainer flex flex-col">
     <div class="inputFields flex flex-wrap gap-y-3 gap-x-3 p-4">
-       <filterCategories
+      <filterCategories
         :title="'category'"
         :id="'category'"
         :placeholder="'category (ex: Violin)'"
@@ -72,8 +72,18 @@
       />
     </div>
     <div class="p-4 flex flex-wrap gap-x-4 border-t border-gray-200 bg-gray-50">
-      <button class="btn bg-deep-green hover:bg-emerald-900 text-white px-6 py-2 rounded-md" @click="filter">Apply Filter</button>
-      <button class="btn bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-md" @click="reset">Reset</button>
+      <button
+        class="btn bg-deep-green hover:bg-emerald-900 text-white px-6 py-2 rounded-md"
+        @click="filter"
+      >
+        Apply Filter
+      </button>
+      <button
+        class="btn bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-md"
+        @click="reset"
+      >
+        Reset
+      </button>
     </div>
   </div>
 </template>
@@ -87,11 +97,11 @@ import { storeToRefs } from "pinia";
 import { assign } from "unplugin-vue-router/runtime";
 
 const emit = defineEmits<{
-  close: []
-}>()
+  close: [];
+}>();
 
-const instrumentStore = useInstrumentStore()
-const { allInstruments, showedInstruments } = storeToRefs(instrumentStore)
+const instrumentStore = useInstrumentStore();
+const { allInstruments, showedInstruments } = storeToRefs(instrumentStore);
 
 const category: Ref<string> = ref("");
 const section: Ref<string> = ref("");
@@ -129,10 +139,12 @@ async function filter() {
       if (instrument.assigned_to.includes(assigned_to.value)) {
         showedInstruments.value.push(instrument);
       }
-  })
-    }
-  filteredInstruments.forEach((instrument) => showedInstruments.value.push(instrument))
-  emit('close')
+    });
+  }
+  filteredInstruments.forEach((instrument) =>
+    showedInstruments.value.push(instrument),
+  );
+  emit("close");
 }
 
 async function reset() {

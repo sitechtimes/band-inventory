@@ -56,43 +56,53 @@ export const useInstrumentStore = defineStore("instrument", () => {
   };
 
   const deleteInstruments = async (ids: number[]) => {
-    if (!ids || ids.length === 0) return
-    const { error } = await supabase
-      .from('instruments')
-      .delete()
-      .in('id', ids)
+    if (!ids || ids.length === 0) return;
+    const { error } = await supabase.from("instruments").delete().in("id", ids);
     if (error) {
-      throw new Error(error.message)
+      throw new Error(error.message);
     }
-    allInstruments.value = allInstruments.value.filter(i => !ids.includes(i.id))
-    showedInstruments.value = showedInstruments.value.filter(i => !ids.includes(i.id))
-  }
+    allInstruments.value = allInstruments.value.filter(
+      (i) => !ids.includes(i.id),
+    );
+    showedInstruments.value = showedInstruments.value.filter(
+      (i) => !ids.includes(i.id),
+    );
+  };
 
-  const bulkUploadInstruments = async (instruments: Omit<Instrument, 'id'>[]) => {
+  const bulkUploadInstruments = async (
+    instruments: Omit<Instrument, "id">[],
+  ) => {
     const { data, error } = await supabase
-      .from('instruments')
+      .from("instruments")
       .insert(instruments)
-      .select()
+      .select();
 
     if (error) {
       throw new Error(error.message);
     }
-    await getInstruments()
-    return data
-  }
-  const addSingleInstrument = async (instrument: Omit<Instrument, 'id'>) => {
+    await getInstruments();
+    return data;
+  };
+  const addSingleInstrument = async (instrument: Omit<Instrument, "id">) => {
     const { data, error } = await supabase
-      .from('instruments')
+      .from("instruments")
       .insert([instrument])
-      .select()
+      .select();
 
     if (error) {
       throw new Error(error.message);
     }
-    await getInstruments()
-    return data
-  }
+    await getInstruments();
+    return data;
+  };
 
-  return { allInstruments, getInstruments, showedInstruments, bulkUploadInstruments, addSingleInstrument, idInstrument, deleteInstruments }
-
-}); 
+  return {
+    allInstruments,
+    getInstruments,
+    showedInstruments,
+    bulkUploadInstruments,
+    addSingleInstrument,
+    idInstrument,
+    deleteInstruments,
+  };
+});

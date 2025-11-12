@@ -1,6 +1,9 @@
 <template>
   <div class="m-4">
-    <a @click="$router.back()" class="text-emerald-600 font-bold hover:cursor-pointer hover:underline">
+    <a
+      @click="$router.back()"
+      class="text-emerald-600 font-bold hover:cursor-pointer hover:underline"
+    >
       🡨 Back to Instrument details</a
     >
     <h2 class="font-bold text-2xl my-4">Assign Instrument</h2>
@@ -57,23 +60,23 @@ const route = useRoute();
 const router = useRouter();
 const { id } = route.params as { id: number };
 
-async function updateAssigned() {
-  try {
-    if (assigned.value !== "") {
-      await detailStore.changeAssignment(
-        assigned.value,
-        assigned_date,
-        return_date.value,
-        id,
-      );
-      router.push({ path: `/instruments/${id}/details` });
-    } else {
-      alert("Please enter in an assignment.");
-    }
-  } catch (error) {
-    alert(error);
-  }
-}
+// async function updateAssigned() {
+//   try {
+//     if (assigned.value !== "") {
+//       await detailStore.changeAssignment(
+//         assigned.value,
+//         assigned_date,
+//         return_date.value,
+//         id,
+//       );
+//       router.push({ path: `/instruments/${id}/details` });
+//     } else {
+//       alert("Please enter in an assignment.");
+//     }
+//   } catch (error) {
+//     alert(error);
+//   }
+// }
 </script>
 
 <style scoped></style>
