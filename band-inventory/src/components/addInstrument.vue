@@ -169,15 +169,7 @@ const processExcelData = async () => {
       notes: row.notes || row.Notes || '',
       location: row.location || row.Location || '',
       description: row.description || row.Description || '',
-      assignments: [],
-      repair_needed: '',
-      repair_date: new Date(),
-      repair_notes: '',
-      requested_by: '',
-      assigned_to: '',
-      assigned_date: new Date(),
-      return_date: undefined,
-      open: false
+      assignments: []
     }))
 
     const validInstruments = instruments.filter(instrument =>
@@ -191,7 +183,7 @@ const processExcelData = async () => {
       return
     }
 
-    await instrumentStore.bulkUploadInstruments(validInstruments)
+    await instrumentStore.bulkUploadInstruments(validInstruments as any)
 
     showMessage(`Successfully uploaded ${validInstruments.length} instruments to the database!`, 'success')
     clearFile()

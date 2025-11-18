@@ -26,7 +26,6 @@ const downloadTemplate = async () => {
       { header: 'Barcode', key: 'barcode', width: 15 },
       { header: 'Location', key: 'location', width: 20 },
       { header: 'Description', key: 'description', width: 30 },
-      { header: 'Assignment', key: 'assignment', width: 30 },
       { header: 'Notes', key: 'notes', width: 30 }
     ]
     worksheet.getRow(1).font = { bold: true, size: 12 }
@@ -49,8 +48,7 @@ const downloadTemplate = async () => {
       retired: 'Active',
       barcode: '100001',
       location: 'Band Room',
-      description: 'Student trumpet',
-      assignment: null,   
+      description: 'Student trumpet', 
       notes: 'Needs mouthpiece'
     })
     worksheet.addRow({
@@ -67,7 +65,6 @@ const downloadTemplate = async () => {
       barcode: '100002',
       location: 'Storage',
       description: 'Professional clarinet',
-      assignment: null,
       notes: 'hallo hallo'
     })
     worksheet.addRow([])

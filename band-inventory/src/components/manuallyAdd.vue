@@ -141,18 +141,10 @@ const submitInstrument = async () => {
       notes: formData.notes.trim(),
       location: '',
       description: '',
-      assignments: [],
-      repair_needed: '',
-      repair_date: new Date(),
-      repair_notes: '',
-      requested_by: '',
-      assigned_to: '',
-      assigned_date: new Date(),
-      return_date: undefined,
-      open: false
+      assignments: []
     }
 
-    await instrumentStore.addSingleInstrument(instrumentData)
+    await instrumentStore.addSingleInstrument(instrumentData as any)
 
     showMessage('Instrument added successfully', 'success')
     resetForm()
