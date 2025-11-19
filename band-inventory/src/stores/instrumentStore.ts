@@ -7,8 +7,8 @@ import { assign } from "unplugin-vue-router/runtime";
 
 interface AssignmentInfo {
   assigned_to: string;
-  assigned_date: Date;
-  return_date: Date | undefined;
+  assigned_date: Date | null;
+  return_date: Date | null;
   open: true | false;
 }
 
@@ -29,7 +29,7 @@ interface Instrument extends RepairInfo, AssignmentInfo, PurchaseInfo {
 
 type RepairInfo = {
   repair_needed: string;
-  repair_date: Date;
+  repair_date: Date | null;
   repair_notes: string;
   requested_by: string;
 };
@@ -73,9 +73,9 @@ export const useInstrumentStore = defineStore("instrument", () => {
     instruments: Omit<Instrument, "id">[],
   ) => {
     const { data, error } = await supabase
-      .from("instruments")
-      .insert(instruments)
-      .select();
+      .from('instruments')
+      .upsert(instruments, { onConflict: 'barcode' })
+      .select()
 
     if (error) {
       throw new Error(error.message);

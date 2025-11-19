@@ -30,9 +30,8 @@
       </div>
       <div v-if="activeTab === 'excel'" class="mb-8">
         <div class="flex items-center justify-between mb-4">
-          <h2 class="text-xl font-semibold text-gray-700">
-            Upload Excel File of Instruments
-          </h2>
+          <h2 class="text-xl font-semibold text-gray-700">Upload Excel File of Instruments</h2>
+          <templateDownload />
         </div>
         <div
           class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-grey-blue transition-colors"
@@ -110,10 +109,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import * as ExcelJS from "exceljs";
-import { useInstrumentStore } from "@/stores/instrumentStore";
-import manuallyAdd from "./manuallyAdd.vue";
+import { ref } from 'vue'
+import * as ExcelJS from 'exceljs'
+import { useInstrumentStore } from '@/stores/instrumentStore'
+import manuallyAdd from './manuallyAdd.vue'
+import templateDownload from './templateDownload.vue'
 
 const instrumentStore = useInstrumentStore();
 
@@ -199,45 +199,23 @@ const processExcelData = async () => {
   isProcessing.value = true;
   message.value = "";
   try {
-    const instruments = excelData.value.map((row) => ({
-      category: row.category || row.Category || "",
-      section: row.section || row.Section || "",
-      serial_model:
-        parseInt(
-          row.serial_model || row["Serial/Model"] || row["Serial Model"] || "0",
-        ) || 0,
-      case_number:
-        parseInt(
-          row.case_number || row["Case Number"] || row["CaseNumber"] || "0",
-        ) || 0,
-      manufacturer: row.manufacturer || row.Manufacturer || "",
-      siths_id:
-        parseInt(row.siths_id || row["SITHS ID"] || row["SITHS_ID"] || "0") ||
-        0,
-      condition: row.condition || row.Condition || "Good",
-      year_purchased:
-        parseInt(
-          row.year_purchased ||
-            row["Year Purchased"] ||
-            row["YearPurchased"] ||
-            "0",
-        ) || 0,
-      price: parseInt(row.price || row["Price"] || row["Price"] || "0") || 0,
-      retired: (row.retired || row.Retired || "Active") === "Retired",
-      barcode: parseInt(row.barcode || row.Barcode || "0") || 0,
-      notes: row.notes || row.Notes || "",
-      location: row.location || row.Location || "",
-      description: row.description || row.Description || "",
-      assignments: [],
-      repair_needed: "",
-      repair_date: new Date(),
-      repair_notes: "",
-      requested_by: "",
-      assigned_to: "",
-      assigned_date: new Date(),
-      return_date: undefined,
-      open: false,
-    }));
+    const instruments = excelData.value.map(row => ({
+      category: row.category || row.Category || '',
+      section: row.section || row.Section || '',
+      serial_model: parseInt(row.serial_model || row['Serial/Model'] || row['Serial Model'] || '0') || 0,
+      case_number: parseInt(row.case_number || row['Case Number'] || row['CaseNumber'] || '0') || 0,
+      manufacturer: row.manufacturer || row.Manufacturer || '',
+      siths_id: parseInt(row.siths_id || row['SITHS ID'] || row['SITHS_ID'] || '0') || 0,
+      condition: row.condition || row.Condition || 'Good',
+      year_purchased: parseInt(row.year_purchased || row['Year Purchased'] || row['YearPurchased'] || '0') || 0,
+      price: parseInt(row.price || row['Price'] || row['Price'] || '0') || 0,
+      retired: (row.retired || row.Retired || 'Active') === 'Retired',
+      barcode: parseInt(row.barcode || row.Barcode || '0') || 0,
+      notes: row.notes || row.Notes || '',
+      location: row.location || row.Location || '',
+      description: row.description || row.Description || '',
+      assignments: []
+    }))
 
     const validInstruments = instruments.filter(
       (instrument) =>
@@ -252,7 +230,10 @@ const processExcelData = async () => {
       return;
     }
 
-    await instrumentStore.bulkUploadInstruments(validInstruments);
+    await instrumentStore.bulkUploadInstruments(validInstruments as any)
+
+    showMessage(`Successfully uploaded ${validInstruments.length} instruments to the database!`, 'success')
+    clearFile()
 
     showMessage(
       `Successfully uploaded ${validInstruments.length} instruments to the database!`,
