@@ -23,6 +23,7 @@
       <div v-if="activeTab === 'excel'" class="mb-8">
         <div class="flex items-center justify-between mb-4">
           <h2 class="text-xl font-semibold text-gray-700">Upload Excel File of Instruments</h2>
+          <templateDownload />
         </div>
         <div
           class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-grey-blue transition-colors">
@@ -72,6 +73,7 @@ import { ref } from 'vue'
 import * as ExcelJS from 'exceljs'
 import { useInstrumentStore } from '@/stores/instrumentStore'
 import manuallyAdd from './manuallyAdd.vue'
+import templateDownload from './templateDownload.vue'
 
 const instrumentStore = useInstrumentStore()
 
@@ -167,15 +169,7 @@ const processExcelData = async () => {
       notes: row.notes || row.Notes || '',
       location: row.location || row.Location || '',
       description: row.description || row.Description || '',
-      assignments: [],
-      repair_needed: '',
-      repair_date: new Date(),
-      repair_notes: '',
-      requested_by: '',
-      assigned_to: '',
-      assigned_date: new Date(),
-      return_date: undefined,
-      open: false
+      assignments: []
     }))
 
     const validInstruments = instruments.filter(instrument =>
@@ -189,7 +183,7 @@ const processExcelData = async () => {
       return
     }
 
-    await instrumentStore.bulkUploadInstruments(validInstruments)
+    await instrumentStore.bulkUploadInstruments(validInstruments as any)
 
     showMessage(`Successfully uploaded ${validInstruments.length} instruments to the database!`, 'success')
     clearFile()
