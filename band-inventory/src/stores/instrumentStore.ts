@@ -71,7 +71,7 @@ export const useInstrumentStore = defineStore("instrument", () => {
   const bulkUploadInstruments = async (instruments: Omit<Instrument, 'id'>[]) => {
     const { data, error } = await supabase
       .from('instruments')
-      .insert(instruments)
+      .upsert(instruments, { onConflict: 'barcode' })
       .select()
 
     if (error) {
