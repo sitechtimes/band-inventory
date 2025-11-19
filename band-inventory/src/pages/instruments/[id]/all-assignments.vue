@@ -11,7 +11,7 @@
       <h1 class="text-2xl font-bold mt-4 mb-6">All Assignments</h1>
       <div
         v-for="assignment in detailStore.assignments"
-        class="border border-gray-300 p-4 rounded-lg"
+        class="border border-gray-300 p-4 rounded-lg mb-2"
       >
         <div class="flex justify-between items-start mb-3">
           <span
@@ -26,10 +26,10 @@
           >
             Closed
           </span>
-          <!-- <button v-if="assignment.open" @click="chosenIndex(index)"
+          <button v-if="assignment.open" @click="showDeleteModal=!showDeleteModal"
                 class="text-red-500 hover:text-red-800 text-md font-bold underline">
                 Close Assignment
-              </button> -->
+              </button>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
@@ -79,10 +79,11 @@
 
 <script setup lang="ts">
 import { useRoute, useRouter } from "vue-router";
-import { useDetailStore } from "@/stores/detailStore";
+import { useDetailStore, type AssignmentInfo } from "@/stores/detailStore";
 import { storeToRefs } from "pinia";
 import { ref, onMounted } from "vue";
 import navBar from "@/components/navBar.vue";
+import { assign } from "unplugin-vue-router/runtime";
 
 const detailStore = useDetailStore();
 const instrument = storeToRefs(detailStore).shownInstrument;
@@ -106,14 +107,28 @@ const formatDate = (dateInput: string | Date) => {
 //   i.value = index;
 //   showDeleteModal.value = true;
 // }
+
+const editAssignment = (assignment: AssignmentInfo) => {
+  editingRepair.value = true;
+  editingRepairId.value = repair.id ?? null;
+  editForm.value = {
+    repair_date: repair.repair_date,
+    repair_needed: repair.repair_needed,
+    requested_by: repair.requested_by,
+    repair_notes: repair.repair_notes || "",
+    completed: Boolean(repair.completed),
+  };
+};
+
 async function confirmCloseAssignment() {
   if (instrument.value && i.value !== undefined) {
-    await detailStore.closeAssignment(
-      instrument.value.assignments[i.value].assigned_to,
-      instrument.value.assignments[i.value].assigned_date,
-      instrument.value.assignments[i.value].return_date,
-      Number(id),
-    );
+    // await detailStore.closeAssignment(
+    //   instrument.value.assignments[i.value].assigned_to,
+    //   instrument.value.assignments[i.value].assigned_date,
+    //   instrument.value.assignments[i.value].return_date,
+    //   Number(id),
+    // );
+    await detailStore.closeAssignment()
     showDeleteModal.value = false;
   }
 }

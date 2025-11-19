@@ -137,41 +137,62 @@ export const useDetailStore = defineStore("details", () => {
     assignments.value = data || [];
   };
 
-  const closeAssignment = async (
-    name: string,
-    time_assigned: Date | string,
-    time_return: Date | undefined,
-    id_number: number,
+  // const closeAssignment = async (
+  //   name: string,
+  //   time_assigned: Date | string,
+  //   time_return: Date | undefined,
+  //   id_number: number,
+  // ) => {
+  //   const { data } = await supabase
+  //     .from("instruments")
+  //     .select("assignments")
+  //     .eq("id", id_number)
+  //     .single();
+
+  //   const oldAssignments = data?.assignments.filter(
+  //     (assignment: any) => !assignment.assigned_to.includes(name),
+  //   );
+  //   const closeAssignment = {
+  //     assigned_to: `${name}`,
+  //     assigned_date: `${time_assigned}`,
+  //     return_date: `${time_return}`,
+  //     open: false,
+  //   };
+
+  //   const { error } = await supabase
+  //     .from("instruments")
+  //     .update({
+  //       assignments: [closeAssignment, ...(oldAssignments || [])],
+  //     })
+  //     .eq("id", id_number)
+  //     .select();
+  //   if (error) {
+  //     throw new Error(error.message);
+  //   }
+
+  //   await getDetails(id_number);
+  // };
+
+  const closeAssignment = async(
+    assignmentId: number, 
+    updatedAssignment: Partial<AssignmentInfo>
   ) => {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("instruments")
-      .select("assignments")
-      .eq("id", id_number)
+      .update(updatedAssignment)
+      .eq("id", assignmentId)
       .single();
 
-    const oldAssignments = data?.assignments.filter(
-      (assignment: any) => !assignment.assigned_to.includes(name),
-    );
-    const closeAssignment = {
-      assigned_to: `${name}`,
-      assigned_date: `${time_assigned}`,
-      return_date: `${time_return}`,
-      open: false,
-    };
-
-    const { error } = await supabase
-      .from("instruments")
-      .update({
-        assignments: [closeAssignment, ...(oldAssignments || [])],
-      })
-      .eq("id", id_number)
-      .select();
     if (error) {
       throw new Error(error.message);
     }
 
-    await getDetails(id_number);
-  };
+    if (shownInstrument.value){
+      await getAllAssignments(shownInstrument.value.id)
+    }
+
+    return data
+  }
 
   const getRepairs = async (instrumentId: number) => {
     const { data: instrumentData, error: instrumentError } = await supabase
