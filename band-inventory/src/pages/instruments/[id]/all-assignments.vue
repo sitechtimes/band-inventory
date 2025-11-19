@@ -26,7 +26,7 @@
           >
             Closed
           </span>
-          <button v-if="assignment.open" @click="showDeleteModal=!showDeleteModal"
+          <button v-if="assignment.open" @click="showDeleteModal=!showDeleteModal; editAssignment(assignment)"
                 class="text-red-500 hover:text-red-800 text-md font-bold underline">
                 Close Assignment
               </button>
@@ -67,7 +67,7 @@
           Go Back
         </button>
         <button
-          @click="confirmCloseAssignment"
+          @click="closeAssignment"
           class="px-4 py-2 bg-red-400 rounded hover:bg-red-500"
         >
           Confirm
@@ -86,7 +86,7 @@ import navBar from "@/components/navBar.vue";
 import { assign } from "unplugin-vue-router/runtime";
 
 const detailStore = useDetailStore();
-const instrument = storeToRefs(detailStore).shownInstrument;
+//const instrument = storeToRefs(detailStore).shownInstrument;
 const route = useRoute();
 const router = useRouter();
 const i = ref();
@@ -103,34 +103,25 @@ const formatDate = (dateInput: string | Date) => {
   date.setDate(date.getDate() + 1);
   return date.toLocaleDateString();
 };
-// function chosenIndex(index: number) {
-//   i.value = index;
-//   showDeleteModal.value = true;
-// }
+
+
+const closedAssignment = ref({})
+const editingAssignmentId = ref<number | null>(null)
 
 const editAssignment = (assignment: AssignmentInfo) => {
-  editingRepair.value = true;
-  editingRepairId.value = repair.id ?? null;
-  editForm.value = {
-    repair_date: repair.repair_date,
-    repair_needed: repair.repair_needed,
-    requested_by: repair.requested_by,
-    repair_notes: repair.repair_notes || "",
-    completed: Boolean(repair.completed),
+  editingAssignmentId.value = assignment.id ?? null;
+  closedAssignment.value = {
+    asisgned_to: assignment.assigned_to,
+    assigned_date: assignment.assigned_date,
+    return_date: assignment.return_date,
+    open: false
   };
 };
 
-async function confirmCloseAssignment() {
-  if (instrument.value && i.value !== undefined) {
-    // await detailStore.closeAssignment(
-    //   instrument.value.assignments[i.value].assigned_to,
-    //   instrument.value.assignments[i.value].assigned_date,
-    //   instrument.value.assignments[i.value].return_date,
-    //   Number(id),
-    // );
-    await detailStore.closeAssignment()
+async function closeAssignment() {
+    await detailStore.closeAssignment(editingAssignmentId.value, closedAssignment.value)
+    editingAssignmentId.value = null
     showDeleteModal.value = false;
-  }
 }
 </script>
 

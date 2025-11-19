@@ -26,6 +26,7 @@ interface Instrument extends RepairInfo, AssignmentInfo, PurchaseInfo {
 }
 
 export type AssignmentInfo = {
+  id?: number;
   assigned_to: string;
   assigned_date: Date;
   return_date: Date | undefined;
@@ -175,11 +176,10 @@ export const useDetailStore = defineStore("details", () => {
 
   const closeAssignment = async(
     assignmentId: number, 
-    updatedAssignment: Partial<AssignmentInfo>
   ) => {
     const { data, error } = await supabase
-      .from("instruments")
-      .update(updatedAssignment)
+      .from("assignments")
+      .update({ 'open': false })
       .eq("id", assignmentId)
       .single();
 
@@ -190,7 +190,7 @@ export const useDetailStore = defineStore("details", () => {
     if (shownInstrument.value){
       await getAllAssignments(shownInstrument.value.id)
     }
-
+  
     return data
   }
 

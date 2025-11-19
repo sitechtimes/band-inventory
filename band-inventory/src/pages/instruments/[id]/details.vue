@@ -8,8 +8,8 @@
   </div>
   <div>
     <navBar></navBar>
-    <instrumentDetails></instrumentDetails>
-    <InstrumentManagement></InstrumentManagement>
+    <InstrumentDetails></InstrumentDetails>
+    <InstrumentManagement :instrument-id="route.params.id"></InstrumentManagement>
     <RepairSection :instrument-id="route.params.id"></RepairSection>
     <InstrumentLocations></InstrumentLocations>
   </div>

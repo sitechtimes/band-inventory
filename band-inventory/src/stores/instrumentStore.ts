@@ -5,12 +5,6 @@ import { supabase } from "@/lib/supabaseClient";
 import type { time } from "console";
 import { assign } from "unplugin-vue-router/runtime";
 
-interface AssignmentInfo {
-  assigned_to: string;
-  assigned_date: Date | null;
-  return_date: Date | null;
-  open: true | false;
-}
 
 interface Instrument extends RepairInfo, AssignmentInfo, PurchaseInfo {
   id: number;
@@ -24,7 +18,6 @@ interface Instrument extends RepairInfo, AssignmentInfo, PurchaseInfo {
   barcode: number;
   notes: string;
   description: string;
-  assignments: AssignmentInfo[];
 }
 
 type RepairInfo = {
@@ -33,6 +26,12 @@ type RepairInfo = {
   repair_notes: string;
   requested_by: string;
 };
+type AssignmentInfo = {
+  assigned_to: string;
+  assigned_date: Date | null;
+  return_date: Date | null;
+  open: true | false;
+}
 
 type PurchaseInfo = {
   year_purchased: number;

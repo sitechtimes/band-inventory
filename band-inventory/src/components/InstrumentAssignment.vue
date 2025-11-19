@@ -11,7 +11,7 @@
         </button>
       </div>
       <div
-        v-if="!instrument?.assignments || instrument.assignments.length === 0"
+        v-if="!detailStore?.assignments || detailStore.assignments.length === 0"
         class="bg-sky-50 border-1 rounded-sm border-gray p-8 text-center space-y-2"
       >
         <p>No current assignments on this instrument</p>
@@ -19,11 +19,16 @@
           Adding assignments to your instruments will help you keep track of who
           has the instrument
         </p>
+        <RouterLink
+          :to="`/instruments/${id}/management/assignment`"
+          class="btn btn-md bg-green-800 text-white"
+          >+ Add an assignment</RouterLink
+        >
       </div>
       <div v-else class="space-y-4">
         <div
-          v-for="(assignment, index) in recentAssignments"
-          :key="index"
+          v-for="(assignment) in recentAssignments"
+          :key="assignment.id"
           class="border border-gray-300 p-4 rounded-lg"
         >
           <div class="flex justify-between items-start mb-3">
@@ -41,7 +46,7 @@
             </span>
             <button
               v-if="assignment.open"
-              @click="chosenIndex(assignment.originalIndex)"
+              @click="showDeleteModal = true, editingAssignmentID.value = assignment.id"
               class="text-red-500 hover:text-red-800 text-md font-bold underline"
             >
               Close Assignment
@@ -62,12 +67,12 @@
             </div>
           </div>
         </div>
-        <div v-if="instrument.assignments.length > 3" class="text-center mt-6">
+        <div v-if="detailStore.assignments.length > 3" class="text-center mt-6">
           <button
             @click="viewAllAssignments"
             class="px-6 py-2 bg-deep-green text-white rounded-sm hover:bg-emerald-900 font-semibold"
           >
-            View All Assignments ({{ instrument.assignments.length }})
+            View All Assignments ({{ detailStore.assignments.length }})
           </button>
         </div>
       </div>
@@ -93,7 +98,7 @@
           Go Back
         </button>
         <button
-          @click="confirmCloseAssignment"
+          @click="closeAssignment(editingAssignmentID)"
           class="px-4 py-2 bg-red-400 rounded hover:bg-red-500"
         >
           Confirm
@@ -105,23 +110,22 @@
 
 <script setup lang="ts">
 import { useRoute, useRouter } from "vue-router";
-import { useDetailStore } from "@/stores/detailStore";
-import { useInstrumentStore } from "@/stores/instrumentStore";
-import { storeToRefs } from "pinia";
+import { useDetailStore, type AssignmentInfo } from "@/stores/detailStore";
 import { ref, computed } from "vue";
+import { assign } from "unplugin-vue-router/runtime";
 
+const showDeleteModal = ref(false);
 const detailStore = useDetailStore();
-const instrument = storeToRefs(detailStore).shownInstrument;
 const route = useRoute();
 const router = useRouter();
-const i = ref();
-const showDeleteModal = ref(false);
 
 const { id } = route.params as { id: number };
 
+const editingAssignmentID = ref()
+
 const recentAssignments = computed(() => {
-  if (!instrument.value?.assignments) return [];
-  return instrument.value.assignments
+  if (!detailStore?.assignments) return [];
+  return detailStore.assignments
     .map((assignment, index) => ({ ...assignment, originalIndex: index }))
     .slice(0, 3);
 });
@@ -132,11 +136,6 @@ const formatDate = (dateInput: string | Date) => {
   return date.toLocaleDateString();
 };
 
-function chosenIndex(index: number) {
-  i.value = index;
-  showDeleteModal.value = true;
-}
-
 function addAssignment() {
   router.push({ path: `/instruments/${id}/management/assignment` });
 }
@@ -145,16 +144,10 @@ function viewAllAssignments() {
   router.push({ path: `/instruments/${id}/all-assignments` });
 }
 
-async function confirmCloseAssignment() {
-  if (instrument.value && i.value !== undefined) {
-    await detailStore.closeAssignment(
-      instrument.value.assignments[i.value].assigned_to,
-      instrument.value.assignments[i.value].assigned_date,
-      instrument.value.assignments[i.value].return_date,
-      id,
-    );
+
+async function closeAssignment() {
+    await detailStore.closeAssignment(editingAssignmentID.value)
     showDeleteModal.value = false;
-  }
 }
 </script>
 
