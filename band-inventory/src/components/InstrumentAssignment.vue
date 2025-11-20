@@ -46,7 +46,7 @@
             </span>
             <button
               v-if="assignment.open"
-              @click="showDeleteModal = true, editingAssignmentID.value = assignment.id"
+              @click="del(assignment)"
               class="text-red-500 hover:text-red-800 text-md font-bold underline"
             >
               Close Assignment
@@ -98,7 +98,7 @@
           Go Back
         </button>
         <button
-          @click="closeAssignment(editingAssignmentID)"
+          @click="closeAssignment"
           class="px-4 py-2 bg-red-400 rounded hover:bg-red-500"
         >
           Confirm
@@ -122,6 +122,11 @@ const router = useRouter();
 const { id } = route.params as { id: number };
 
 const editingAssignmentID = ref()
+
+function del(assignment: AssignmentInfo){
+  showDeleteModal.value = !showDeleteModal.value
+  editingAssignmentID.value = assignment.id
+}
 
 const recentAssignments = computed(() => {
   if (!detailStore?.assignments) return [];
@@ -147,6 +152,7 @@ function viewAllAssignments() {
 
 async function closeAssignment() {
     await detailStore.closeAssignment(editingAssignmentID.value)
+    editingAssignmentID.value = 0
     showDeleteModal.value = false;
 }
 </script>
