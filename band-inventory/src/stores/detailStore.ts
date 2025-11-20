@@ -112,6 +112,29 @@ export const useDetailStore = defineStore("details", () => {
 
   //   await getDetails(id_number);
   // };
+  const addAssignment = async(
+    name: string,
+    time_assigned: Date,
+    time_return: Date | undefined,
+    serial_model: number,
+  ) => {
+    const { data, error } = await supabase
+      .from("assignments")
+      .insert({ 
+        'assigned_to': name,
+        'assigned_date': time_assigned,
+        'return_date': time_return,
+        'serial_model': serial_model,
+        'open': true
+       })
+
+    if (error){
+      throw new Error(error.message)
+    }
+
+    return data
+  }
+
 
   const getAllAssignments = async (instrumentId: number) => {
     const { data: instrumentData, error: instrumentError } = await supabase
@@ -295,6 +318,7 @@ export const useDetailStore = defineStore("details", () => {
     shownInstrument,
     repairs,
     assignments,
+    addAssignment,
     closeAssignment,
     getAllAssignments,
   };

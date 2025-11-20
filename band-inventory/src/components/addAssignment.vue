@@ -60,23 +60,23 @@ const route = useRoute();
 const router = useRouter();
 const { id } = route.params as { id: number };
 
-// async function updateAssigned() {
-//   try {
-//     if (assigned.value !== "") {
-//       await detailStore.changeAssignment(
-//         assigned.value,
-//         assigned_date,
-//         return_date.value,
-//         id,
-//       );
-//       router.push({ path: `/instruments/${id}/details` });
-//     } else {
-//       alert("Please enter in an assignment.");
-//     }
-//   } catch (error) {
-//     alert(error);
-//   }
-// }
+async function updateAssigned() {
+  try {
+    if (assigned.value !== "") {
+      await detailStore.addAssignment(
+        assigned.value,
+        assigned_date,
+        return_date.value,
+        12345,
+      );
+      router.push({ path: `/instruments/${id}/details` });
+    } else {
+      alert("Please enter in an assignment.");
+    }
+  } catch (error) {
+    alert(error);
+  }
+}
 </script>
 
 <style scoped></style>
