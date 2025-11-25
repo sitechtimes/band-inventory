@@ -19,7 +19,7 @@
       </div>
       <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal px-1">
-          <li class="text-lg italic "><router-link to="/home">Home</router-link></li>
+          <li class="text-lg italic "><router-link to="/home">Instruments</router-link></li>
           <li>
             <p class="text-lg">|</p>
           </li>

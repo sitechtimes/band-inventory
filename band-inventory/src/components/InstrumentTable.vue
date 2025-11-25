@@ -2,10 +2,12 @@
   <div class="p-6">
     <div class="flex justify-between items-center mt-2 mb-8">
       <h1 class="font-bold text-2xl">Instrument Listing</h1>
-      <button @click="showFilterPopup = true"
-        class="btn bg-deep-green hover:bg-emerald-900 text-white px-7 py-2 rounded-md flex items-center gap-2">
-        Filter
-      </button>
+      <div class="flex flex-row">
+        <button @click="showFilterPopup = true"
+          class="btn bg-deep-green hover:bg-emerald-900 text-white px-7 py-2 rounded-md flex items-center gap-2">
+          Filter
+        </button class="btn bg-deep-green hover:bg-emerald-900 text-white px-7 py-2 rounded-md flex items-center gap-2"><router-link to="/add-instrument">Add Instruments</router-link>
+      </div>
     </div>
     <div class="flex items-center gap-3 mb-3" v-if="selectedIds.length > 0">
       <span class="text-sm">{{ selectedIds.length }} selected</span>
