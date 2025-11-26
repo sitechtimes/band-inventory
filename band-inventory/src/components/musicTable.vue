@@ -72,8 +72,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useMusicStore } from '@/stores/musicStore'
-import router from "@/routes/index";
-import instrumentFilter from './instrumentFilter.vue';
 
 const musicStore = useMusicStore()
 const errorMessage = ref("")
@@ -81,12 +79,6 @@ const selectedIds = ref<number[]>([])
 const isDeleting = ref(false)
 const showConfirmModal = ref(false)
 const showFilterPopup = ref(false)
-
-const closePopup = (event: Event) => {
-  if (event.target === event.currentTarget) {
-    showFilterPopup.value = false
-  }
-}
 
 const getMusic = async () => {
   try {

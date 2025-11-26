@@ -6,7 +6,8 @@
         <button @click="showFilterPopup = true"
           class="btn bg-deep-green hover:bg-emerald-900 text-white px-7 py-2 rounded-md flex items-center gap-2">
           Filter
-        </button class="btn bg-deep-green hover:bg-emerald-900 text-white px-7 py-2 rounded-md flex items-center gap-2"><router-link to="/add-instrument">Add Instruments</router-link>
+      </button>
+        <button class="btn ml-4 bg-deep-green hover:bg-emerald-900 text-white px-7 py-2 rounded-md flex items-center gap-2"><router-link to="/add-instrument">Add Instruments</router-link></button>
       </div>
     </div>
     <div class="flex items-center gap-3 mb-3" v-if="selectedIds.length > 0">
