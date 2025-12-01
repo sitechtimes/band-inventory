@@ -4,12 +4,6 @@ import type { Ref } from "vue";
 import { supabase } from "@/lib/supabaseClient";
 import { assign } from "unplugin-vue-router/runtime";
 
-// interface AssignmentInfo {
-//   assigned_to: string;
-//   assigned_date: Date;
-//   return_date: Date | undefined;
-//   open: true | false;
-// }
 
 interface Instrument extends RepairInfo, AssignmentInfo, PurchaseInfo {
   id: number;
@@ -22,7 +16,7 @@ interface Instrument extends RepairInfo, AssignmentInfo, PurchaseInfo {
   barcode: number;
   notes: string;
   description: string;
-  //assignments: AssignmentInfo[];
+  assigned_to: string;
 }
 
 export type AssignmentInfo = {
@@ -112,6 +106,19 @@ export const useDetailStore = defineStore("details", () => {
 
   //   await getDetails(id_number);
   // };
+  const updateAssignedTo = async(
+    assignee: string,
+    serial: number
+  ) => {
+    await supabase
+      .from("instruments")
+      .update({
+        assigned_to: assignee
+      })
+      .eq("serial_model", serial)
+      .select()
+  }
+
   const addAssignment = async(
     name: string,
     time_assigned: Date,
@@ -127,6 +134,8 @@ export const useDetailStore = defineStore("details", () => {
         'serial_model': serial_model,
         'open': true
        })
+       
+       updateAssignedTo(name, serial_model)
 
     if (error){
       throw new Error(error.message)

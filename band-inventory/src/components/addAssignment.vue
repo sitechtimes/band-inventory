@@ -29,7 +29,7 @@
       <div>
         <button
           class="btn mx-2 md:ml-4 my-4 align-self-center bg-deep-green text-white"
-          @click="updateAssigned"
+          @click="addAssignment"
         >
           Assign Instrument
         </button>
@@ -45,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import type { Ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useDetailStore } from "@/stores/detailStore";
@@ -54,20 +54,22 @@ import { storeToRefs } from "pinia";
 const assigned: Ref<string> = ref("");
 const return_date: Ref<Date | undefined> = ref(undefined);
 const assigned_date = new Date();
+const assignmentSerial: Ref<number | undefined> = ref(0)
 const detailStore = useDetailStore();
 
 const route = useRoute();
 const router = useRouter();
 const { id } = route.params as { id: number };
 
-async function updateAssigned() {
+async function addAssignment() {
   try {
-    if (assigned.value !== "") {
+    assignmentSerial.value = detailStore.shownInstrument?.serial_model
+    if (assigned.value !== "" && assignmentSerial.value !== undefined) {
       await detailStore.addAssignment(
         assigned.value,
         assigned_date,
         return_date.value,
-        12345,
+        assignmentSerial.value
       );
       router.push({ path: `/instruments/${id}/details` });
     } else {
@@ -77,6 +79,7 @@ async function updateAssigned() {
     alert(error);
   }
 }
+
 </script>
 
 <style scoped></style>

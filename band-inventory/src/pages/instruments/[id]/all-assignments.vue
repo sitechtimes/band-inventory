@@ -11,6 +11,7 @@
       <h1 class="text-2xl font-bold mt-4 mb-6">All Assignments</h1>
       <div
         v-for="assignment in detailStore.assignments"
+        :key="assignment.id"
         class="border border-gray-300 p-4 rounded-lg mb-2"
       >
         <div class="flex justify-between items-start mb-3">
@@ -26,7 +27,7 @@
           >
             Closed
           </span>
-          <button v-if="assignment.open" @click="showDeleteModal=!showDeleteModal; editAssignment(assignment)"
+          <button v-if="assignment.open" @click="del(assignment)"
                 class="text-red-500 hover:text-red-800 text-md font-bold underline">
                 Close Assignment
               </button>
@@ -86,13 +87,19 @@ import navBar from "@/components/navBar.vue";
 import { assign } from "unplugin-vue-router/runtime";
 
 const detailStore = useDetailStore();
-//const instrument = storeToRefs(detailStore).shownInstrument;
 const route = useRoute();
 const router = useRouter();
 const i = ref();
 const showDeleteModal = ref(false);
 
 const { id } = route.params as { id: string };
+
+const editingAssignmentID = ref()
+
+function del(assignment: AssignmentInfo){
+  showDeleteModal.value = !showDeleteModal.value
+  editingAssignmentID.value = assignment.id
+}
 
 onMounted(async () => {
   await detailStore.getDetails(Number(id));
@@ -104,23 +111,9 @@ const formatDate = (dateInput: string | Date) => {
   return date.toLocaleDateString();
 };
 
-
-const closedAssignment = ref({})
-const editingAssignmentId = ref<number | null>(null)
-
-const editAssignment = (assignment: AssignmentInfo) => {
-  editingAssignmentId.value = assignment.id ?? null;
-  closedAssignment.value = {
-    asisgned_to: assignment.assigned_to,
-    assigned_date: assignment.assigned_date,
-    return_date: assignment.return_date,
-    open: false
-  };
-};
-
 async function closeAssignment() {
-    await detailStore.closeAssignment(editingAssignmentId.value, closedAssignment.value)
-    editingAssignmentId.value = null
+    await detailStore.closeAssignment(editingAssignmentID.value)
+    editingAssignmentID.value = 0
     showDeleteModal.value = false;
 }
 </script>

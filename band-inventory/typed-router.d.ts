@@ -22,7 +22,6 @@ declare module 'vue-router/auto-routes' {
     '/add-instrument': RouteRecordInfo<'/add-instrument', '/add-instrument', Record<never, never>, Record<never, never>>,
     '/home': RouteRecordInfo<'/home', '/home', Record<never, never>, Record<never, never>>,
     '/instruments/[id]/all-assignments': RouteRecordInfo<'/instruments/[id]/all-assignments', '/instruments/:id/all-assignments', { id: ParamValue<true> }, { id: ParamValue<false> }>,
-    '/instruments/[id]/all-assignments2': RouteRecordInfo<'/instruments/[id]/all-assignments2', '/instruments/:id/all-assignments2', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/instruments/[id]/all-repairs': RouteRecordInfo<'/instruments/[id]/all-repairs', '/instruments/:id/all-repairs', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/instruments/[id]/details': RouteRecordInfo<'/instruments/[id]/details', '/instruments/:id/details', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/instruments/[id]/management/assignment': RouteRecordInfo<'/instruments/[id]/management/assignment', '/instruments/:id/management/assignment', { id: ParamValue<true> }, { id: ParamValue<false> }>,
