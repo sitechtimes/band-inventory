@@ -11,7 +11,6 @@
           </div>
           <ul tabindex="0" class="menu menu-sm dropdown-content bg-deep-blue rounded-box z-1 mt-3 w-52 p-2 shadow">
             <li><router-link to="/home">Home</router-link></li>
-            <li><router-link to="/add-instrument">Add Instruments</router-link></li>
             <li><router-link to="/music">Music</router-link></li>
           </ul>
         </div>
@@ -20,10 +19,6 @@
       <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal px-1">
           <li class="text-lg italic "><router-link to="/home">Instruments</router-link></li>
-          <li>
-            <p class="text-lg">|</p>
-          </li>
-          <li class="text-lg italic"><router-link to="/add-instrument">Add Instruments</router-link></li>
           <li>
             <p class="text-lg">|</p>
           </li>
@@ -38,9 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import router from "@/routes/index";
-import type { Ref } from "vue";
 import { supabase } from "@/lib/supabaseClient";
 import { RouterLink } from "vue-router";
 
