@@ -79,12 +79,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import { useInstrumentStore } from "@/stores/instrumentStore";
 import filterCategories from "./filterCategories.vue";
 import type { Ref } from "vue";
 import { storeToRefs } from "pinia";
-import { assign } from "unplugin-vue-router/runtime";
 
 const emit = defineEmits<{
   close: []
