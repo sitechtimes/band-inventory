@@ -27,5 +27,6 @@ declare module 'vue-router/auto-routes' {
     '/instruments/[id]/management/assignment': RouteRecordInfo<'/instruments/[id]/management/assignment', '/instruments/:id/management/assignment', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/instruments/[id]/management/location': RouteRecordInfo<'/instruments/[id]/management/location', '/instruments/:id/management/location', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/instruments/[id]/management/repair': RouteRecordInfo<'/instruments/[id]/management/repair', '/instruments/:id/management/repair', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    '/music': RouteRecordInfo<'/music', '/music', Record<never, never>, Record<never, never>>,
   }
 }
