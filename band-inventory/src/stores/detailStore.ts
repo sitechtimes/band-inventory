@@ -74,38 +74,43 @@ export const useDetailStore = defineStore("details", () => {
     shownInstrument.value = data;
   };
 
-  // const changeAssignment = async (
-  //   name: string,
-  //   time_assigned: Date,
-  //   time_return: Date | undefined,
-  //   id_number: number,
-  // ) => {
-  //   const { data } = await supabase
-  //     .from("instruments")
-  //     .select("assignments")
-  //     .eq("id", id_number)
-  //     .single();
+    const getAllAssignments = async (instrumentId: number) => {
+    const { data: instrumentData, error: instrumentError } = await supabase
+      .from("instruments")
+      .select("serial_model")
+      .eq("id", instrumentId)
+      .single();
 
-  //   const newAssignment = {
-  //     assigned_to: `${name}`,
-  //     assigned_date: `${time_assigned}`,
-  //     return_date: `${time_return}`,
-  //     open: true,
-  //   };
+    if (instrumentError) {
+      console.error("Error fetching instrument:", instrumentError);
+      return;
+    }
 
-  //   const { error } = await supabase
-  //     .from("instruments")
-  //     .update({
-  //       assignments: [newAssignment, ...(data?.assignments || [])],
-  //     })
-  //     .eq("id", id_number)
-  //     .select();
-  //   if (error) {
-  //     throw new Error(error.message);
-  //   }
+    const { data, error } = await supabase
+      .from("assignments")
+      .select("*")
+      .eq("serial_model", instrumentData.serial_model)
+      .order("assigned_date", { ascending: false });
 
-  //   await getDetails(id_number);
-  // };
+      console.log(data)
+    if (data!.length > 10){
+      const { error } = await supabase
+      .from('assignments')
+      .delete()
+      .eq('id', data![0].id)
+      .select()
+      if(error){
+        alert(error)
+      }
+    }
+
+    if (error) {
+      console.error("Error fetching assignments:", error);
+      return;
+    }
+    assignments.value = data || [];
+  };
+
   const updateAssignedTo = async(
     assignee: string,
     serial: number
@@ -144,67 +149,6 @@ export const useDetailStore = defineStore("details", () => {
     return data
   }
 
-
-  const getAllAssignments = async (instrumentId: number) => {
-    const { data: instrumentData, error: instrumentError } = await supabase
-      .from("instruments")
-      .select("serial_model")
-      .eq("id", instrumentId)
-      .single();
-
-    if (instrumentError) {
-      console.error("Error fetching instrument:", instrumentError);
-      return;
-    }
-
-    const { data, error } = await supabase
-      .from("assignments")
-      .select("*")
-      .eq("serial_model", instrumentData.serial_model)
-      .order("assigned_date", { ascending: true });
-
-    if (error) {
-      console.error("Error fetching assignments:", error);
-      return;
-    }
-    assignments.value = data || [];
-  };
-
-  // const closeAssignment = async (
-  //   name: string,
-  //   time_assigned: Date | string,
-  //   time_return: Date | undefined,
-  //   id_number: number,
-  // ) => {
-  //   const { data } = await supabase
-  //     .from("instruments")
-  //     .select("assignments")
-  //     .eq("id", id_number)
-  //     .single();
-
-  //   const oldAssignments = data?.assignments.filter(
-  //     (assignment: any) => !assignment.assigned_to.includes(name),
-  //   );
-  //   const closeAssignment = {
-  //     assigned_to: `${name}`,
-  //     assigned_date: `${time_assigned}`,
-  //     return_date: `${time_return}`,
-  //     open: false,
-  //   };
-
-  //   const { error } = await supabase
-  //     .from("instruments")
-  //     .update({
-  //       assignments: [closeAssignment, ...(oldAssignments || [])],
-  //     })
-  //     .eq("id", id_number)
-  //     .select();
-  //   if (error) {
-  //     throw new Error(error.message);
-  //   }
-
-  //   await getDetails(id_number);
-  // };
 
   const closeAssignment = async(
     assignmentId: number, 

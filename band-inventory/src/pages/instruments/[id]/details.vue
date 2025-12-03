@@ -27,9 +27,4 @@ import { RouterLink, useRoute } from "vue-router";
 const userStore = useUserStore();
 const route = useRoute();
 
-// async function limit(){
-//   if(){
-
-//   }
-// }
 </script>
