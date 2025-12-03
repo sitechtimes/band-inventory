@@ -92,7 +92,7 @@ export const useDetailStore = defineStore("details", () => {
       .eq("serial_model", instrumentData.serial_model)
       .order("assigned_date", { ascending: false });
 
-      console.log(data)
+    console.log(data)
     if (data!.length > 10){
       const { error } = await supabase
       .from('assignments')
@@ -187,10 +187,24 @@ export const useDetailStore = defineStore("details", () => {
       .eq("serial_model", instrumentData.serial_model)
       .order("repair_date", { ascending: false });
 
+     if (data!.length > 10){
+      const { error } = await supabase
+      .from('repairs')
+      .delete()
+      .eq('id', data![0].id)
+      .select()
+      if(error){
+        alert(error)
+      }
+    }
+      
     if (error) {
       console.error("Error fetching repairs:", error);
       return;
+      
     }
+
+    
 
     repairs.value = data || [];
   };
