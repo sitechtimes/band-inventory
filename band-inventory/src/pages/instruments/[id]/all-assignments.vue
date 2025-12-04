@@ -112,7 +112,7 @@ const formatDate = (dateInput: string | Date) => {
 };
 
 async function closeAssignment() {
-    await detailStore.closeAssignment(editingAssignmentID.value)
+    await detailStore.closeAssignment(editingAssignmentID.value, detailStore?.shownInstrument.serial_model)
     editingAssignmentID.value = 0
     showDeleteModal.value = false;
 }

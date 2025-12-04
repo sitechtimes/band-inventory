@@ -92,7 +92,6 @@ export const useDetailStore = defineStore("details", () => {
       .eq("serial_model", instrumentData.serial_model)
       .order("assigned_date", { ascending: false });
 
-    console.log(data)
     if (data!.length > 10){
       const { error } = await supabase
       .from('assignments')
@@ -112,13 +111,14 @@ export const useDetailStore = defineStore("details", () => {
   };
 
   const updateAssignedTo = async(
-    assignee: string,
     serial: number
   ) => {
+    const openedAssignments = assignments.value.filter((assignment) => assignment.open)
+    console.log(openedAssignments)
     await supabase
       .from("instruments")
       .update({
-        assigned_to: assignee
+        assigned_to: [openedAssignments]
       })
       .eq("serial_model", serial)
       .select()
@@ -140,7 +140,9 @@ export const useDetailStore = defineStore("details", () => {
         'open': true
        })
        
-       updateAssignedTo(name, serial_model)
+       assignments.value.push(data)
+
+       updateAssignedTo(serial_model)
 
     if (error){
       throw new Error(error.message)
@@ -152,6 +154,7 @@ export const useDetailStore = defineStore("details", () => {
 
   const closeAssignment = async(
     assignmentId: number, 
+    serial_model: number
   ) => {
     const { data, error } = await supabase
       .from("assignments")
@@ -166,7 +169,8 @@ export const useDetailStore = defineStore("details", () => {
     if (shownInstrument.value){
       await getAllAssignments(shownInstrument.value.id)
     }
-  
+    assignments.value = assignments.value.filter((assignment) => assignment.id === assignmentId)
+    updateAssignedTo(serial_model)
     return data
   }
 
