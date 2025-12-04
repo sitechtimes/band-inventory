@@ -64,7 +64,7 @@
             <td>{{ instrument.manufacturer }}</td>
             <td>{{ instrument.siths_id }}</td>
             <td>
-              <div v-for="name in instrument.assigned_to">
+              <div v-for="name in instrument.assigned_names">
                 {{ name }}
               </div>
               <!-- {{ instrument.assigned_to }} -->

@@ -69,7 +69,7 @@ async function addAssignment() {
         assigned.value,
         assigned_date,
         return_date.value,
-        assignmentSerial.value
+        assignmentSerial.value,
       );
       router.push({ path: `/instruments/${id}/details` });
     } else {

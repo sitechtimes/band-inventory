@@ -16,7 +16,7 @@ interface Instrument extends RepairInfo, AssignmentInfo, PurchaseInfo {
   barcode: number;
   notes: string;
   description: string;
-  assigned_to: string;
+  assigned_names: Array<string>;
 }
 
 export type AssignmentInfo = {
@@ -117,11 +117,10 @@ export const useDetailStore = defineStore("details", () => {
     const openedAssignments = assignmentData.value.filter((assignment) => assignment.open)
     const names = [] as Array<string>
     openedAssignments.forEach((assignment) => names.push(assignment.assigned_to))
-    console.log(openedAssignments)
     await supabase
       .from("instruments")
       .update({
-        assigned_to: [names]
+        assigned_names: names
       })
       .eq("serial_model", serial)
       .select()
@@ -133,7 +132,6 @@ export const useDetailStore = defineStore("details", () => {
     time_return: Date | undefined,
     serial_model: number,
   ) => {
-    
     const { data, error } = await supabase
       .from("assignments")
       .insert({ 
@@ -143,16 +141,16 @@ export const useDetailStore = defineStore("details", () => {
         'serial_model': serial_model,
         'open': true
        })
+       .select()
+       .single()
        
-      assignments.value.push(data)
-      updateAssignedTo(serial_model, assignments)
-       
-
+        assignments.value.push(data)
+        updateAssignedTo(serial_model, assignments)
+    
     if (error){
       throw new Error(error.message)
     }
 
-    return data
   }
 
 
@@ -213,8 +211,6 @@ export const useDetailStore = defineStore("details", () => {
       return;
       
     }
-
-    
 
     repairs.value = data || [];
   };

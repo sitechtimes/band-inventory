@@ -18,7 +18,7 @@ interface Instrument extends RepairInfo, AssignmentInfo, PurchaseInfo {
   barcode: number;
   notes: string;
   description: string;
-  assigned_to: string
+  assigned_names: Array<string>
 }
 
 type RepairInfo = {
