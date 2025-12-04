@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import type { Ref } from "vue";
+import type { Reactive, Ref } from "vue";
 import { supabase } from "@/lib/supabaseClient";
 import { assign } from "unplugin-vue-router/runtime";
 
@@ -23,7 +23,7 @@ export type AssignmentInfo = {
   id?: number;
   assigned_to: string;
   assigned_date: Date;
-  return_date: Date | undefined;
+  return_date: Date | null;
   open: true | false;
   serial_model: number;
 };
@@ -111,14 +111,17 @@ export const useDetailStore = defineStore("details", () => {
   };
 
   const updateAssignedTo = async(
-    serial: number
+    serial: number,
+    assignmentData: Ref<AssignmentInfo[]>
   ) => {
-    const openedAssignments = assignments.value.filter((assignment) => assignment.open)
+    const openedAssignments = assignmentData.value.filter((assignment) => assignment.open)
+    const names = [] as Array<string>
+    openedAssignments.forEach((assignment) => names.push(assignment.assigned_to))
     console.log(openedAssignments)
     await supabase
       .from("instruments")
       .update({
-        assigned_to: [openedAssignments]
+        assigned_to: [names]
       })
       .eq("serial_model", serial)
       .select()
@@ -130,6 +133,7 @@ export const useDetailStore = defineStore("details", () => {
     time_return: Date | undefined,
     serial_model: number,
   ) => {
+    
     const { data, error } = await supabase
       .from("assignments")
       .insert({ 
@@ -140,9 +144,9 @@ export const useDetailStore = defineStore("details", () => {
         'open': true
        })
        
-       assignments.value.push(data)
-
-       updateAssignedTo(serial_model)
+      assignments.value.push(data)
+      updateAssignedTo(serial_model, assignments)
+       
 
     if (error){
       throw new Error(error.message)
@@ -169,8 +173,10 @@ export const useDetailStore = defineStore("details", () => {
     if (shownInstrument.value){
       await getAllAssignments(shownInstrument.value.id)
     }
-    assignments.value = assignments.value.filter((assignment) => assignment.id === assignmentId)
-    updateAssignedTo(serial_model)
+    const openedAssignments: Ref<AssignmentInfo[]> = ref([])
+    openedAssignments.value = assignments.value.filter((assignment) => assignment.id !== assignmentId)
+    
+    updateAssignedTo(serial_model, openedAssignments)
     return data
   }
 
