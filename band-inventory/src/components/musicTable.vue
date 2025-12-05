@@ -23,7 +23,7 @@
             <th>Composer</th>
             <th>Arranger</th>
             <th>Level</th>
-            <th>NYSSMA_level</th>
+            <th>NYSSMA Level</th>
             <th>Notes</th>
           </tr>
         </thead>
@@ -33,7 +33,7 @@
             <td>{{ music.title }}</td>
             <td>{{ music.category }}</td>
             <td>{{ music.number }}</td>
-            <td>{{ music.scanned }}</td>
+            <td>{{ music.scanned ? 'Yes' : 'No' }}</td>
             <td>{{ music.composer }}</td>
             <td>{{ music.arranger }}</td>
             <td>{{ music.level }}</td>
@@ -45,15 +45,15 @@
     </div>
     <div v-if="showFilterPopup"
       class="fixed inset-0 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50" @click="closePopup">
-      <div class="border-2 border-gray-200 bg-white rounded-lg p-6 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto"
+      <div class="border-2 border-gray-200 bg-white rounded-lg p-6 max-w-4xl w-full mx-4 max-h-[90vh] overflow-visible"
         @click.stop>
         <div class="flex justify-between items-center mb-4">
-          <h2 class="text-xl font-bold">Filter Instruments</h2>
+          <h2 class="text-xl font-bold">Filter Music</h2>
           <button @click="showFilterPopup = false" class="text-gray-600 hover:text-gray-800 hover:cursor-pointer">
             Close
           </button>
         </div>
-        <instrumentFilter @close="showFilterPopup = false" />
+        <musicFilter @close="showFilterPopup = false" />
       </div>
     </div>
     <div v-if="showConfirmModal"
@@ -84,6 +84,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useMusicStore } from '@/stores/musicStore'
+import musicFilter from './musicFilter.vue'
 
 const musicStore = useMusicStore()
 const errorMessage = ref("")
