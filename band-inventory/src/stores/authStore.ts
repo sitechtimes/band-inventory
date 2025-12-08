@@ -14,5 +14,18 @@ export const useUserStore = defineStore("auth", () => {
     });
   };
 
-  return { user, login };
+  const changeEmail = async(newEmail:string) => {
+    const {error} = await supabase.auth.updateUser({
+      email: newEmail,
+    })
+
+    if(error){
+      alert(error)
+    } else {
+      user.value = newEmail
+    }
+    
+  }
+
+  return { user, login, changeEmail };
 });

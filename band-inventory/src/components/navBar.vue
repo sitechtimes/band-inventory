@@ -26,7 +26,8 @@
         </ul>
       </div>
       <div class="navbar-end">
-        <a class="btn mr-4" @click="signOut">Sign Out</a>
+        <router-link to="/profile"><img src="/user.svg" class="w-1/12"></router-link>
+        <!-- <a class="btn mr-4" @click="signOut">Sign Out</a> -->
       </div>
     </div>
   </div>
