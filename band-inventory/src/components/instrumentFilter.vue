@@ -4,70 +4,63 @@
        <filterCategories
         :title="'category'"
         :id="'category'"
-        :placeholder="'category (ex: Violin)'"
+        :placeholder="'Category (ex: Violin)'"
         v-model="category"
       />
 
       <filterCategories
         :title="'section'"
         :id="'section'"
-        :placeholder="'section (ex: Strings)'"
+        :placeholder="'Section (ex: Strings)'"
         v-model="section"
       />
 
       <filterCategories
         :title="'serial model'"
         :id="'serial_model'"
-        :placeholder="'serial model'"
+        :placeholder="'Serial model'"
         v-model="serial_model"
       />
 
       <filterCategories
         :title="'case number'"
         :id="'case_number'"
-        :placeholder="'case number'"
+        :placeholder="'Case number'"
         v-model="case_number"
       />
 
       <filterCategories
         :title="'manufacturer'"
         :id="'manufacturer'"
-        :placeholder="'manufacturer'"
+        :placeholder="'Manufacturer'"
         v-model="manufacturer"
       />
 
       <filterCategories
         :title="'siths id'"
         :id="'siths_id'"
-        :placeholder="'siths id'"
+        :placeholder="'SITHS ID'"
         v-model="siths_id"
-      />
-
-      <filterCategories
-        :title="'assigned to'"
-        :id="'assigned_to'"
-        :placeholder="'assigned to'"
-        v-model="assigned_to"
       />
 
       <filterCategories
         :title="'condition'"
         :id="'condition'"
-        :placeholder="'condition'"
+        :placeholder="'Condition'"
         v-model="condition"
       />
 
       <filterCategories
         :title="'year purchased'"
         :id="'year_purchased'"
-        :placeholder="'year purchased'"
+        :placeholder="'Year purchased'"
         v-model="year_purchased"
       />
 
       <filterCategories
         :title="'barcode'"
         :id="'barcode'"
-        :placeholder="'barcode'"
+        :placeholder="'Barcode'"
         v-model="barcode"
       />
     </div>
@@ -98,7 +91,6 @@ const serial_model: Ref<number | undefined> = ref();
 const case_number: Ref<number | undefined> = ref();
 const manufacturer: Ref<string> = ref("");
 const siths_id: Ref<number | undefined> = ref();
-const assigned_to: Ref<string> = ref("");
 const condition: Ref<string> = ref("");
 const year_purchased: Ref<number | undefined> = ref();
 const barcode: Ref<number | undefined> = ref();
@@ -116,20 +108,12 @@ async function filter() {
         manufacturer.value.charAt(0).toUpperCase() +
           manufacturer.value.slice(1) ||
       instrument.siths_id === Number(siths_id.value) ||
-      (instrument.assigned_to && instrument.assigned_to.toLowerCase() == assigned_to.value.toLowerCase()) ||
       instrument.condition ===
         condition.value.charAt(0).toUpperCase() + condition.value.slice(1) ||
       instrument.year_purchased == Number(year_purchased.value) ||
       instrument.barcode == Number(barcode.value),
   );
   showedInstruments.value = [];
-  if (assigned_to.value != "") {
-    allInstruments.value.forEach((instrument) => {
-      if (instrument.assigned_to && instrument.assigned_to.includes(assigned_to.value)) {
-        showedInstruments.value.push(instrument);
-      }
-  })
-    }
   filteredInstruments.forEach((instrument) => showedInstruments.value.push(instrument))
   emit('close')
 }
@@ -142,7 +126,6 @@ async function reset() {
   category.value =
     section.value =
     manufacturer.value =
-    assigned_to.value =
     condition.value =
       "";
   serial_model.value =

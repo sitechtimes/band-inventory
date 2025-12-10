@@ -1,5 +1,5 @@
 <template>
-  <div class="dropdown" :class="{ 'dropdown-open': isOpen }" @mouseenter="isOpen = true" @mouseleave="isOpen = false">
+  <div class="dropdown" :class="{ 'dropdown-open': isOpen }" @mouseclick="isOpen = true" @mouseleave="isOpen = false">
     <div 
       tabindex="0" 
       role="button" 

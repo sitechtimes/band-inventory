@@ -4,44 +4,44 @@
       <filterCategories
         :title="'title'"
         :id="'title'"
-        :placeholder="'title of music piece'"
+        :placeholder="'Title of music piece'"
         v-model="title"
       />
       <filterCategories
         :title="'category'"
         :id="'category'"
-        :placeholder="'category (belongs to band, strings, jazz band, etc)'"
+        :placeholder="'Category'"
         v-model="category"
       />
       <filterCategories
         :title="'number'"
         :id="'number'"
-        :placeholder="'number of piece (ex: S001)'"
+        :placeholder="'Number of piece'"
         v-model="number"
       />
       <filterDropdown
         :title="'scanned'"
         :id="'scanned'"
-        :placeholder="'scanned (yes or no)'"
+        :placeholder="'Scanned (yes or no)'"
         :options="scannedOptions"
         v-model="scanned"
       />
       <filterCategories
         :title="'composer'"
         :id="'composer'"
-        :placeholder="'composer name'"
+        :placeholder="'Composer name'"
         v-model="composer"
       />
       <filterCategories
         :title="'arranger'"
         :id="'arranger'"
-        :placeholder="'arranger name'"
+        :placeholder="'Arranger name'"
         v-model="arranger"
       />
       <filterDropdown
         :title="'level'"
         :id="'level'"
-        :placeholder="'level of piece (ex: ME, E VE)'"
+        :placeholder="'Level of piece (ex: ME, E VE)'"
         :options="levelOptions"
         v-model="level"
       />
