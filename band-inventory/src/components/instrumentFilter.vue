@@ -1,7 +1,7 @@
 <template>
   <div class="inputContainer flex flex-col">
     <div class="inputFields flex flex-wrap gap-y-3 gap-x-3 p-4">
-       <filterCategories
+      <filterCategories
         :title="'category'"
         :id="'category'"
         :placeholder="'Category (ex: Violin)'"
@@ -65,8 +65,18 @@
       />
     </div>
     <div class="p-4 flex flex-wrap gap-x-4 border-t border-gray-200 bg-gray-50">
-      <button class="btn bg-deep-green hover:bg-emerald-900 text-white px-6 py-2 rounded-md" @click="filter">Apply Filter</button>
-      <button class="btn bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-md" @click="reset">Reset</button>
+      <button
+        class="btn bg-deep-green hover:bg-emerald-900 text-white px-6 py-2 rounded-md"
+        @click="filter"
+      >
+        Apply Filter
+      </button>
+      <button
+        class="btn bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-md"
+        @click="reset"
+      >
+        Reset
+      </button>
     </div>
   </div>
 </template>
@@ -79,11 +89,11 @@ import type { Ref } from "vue";
 import { storeToRefs } from "pinia";
 
 const emit = defineEmits<{
-  close: []
-}>()
+  close: [];
+}>();
 
-const instrumentStore = useInstrumentStore()
-const { allInstruments, showedInstruments } = storeToRefs(instrumentStore)
+const instrumentStore = useInstrumentStore();
+const { allInstruments, showedInstruments } = storeToRefs(instrumentStore);
 
 const category: Ref<string> = ref("");
 const section: Ref<string> = ref("");
@@ -98,24 +108,42 @@ const barcode: Ref<number | undefined> = ref();
 async function filter() {
   const filteredInstruments = allInstruments.value.filter(
     (instrument) =>
-      instrument.category ===
-        category.value.charAt(0).toUpperCase() + category.value.slice(1) ||
-      instrument.section ===
-        section.value.charAt(0).toUpperCase() + section.value.slice(1) ||
-      instrument.serial_model === Number(serial_model.value) ||
-      instrument.case_number === Number(case_number.value) ||
-      instrument.manufacturer ===
-        manufacturer.value.charAt(0).toUpperCase() +
-          manufacturer.value.slice(1) ||
-      instrument.siths_id === Number(siths_id.value) ||
-      instrument.condition ===
-        condition.value.charAt(0).toUpperCase() + condition.value.slice(1) ||
-      instrument.year_purchased == Number(year_purchased.value) ||
-      instrument.barcode == Number(barcode.value),
+      (category.value === "" ||
+        (instrument.category &&
+          instrument.category
+            .toLowerCase()
+            .includes(category.value.toLowerCase()))) &&
+      (section.value === "" ||
+        (instrument.section &&
+          instrument.section
+            .toLowerCase()
+            .includes(instrument.section.toLowerCase()))) &&
+      (serial_model.value === undefined ||
+        instrument.serial_model === Number(serial_model.value)) &&
+      (case_number.value === undefined ||
+        instrument.case_number === Number(case_number.value)) &&
+      (manufacturer.value === "" ||
+        (instrument.manufacturer &&
+          instrument.manufacturer
+            .toLowerCase()
+            .includes(manufacturer.value.toLowerCase()))) &&
+      (siths_id.value === undefined ||
+        instrument.siths_id === Number(siths_id.value)) &&
+      (condition.value === "" ||
+        (instrument.condition &&
+          instrument.condition
+            .toLowerCase()
+            .includes(condition.value.toLowerCase()))) &&
+      (year_purchased.value === undefined ||
+        instrument.year_purchased === Number(year_purchased.value)) &&
+      (barcode.value === undefined ||
+        instrument.barcode === Number(barcode.value)),
   );
   showedInstruments.value = [];
-  filteredInstruments.forEach((instrument) => showedInstruments.value.push(instrument))
-  emit('close')
+  filteredInstruments.forEach((instrument) =>
+    showedInstruments.value.push(instrument),
+  );
+  emit("close");
 }
 
 async function reset() {
@@ -123,11 +151,7 @@ async function reset() {
   allInstruments.value.forEach((instrument) =>
     showedInstruments.value.push(instrument),
   );
-  category.value =
-    section.value =
-    manufacturer.value =
-    condition.value =
-      "";
+  category.value = section.value = manufacturer.value = condition.value = "";
   serial_model.value =
     case_number.value =
     siths_id.value =

@@ -18,7 +18,7 @@
             <th class="w-10"><input type="checkbox" :checked="allChecked" @change="toggleAll" /></th>
             <th>Title</th>
             <th>Category</th>
-            <th>Number</th>
+            <th>Serial ID</th>
             <th>Scanned</th>
             <th>Composer</th>
             <th>Arranger</th>
@@ -32,7 +32,7 @@
             <td><input type="checkbox" @click.stop :value="music.id" v-model="selectedIds" /></td>
             <td>{{ music.title }}</td>
             <td>{{ music.category }}</td>
-            <td>{{ music.number }}</td>
+            <td>{{ music.serial_id }}</td>
             <td>{{ music.scanned ? 'Yes' : 'No' }}</td>
             <td>{{ music.composer }}</td>
             <td>{{ music.arranger }}</td>

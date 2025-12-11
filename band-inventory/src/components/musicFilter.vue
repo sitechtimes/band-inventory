@@ -14,10 +14,10 @@
         v-model="category"
       />
       <filterCategories
-        :title="'number'"
-        :id="'number'"
-        :placeholder="'Number of piece'"
-        v-model="number"
+        :title="'serial_id'"
+        :id="'serial_id'"
+        :placeholder="'Serial ID'"
+        v-model="serial_id"
       />
       <filterDropdown
         :title="'scanned'"
@@ -87,7 +87,7 @@ const { allMusic, shownMusic } = storeToRefs(musicStore)
 
 const title: Ref<string> = ref("");
 const category: Ref<string> = ref("");
-const number: Ref<number | undefined> = ref();
+const serial_id: Ref<string> = ref("");
 const scanned: Ref<boolean | string> = ref("");
 const composer: Ref<string> = ref("");
 const arranger: Ref<string> = ref("");
@@ -118,7 +118,7 @@ async function filter() {
     (music) =>
       (title.value === "" || (music.title && music.title.toLowerCase().includes(title.value.toLowerCase()))) &&
       (category.value === "" || (music.category && music.category.toLowerCase().includes(category.value.toLowerCase()))) &&
-      (number.value === undefined || music.number === Number(number.value)) &&
+      (serial_id.value === "" || (music.serial_id && music.serial_id.toLowerCase().includes(serial_id.value.toLowerCase()))) &&
       (scanned.value === "" || music.scanned === scanned.value) &&
       (composer.value === "" || (music.composer && music.composer.toLowerCase().includes(composer.value.toLowerCase()))) &&
       (arranger.value === "" || (music.arranger && music.arranger.toLowerCase().includes(arranger.value.toLowerCase()))) &&
@@ -135,13 +135,13 @@ async function reset() {
   allMusic.value.forEach((music) => shownMusic.value.push(music));
   title.value =
     category.value =
+    serial_id.value =
     composer.value =
     arranger.value =
     level.value =
     NYSSMA_level.value =
     scanned.value =
       "";
-  number.value = undefined;
 }
 </script>
 
