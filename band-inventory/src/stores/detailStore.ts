@@ -91,12 +91,13 @@ export const useDetailStore = defineStore("details", () => {
       .select("*")
       .eq("serial_model", instrumentData.serial_model)
       .order("assigned_date", { ascending: false });
+      console.log(data)
 
     if (data!.length > 10){
       const { error } = await supabase
       .from('assignments')
       .delete()
-      .eq('id', data![0].id)
+      .eq('id', data![10].id)
       .select()
       if(error){
         alert(error)
@@ -199,7 +200,7 @@ export const useDetailStore = defineStore("details", () => {
       const { error } = await supabase
       .from('repairs')
       .delete()
-      .eq('id', data![0].id)
+      .eq('id', data![10].id)
       .select()
       if(error){
         alert(error)
