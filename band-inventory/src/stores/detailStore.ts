@@ -145,13 +145,13 @@ export const useDetailStore = defineStore("details", () => {
        .select()
        .single()
        
-        assignments.value.push(data)
-        updateAssignedTo(serial_model, assignments)
-    
-    if (error){
+        if (error){
       throw new Error(error.message)
-    }
-
+    } else {
+ assignments.value.push(data)
+        updateAssignedTo(serial_model, assignments)
+    } 
+    
   }
 
 
