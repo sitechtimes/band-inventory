@@ -281,6 +281,8 @@ export const useDetailStore = defineStore("details", () => {
       throw new Error(error.message);
     }
 
+  
+
     await getDetails(id);
   };
   return {
