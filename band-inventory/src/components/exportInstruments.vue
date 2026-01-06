@@ -1,6 +1,6 @@
 <template>
   <button @click="exportToExcel"
-    class="btn ml-4 bg-grey-blue hover:bg-deep-blue text-white px-4 py-2 rounded-md flex items-center gap-2">
+    class="btn ml-4 bg-deep-green hover:bg-emerald-900 text-white px-4 py-2 rounded-md flex items-center gap-2">
     Export Instruments
   </button>
 </template>

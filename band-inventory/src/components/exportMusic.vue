@@ -1,6 +1,6 @@
 <template>
   <button @click="exportToExcel"
-    class="btn ml-4 bg-grey-blue hover:bg-deep-blue text-white px-4 py-2 rounded-md flex items-center gap-2">
+    class="btn ml-4 bg-deep-green hover:bg-emerald-900 text-white px-4 py-2 rounded-md flex items-center gap-2">
     Export Music
   </button>
 </template>
@@ -20,7 +20,7 @@ const exportToExcel = async () => {
     worksheet.columns = [
       { header: 'Title', key: 'title', width: 30 },
       { header: 'Category', key: 'category', width: 15 },
-      { header: 'Number', key: 'number', width: 12 },
+      { header: 'Serial ID', key: 'serial_id', width: 12 },
       { header: 'Scanned', key: 'scanned', width: 12 },
       { header: 'Composer', key: 'composer', width: 20 },
       { header: 'Arranger', key: 'arranger', width: 20 },
@@ -35,7 +35,7 @@ const exportToExcel = async () => {
       worksheet.addRow({
         title: music.title || '',
         category: music.category || '',
-        number: music.number || '',
+        serial_id: music.serial_id || '',
         scanned: music.scanned ? 'Yes' : 'No',
         composer: music.composer || '',
         arranger: music.arranger || '',

@@ -5,8 +5,8 @@ import { supabase } from "@/lib/supabaseClient";
 
 interface AssignmentInfo {
   assigned_to: string;
-  assigned_date: Date | null;
-  return_date: Date | null;
+  assigned_date: string | Date;
+  return_date: Date | undefined;
   open: true | false;
 }
 
