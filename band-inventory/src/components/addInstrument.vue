@@ -168,8 +168,7 @@ const processExcelData = async () => {
       barcode: parseInt(row.barcode || row.Barcode || '0') || 0,
       notes: row.notes || row.Notes || '',
       location: row.location || row.Location || '',
-      description: row.description || row.Description || '',
-      assignments: []
+      description: row.description || row.Description || ''
     }))
 
     const validInstruments = instruments.filter(instrument =>
