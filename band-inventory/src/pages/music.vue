@@ -1,5 +1,10 @@
 <template>
-  <div>
+  <div v-if="!userStore.user">
+    <span>You don't have access to this page. Please sign in
+      <RouterLink to="/" class="underline text-blue-600">here</RouterLink>
+    </span>
+  </div>
+  <div v-else>
     <navBar />
     <musicTable />
   </div>
@@ -14,4 +19,3 @@ const userStore = useUserStore();
 </script>
 
 <style></style>
-
