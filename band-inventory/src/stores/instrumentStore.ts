@@ -5,13 +5,6 @@ import { supabase } from "@/lib/supabaseClient";
 import type { time } from "console";
 import { assign } from "unplugin-vue-router/runtime";
 
-interface AssignmentInfo {
-  assigned_to: string;
-  assigned_date: Date | null;
-  return_date: Date | null;
-  open: true | false;
-}
-
 interface Instrument extends RepairInfo, AssignmentInfo, PurchaseInfo {
   id: number;
   category: string;
@@ -24,7 +17,7 @@ interface Instrument extends RepairInfo, AssignmentInfo, PurchaseInfo {
   barcode: number;
   notes: string;
   description: string;
-  assignments: AssignmentInfo[];
+  assigned_names: Array<string>;
 }
 
 type RepairInfo = {
@@ -32,6 +25,12 @@ type RepairInfo = {
   repair_date: Date | null;
   repair_notes: string;
   requested_by: string;
+};
+type AssignmentInfo = {
+  assigned_to: string;
+  assigned_date: Date | null;
+  return_date: Date | null;
+  open: true | false;
 };
 
 type PurchaseInfo = {
@@ -44,7 +43,7 @@ type PurchaseInfo = {
 export const useInstrumentStore = defineStore("instrument", () => {
   const allInstruments: Ref<Instrument[]> = ref([]);
   const showedInstruments: Ref<Instrument[]> = ref([]);
-  const idInstrument = ref<Instrument>();
+  const assignmentAll: Ref<boolean> = ref(false)
 
   const getInstruments = async () => {
     const { data, error } = await supabase.from("instruments").select();
@@ -56,43 +55,53 @@ export const useInstrumentStore = defineStore("instrument", () => {
   };
 
   const deleteInstruments = async (ids: number[]) => {
-    if (!ids || ids.length === 0) return
-    const { error } = await supabase
-      .from('instruments')
-      .delete()
-      .in('id', ids)
+    if (!ids || ids.length === 0) return;
+    const { error } = await supabase.from("instruments").delete().in("id", ids);
     if (error) {
-      throw new Error(error.message)
+      throw new Error(error.message);
     }
-    allInstruments.value = allInstruments.value.filter(i => !ids.includes(i.id))
-    showedInstruments.value = showedInstruments.value.filter(i => !ids.includes(i.id))
-  }
+    allInstruments.value = allInstruments.value.filter(
+      (i) => !ids.includes(i.id),
+    );
+    showedInstruments.value = showedInstruments.value.filter(
+      (i) => !ids.includes(i.id),
+    );
+  };
 
-  const bulkUploadInstruments = async (instruments: Omit<Instrument, 'id'>[]) => {
+  const bulkUploadInstruments = async (
+    instruments: Omit<Instrument, "id">[],
+  ) => {
     const { data, error } = await supabase
-      .from('instruments')
-      .upsert(instruments, { onConflict: 'barcode' })
-      .select()
+      .from("instruments")
+      .upsert(instruments, { onConflict: "barcode" })
+      .select();
 
     if (error) {
       throw new Error(error.message);
     }
-    await getInstruments()
-    return data
-  }
-  const addSingleInstrument = async (instrument: Omit<Instrument, 'id'>) => {
+    await getInstruments();
+    return data;
+  };
+  const addSingleInstrument = async (instrument: Omit<Instrument, "id">) => {
     const { data, error } = await supabase
-      .from('instruments')
+      .from("instruments")
       .insert([instrument])
-      .select()
+      .select();
 
     if (error) {
       throw new Error(error.message);
     }
-    await getInstruments()
-    return data
-  }
+    await getInstruments();
+    return data;
+  };
 
-  return { allInstruments, getInstruments, showedInstruments, bulkUploadInstruments, addSingleInstrument, idInstrument, deleteInstruments }
-
-}); 
+  return {
+    allInstruments,
+    getInstruments,
+    showedInstruments,
+    bulkUploadInstruments,
+    addSingleInstrument,
+    deleteInstruments,
+    assignmentAll
+  };
+});
