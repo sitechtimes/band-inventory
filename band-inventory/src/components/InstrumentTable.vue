@@ -9,7 +9,6 @@
         >
           Filter
         </button>
-        <button class="btn ml-4 bg-deep-green hover:bg-emerald-900 text-white px-7 py-2 rounded-md flex items-center gap-2"><router-link to="/add-instrument">Add Instruments</router-link></button>
         <exportInstruments />
         <button
           class="btn ml-4 bg-deep-green hover:bg-emerald-900 text-white px-7 py-2 rounded-md flex items-center gap-2"
@@ -142,8 +141,8 @@
 import { ref, computed, onMounted } from "vue";
 import { useInstrumentStore } from "@/stores/instrumentStore";
 import router from "@/routes/index";
-import instrumentFilter from './instrumentFilter.vue';
-import exportInstruments from './exportInstruments.vue';
+import instrumentFilter from "./instrumentFilter.vue";
+import exportInstruments from "./exportInstruments.vue";
 
 const instrumentStore = useInstrumentStore();
 const errorMessage = ref("");
