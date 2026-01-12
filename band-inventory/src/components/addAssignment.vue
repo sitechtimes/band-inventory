@@ -54,7 +54,7 @@ import { storeToRefs } from "pinia";
 const assigned: Ref<string> = ref("");
 const return_date: Ref<Date | undefined> = ref(undefined);
 const assigned_date = new Date();
-const assignmentSerial: Ref<number | undefined> = ref(0)
+const assignmentSerial: Ref<number | undefined> = ref(0);
 const detailStore = useDetailStore();
 
 const route = useRoute();
@@ -63,7 +63,7 @@ const { id } = route.params as { id: number };
 
 async function addAssignment() {
   try {
-    assignmentSerial.value = detailStore.shownInstrument?.serial_model
+    assignmentSerial.value = detailStore.shownInstrument?.serial_model;
     if (assigned.value !== "" && assignmentSerial.value !== undefined) {
       await detailStore.addAssignment(
         assigned.value,
@@ -79,7 +79,6 @@ async function addAssignment() {
     alert(error);
   }
 }
-
 </script>
 
 <style scoped></style>

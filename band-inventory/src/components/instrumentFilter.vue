@@ -117,18 +117,22 @@ const barcode: Ref<number | undefined> = ref();
 async function filter() {
   const filteredInstruments = allInstruments.value.filter(
     (instrument) =>
-      instrument.category.charAt(0).toUpperCase() + instrument.category.slice(1) ===
+      instrument.category.charAt(0).toUpperCase() +
+        instrument.category.slice(1) ===
         category.value.charAt(0).toUpperCase() + category.value.slice(1) ||
-      instrument.section.charAt(0).toUpperCase() + instrument.section.slice(1) ===
+      instrument.section.charAt(0).toUpperCase() +
+        instrument.section.slice(1) ===
         section.value.charAt(0).toUpperCase() + section.value.slice(1) ||
       instrument.serial_model === Number(serial_model.value) ||
       instrument.case_number === Number(case_number.value) ||
-      instrument.manufacturer.charAt(0).toUpperCase() + instrument.manufacturer.slice(1) ===
+      instrument.manufacturer.charAt(0).toUpperCase() +
+        instrument.manufacturer.slice(1) ===
         manufacturer.value.charAt(0).toUpperCase() +
           manufacturer.value.slice(1) ||
       instrument.siths_id === Number(siths_id.value) ||
       //instrument.assigned_names.includes(assigned_name.value.toLowerCase()) ||
-      instrument.condition.charAt(0).toUpperCase() + instrument.condition.slice(1) ===
+      instrument.condition.charAt(0).toUpperCase() +
+        instrument.condition.slice(1) ===
         condition.value.charAt(0).toUpperCase() + condition.value.slice(1) ||
       instrument.year_purchased == Number(year_purchased.value) ||
       instrument.barcode == Number(barcode.value),
@@ -146,7 +150,6 @@ async function filter() {
     showedInstruments.value.push(instrument),
   );
 
-  
   emit("close");
 }
 

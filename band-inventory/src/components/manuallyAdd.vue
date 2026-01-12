@@ -229,15 +229,15 @@ const submitInstrument = async () => {
       retired: formData.retired === "Retired",
       barcode: formData.barcode || 0,
       notes: formData.notes.trim(),
-      location: '',
-      description: '',
-      assignments: []
-    }
+      location: "",
+      description: "",
+      assignments: [],
+    };
 
-    await instrumentStore.addSingleInstrument(instrumentData as any)
+    await instrumentStore.addSingleInstrument(instrumentData as any);
 
-    showMessage('Instrument added successfully', 'success')
-    resetForm()
+    showMessage("Instrument added successfully", "success");
+    resetForm();
 
     showMessage("Instrument added successfully", "success");
     resetForm();

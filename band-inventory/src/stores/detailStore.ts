@@ -4,7 +4,6 @@ import type { Reactive, Ref } from "vue";
 import { supabase } from "@/lib/supabaseClient";
 import { assign } from "unplugin-vue-router/runtime";
 
-
 interface Instrument extends RepairInfo, AssignmentInfo, PurchaseInfo {
   id: number;
   category: string;
@@ -74,7 +73,7 @@ export const useDetailStore = defineStore("details", () => {
     shownInstrument.value = data;
   };
 
-    const getAllAssignments = async (instrumentId: number) => {
+  const getAllAssignments = async (instrumentId: number) => {
     const { data: instrumentData, error: instrumentError } = await supabase
       .from("instruments")
       .select("serial_model")
@@ -91,16 +90,16 @@ export const useDetailStore = defineStore("details", () => {
       .select("*")
       .eq("serial_model", instrumentData.serial_model)
       .order("assigned_date", { ascending: false });
-      console.log(data)
+    console.log(data);
 
-    if (data!.length > 10){
+    if (data!.length > 10) {
       const { error } = await supabase
-      .from('assignments')
-      .delete()
-      .eq('id', data![10].id)
-      .select()
-      if(error){
-        alert(error)
+        .from("assignments")
+        .delete()
+        .eq("id", data![10].id)
+        .select();
+      if (error) {
+        alert(error);
       }
     }
 
@@ -111,23 +110,27 @@ export const useDetailStore = defineStore("details", () => {
     assignments.value = data || [];
   };
 
-  const updateAssignedTo = async(
+  const updateAssignedTo = async (
     serial: number,
-    assignmentData: Ref<AssignmentInfo[]>
+    assignmentData: Ref<AssignmentInfo[]>,
   ) => {
-    const openedAssignments = assignmentData.value.filter((assignment) => assignment.open)
-    const names = [] as Array<string>
-    openedAssignments.forEach((assignment) => names.push(assignment.assigned_to))
+    const openedAssignments = assignmentData.value.filter(
+      (assignment) => assignment.open,
+    );
+    const names = [] as Array<string>;
+    openedAssignments.forEach((assignment) =>
+      names.push(assignment.assigned_to),
+    );
     await supabase
       .from("instruments")
       .update({
-        assigned_names: names
+        assigned_names: names,
       })
       .eq("serial_model", serial)
-      .select()
-  }
+      .select();
+  };
 
-  const addAssignment = async(
+  const addAssignment = async (
     name: string,
     time_assigned: Date,
     time_return: Date | undefined,
@@ -135,33 +138,31 @@ export const useDetailStore = defineStore("details", () => {
   ) => {
     const { data, error } = await supabase
       .from("assignments")
-      .insert({ 
-        'assigned_to': name,
-        'assigned_date': time_assigned,
-        'return_date': time_return,
-        'serial_model': serial_model,
-        'open': true
-       })
-       .select()
-       .single()
-       
-        if (error){
-      throw new Error(error.message)
+      .insert({
+        assigned_to: name,
+        assigned_date: time_assigned,
+        return_date: time_return,
+        serial_model: serial_model,
+        open: true,
+      })
+      .select()
+      .single();
+
+    if (error) {
+      throw new Error(error.message);
     } else {
- assignments.value.push(data)
-        updateAssignedTo(serial_model, assignments)
-    } 
-    
-  }
+      assignments.value.push(data);
+      updateAssignedTo(serial_model, assignments);
+    }
+  };
 
-
-  const closeAssignment = async(
-    assignmentId: number, 
-    serial_model: number
+  const closeAssignment = async (
+    assignmentId: number,
+    serial_model: number,
   ) => {
     const { data, error } = await supabase
       .from("assignments")
-      .update({ 'open': false })
+      .update({ open: false })
       .eq("id", assignmentId)
       .single();
 
@@ -169,15 +170,17 @@ export const useDetailStore = defineStore("details", () => {
       throw new Error(error.message);
     }
 
-    if (shownInstrument.value){
-      await getAllAssignments(shownInstrument.value.id)
+    if (shownInstrument.value) {
+      await getAllAssignments(shownInstrument.value.id);
     }
-    const openedAssignments: Ref<AssignmentInfo[]> = ref([])
-    openedAssignments.value = assignments.value.filter((assignment) => assignment.id !== assignmentId)
-    
-    updateAssignedTo(serial_model, openedAssignments)
-    return data
-  }
+    const openedAssignments: Ref<AssignmentInfo[]> = ref([]);
+    openedAssignments.value = assignments.value.filter(
+      (assignment) => assignment.id !== assignmentId,
+    );
+
+    updateAssignedTo(serial_model, openedAssignments);
+    return data;
+  };
 
   const getRepairs = async (instrumentId: number) => {
     const { data: instrumentData, error: instrumentError } = await supabase
@@ -196,21 +199,20 @@ export const useDetailStore = defineStore("details", () => {
       .eq("serial_model", instrumentData.serial_model)
       .order("repair_date", { ascending: false });
 
-     if (data!.length > 10){
+    if (data!.length > 10) {
       const { error } = await supabase
-      .from('repairs')
-      .delete()
-      .eq('id', data![10].id)
-      .select()
-      if(error){
-        alert(error)
+        .from("repairs")
+        .delete()
+        .eq("id", data![10].id)
+        .select();
+      if (error) {
+        alert(error);
       }
     }
-      
+
     if (error) {
       console.error("Error fetching repairs:", error);
       return;
-      
     }
 
     repairs.value = data || [];
@@ -280,8 +282,6 @@ export const useDetailStore = defineStore("details", () => {
     if (error) {
       throw new Error(error.message);
     }
-
-  
 
     await getDetails(id);
   };

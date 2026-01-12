@@ -9,7 +9,9 @@
   <div>
     <navBar></navBar>
     <InstrumentDetails></InstrumentDetails>
-    <InstrumentManagement :instrument-id="route.params.id"></InstrumentManagement>
+    <InstrumentManagement
+      :instrument-id="route.params.id"
+    ></InstrumentManagement>
     <RepairSection :instrument-id="route.params.id"></RepairSection>
     <InstrumentLocations></InstrumentLocations>
   </div>
@@ -26,5 +28,4 @@ import { RouterLink, useRoute } from "vue-router";
 
 const userStore = useUserStore();
 const route = useRoute();
-
 </script>

@@ -5,7 +5,6 @@ import { supabase } from "@/lib/supabaseClient";
 import type { time } from "console";
 import { assign } from "unplugin-vue-router/runtime";
 
-
 interface Instrument extends RepairInfo, AssignmentInfo, PurchaseInfo {
   id: number;
   category: string;
@@ -18,7 +17,7 @@ interface Instrument extends RepairInfo, AssignmentInfo, PurchaseInfo {
   barcode: number;
   notes: string;
   description: string;
-  assigned_names: Array<string>
+  assigned_names: Array<string>;
 }
 
 type RepairInfo = {
@@ -32,7 +31,7 @@ type AssignmentInfo = {
   assigned_date: Date | null;
   return_date: Date | null;
   open: true | false;
-}
+};
 
 type PurchaseInfo = {
   year_purchased: number;
@@ -44,6 +43,7 @@ type PurchaseInfo = {
 export const useInstrumentStore = defineStore("instrument", () => {
   const allInstruments: Ref<Instrument[]> = ref([]);
   const showedInstruments: Ref<Instrument[]> = ref([]);
+  const assignmentAll: Ref<boolean> = ref(false)
 
   const getInstruments = async () => {
     const { data, error } = await supabase.from("instruments").select();
@@ -72,9 +72,9 @@ export const useInstrumentStore = defineStore("instrument", () => {
     instruments: Omit<Instrument, "id">[],
   ) => {
     const { data, error } = await supabase
-      .from('instruments')
-      .upsert(instruments, { onConflict: 'barcode' })
-      .select()
+      .from("instruments")
+      .upsert(instruments, { onConflict: "barcode" })
+      .select();
 
     if (error) {
       throw new Error(error.message);
@@ -102,5 +102,6 @@ export const useInstrumentStore = defineStore("instrument", () => {
     bulkUploadInstruments,
     addSingleInstrument,
     deleteInstruments,
+    assignmentAll
   };
 });
