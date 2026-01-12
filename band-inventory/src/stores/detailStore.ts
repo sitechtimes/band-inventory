@@ -3,13 +3,6 @@ import { ref } from "vue";
 import type { Ref } from "vue";
 import { supabase } from "@/lib/supabaseClient";
 
-interface AssignmentInfo {
-  assigned_to: string;
-  assigned_date: string | Date;
-  return_date: Date | undefined;
-  open: true | false;
-}
-
 interface Instrument extends RepairInfo, AssignmentInfo, PurchaseInfo {
   id: number;
   category: string;
@@ -21,8 +14,17 @@ interface Instrument extends RepairInfo, AssignmentInfo, PurchaseInfo {
   barcode: number;
   notes: string;
   description: string;
-  assignments: AssignmentInfo[];
+  assigned_names: Array<string>;
 }
+
+export type AssignmentInfo = {
+  id?: number;
+  assigned_to: string;
+  assigned_date: Date;
+  return_date: Date | null;
+  open: true | false;
+  serial_model: number;
+};
 
 export type RepairInfo = {
   id?: number;
@@ -51,10 +53,10 @@ interface RepairData {
   completed: boolean;
 }
 
-
 export const useDetailStore = defineStore("details", () => {
   const shownInstrument: Ref<Instrument | undefined> = ref();
   const repairs: Ref<RepairInfo[]> = ref([]);
+  const assignments: Ref<AssignmentInfo[]> = ref([]);
 
   const getDetails = async (id: number) => {
     const { data, error } = await supabase
@@ -70,111 +72,160 @@ export const useDetailStore = defineStore("details", () => {
     shownInstrument.value = data;
   };
 
-  const changeAssignment = async (
+  const getAllAssignments = async (instrumentId: number) => {
+    const { data: instrumentData, error: instrumentError } = await supabase
+      .from("instruments")
+      .select("serial_model")
+      .eq("id", instrumentId)
+      .single();
+
+    if (instrumentError) {
+      console.error("Error fetching instrument:", instrumentError);
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from("assignments")
+      .select("*")
+      .eq("serial_model", instrumentData.serial_model)
+      .order("assigned_date", { ascending: false });
+    console.log(data);
+
+    if (data!.length > 10) {
+      const { error } = await supabase
+        .from("assignments")
+        .delete()
+        .eq("id", data![10].id)
+        .select();
+      if (error) {
+        alert(error);
+      }
+    }
+
+    if (error) {
+      console.error("Error fetching assignments:", error);
+      return;
+    }
+    assignments.value = data || [];
+  };
+
+  const updateAssignedTo = async (
+    serial: number,
+    assignmentData: Ref<AssignmentInfo[]>,
+  ) => {
+    const openedAssignments = assignmentData.value.filter(
+      (assignment) => assignment.open,
+    );
+    const names = [] as Array<string>;
+    openedAssignments.forEach((assignment) =>
+      names.push(assignment.assigned_to),
+    );
+    await supabase
+      .from("instruments")
+      .update({
+        assigned_names: names,
+      })
+      .eq("serial_model", serial)
+      .select();
+  };
+
+  const addAssignment = async (
     name: string,
     time_assigned: Date,
     time_return: Date | undefined,
-    id_number: number,
+    serial_model: number,
   ) => {
-    const { data } = await supabase
-      .from("instruments")
-      .select("assignments")
-      .eq("id", id_number)
+    const { data, error } = await supabase
+      .from("assignments")
+      .insert({
+        assigned_to: name,
+        assigned_date: time_assigned,
+        return_date: time_return,
+        serial_model: serial_model,
+        open: true,
+      })
+      .select()
       .single();
 
-    const newAssignment = {
-      assigned_to: `${name}`,
-      assigned_date: `${time_assigned}`,
-      return_date: `${time_return}`,
-      open: true,
-    };
-
-    const { error } = await supabase
-      .from("instruments")
-      .update({
-        assignments: [newAssignment, ...(data?.assignments || [])],
-      })
-      .eq("id", id_number)
-      .select();
     if (error) {
       throw new Error(error.message);
+    } else {
+      assignments.value.push(data);
+      updateAssignedTo(serial_model, assignments);
     }
-    
-    await getDetails(id_number);
   };
 
   const closeAssignment = async (
-    name: string,
-    time_assigned: Date | string,
-    time_return: Date | undefined,
-    id_number: number,
+    assignmentId: number,
+    serial_model: number,
   ) => {
-    const { data } = await supabase
-      .from("instruments")
-      .select("assignments")
-      .eq("id", id_number)
+    const { data, error } = await supabase
+      .from("assignments")
+      .update({ open: false })
+      .eq("id", assignmentId)
       .single();
 
-    const oldAssignments = data?.assignments.filter(
-      (assignment: any) => !assignment.assigned_to.includes(name),
-    );
-    const closeAssignment = {
-      assigned_to: `${name}`,
-      assigned_date: `${time_assigned}`,
-      return_date: `${time_return}`,
-      open: false,
-    };
-
-    const { error } = await supabase
-      .from("instruments")
-      .update({
-        assignments: [closeAssignment, ...(oldAssignments || [])],
-      })
-      .eq("id", id_number)
-      .select();
     if (error) {
       throw new Error(error.message);
     }
-    
-    await getDetails(id_number);
+
+    if (shownInstrument.value) {
+      await getAllAssignments(shownInstrument.value.id);
+    }
+    const openedAssignments: Ref<AssignmentInfo[]> = ref([]);
+    openedAssignments.value = assignments.value.filter(
+      (assignment) => assignment.id !== assignmentId,
+    );
+
+    updateAssignedTo(serial_model, openedAssignments);
+    return data;
   };
 
   const getRepairs = async (instrumentId: number) => {
     const { data: instrumentData, error: instrumentError } = await supabase
-      .from('instruments')
-      .select('serial_model')
-      .eq('id', instrumentId)
+      .from("instruments")
+      .select("serial_model")
+      .eq("id", instrumentId)
       .single();
 
     if (instrumentError) {
-      console.error('Error fetching instrument:', instrumentError)
-      return
+      console.error("Error fetching instrument:", instrumentError);
+      return;
     }
     const { data, error } = await supabase
-      .from('repairs')
-      .select('*')
-      .eq('serial_model', instrumentData.serial_model)
-      .order('repair_date', { ascending: false })
+      .from("repairs")
+      .select("*")
+      .eq("serial_model", instrumentData.serial_model)
+      .order("repair_date", { ascending: false });
 
-    if (error) {
-      console.error('Error fetching repairs:', error)
-      return
+    if (data!.length > 10) {
+      const { error } = await supabase
+        .from("repairs")
+        .delete()
+        .eq("id", data![10].id)
+        .select();
+      if (error) {
+        alert(error);
+      }
     }
 
-    repairs.value = data || []
+    if (error) {
+      console.error("Error fetching repairs:", error);
+      return;
+    }
+
+    repairs.value = data || [];
   };
 
   const addRepair = async (repairData: RepairData) => {
-
     const { data: instrumentData, error: instrumentError } = await supabase
-      .from('instruments')
-      .select('serial_model')
-      .eq('id', repairData.instrument_id)
-      .single()
+      .from("instruments")
+      .select("serial_model")
+      .eq("id", repairData.instrument_id)
+      .single();
     if (instrumentError) {
-      throw new Error(instrumentError.message)
+      throw new Error(instrumentError.message);
     }
-
 
     const repairDataToInsert = {
       repair_date: repairData.repair_date,
@@ -182,53 +233,68 @@ export const useDetailStore = defineStore("details", () => {
       requested_by: repairData.requested_by,
       repair_notes: repairData.repair_notes,
       serial_model: instrumentData.serial_model,
-      completed: repairData.completed
-    }
+      completed: repairData.completed,
+    };
 
     const { data, error } = await supabase
-      .from('repairs')
+      .from("repairs")
       .insert([repairDataToInsert])
-      .select()
-
-    if (error) {
-      throw new Error(error.message)
-    }
-
-    if (shownInstrument.value) {
-      await getRepairs(shownInstrument.value.id)
-    }
-    return data
-  };
-
-  const updateRepair = async (repairId: number, updateData: Partial<RepairInfo>) => {
-    const { data, error } = await supabase
-      .from('repairs')
-      .update(updateData)
-      .eq('id', repairId)
-      .select()
-
-    if (error) {
-      throw new Error(error.message)
-    }
-
-    if (shownInstrument.value) {
-      await getRepairs(shownInstrument.value.id)
-    }
-
-    return data
-  };
-
-  const updateLocation = async (id: number, newLocation: string) => {
-    const { error } = await supabase
-      .from('instruments')
-      .update({ location: newLocation })
-      .eq('id', id);
+      .select();
 
     if (error) {
       throw new Error(error.message);
     }
 
-    await getDetails(id)
+    if (shownInstrument.value) {
+      await getRepairs(shownInstrument.value.id);
+    }
+    return data;
   };
-  return { getDetails, getRepairs, addRepair, updateRepair, updateLocation, shownInstrument, repairs, closeAssignment, changeAssignment }
+
+  const updateRepair = async (
+    repairId: number,
+    updateData: Partial<RepairInfo>,
+  ) => {
+    const { data, error } = await supabase
+      .from("repairs")
+      .update(updateData)
+      .eq("id", repairId)
+      .select();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    if (shownInstrument.value) {
+      await getRepairs(shownInstrument.value.id);
+    }
+
+    return data;
+  };
+
+  const updateLocation = async (id: number, newLocation: string) => {
+    const { error } = await supabase
+      .from("instruments")
+      .update({ location: newLocation })
+      .eq("id", id);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    await getDetails(id);
+  };
+  return {
+    getDetails,
+    getRepairs,
+    addRepair,
+    updateRepair,
+    updateLocation,
+    shownInstrument,
+    repairs,
+    assignments,
+    addAssignment,
+    closeAssignment,
+    getAllAssignments,
+  };
 });
