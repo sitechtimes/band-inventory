@@ -18,9 +18,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useDetailStore } from '@/stores/detailStore';
+import { computed, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useDetailStore } from "@/stores/detailStore";
 
 const route = useRoute();
 const router = useRouter();
