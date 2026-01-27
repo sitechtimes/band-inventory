@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import assignmentView from '@/components/assignmentView.vue';
 import { onMounted } from 'vue';
 import { useInstrumentStore } from '@/stores/instrumentStore';

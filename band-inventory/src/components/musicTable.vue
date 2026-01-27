@@ -8,6 +8,7 @@
       >
         Filter
       </button>
+      <exportMusic />
     </div>
     <div class="flex items-center gap-3 mb-3" v-if="selectedIds.length > 0">
       <span class="text-sm">{{ selectedIds.length }} selected</span>
@@ -104,6 +105,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useMusicStore } from '@/stores/musicStore'
 import musicFilter from './musicFilter.vue'
+import exportMusic from './exportMusic.vue'
 
 const musicStore = useMusicStore();
 const errorMessage = ref("");
