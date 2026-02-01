@@ -12,8 +12,6 @@
                 class="bg-sky-50 border-1 rounded-sm border-gray p-8 text-center space-y-2">
                 <p>No current repairs on this instrument</p>
                 <p class="font-semibold">Instruments in poor quality will need to have their repairs tracked.</p>
-                <RouterLink :to="`/instruments/${instrumentId}/management/repair`"
-                    class="btn btn-md bg-green-800 text-white">+ Add a repair</RouterLink>
             </div>
             <div v-else class="space-y-4">
                 <div v-for="repair in recentRepairs" :key="repair.id"
