@@ -43,7 +43,7 @@ type PurchaseInfo = {
 export const useInstrumentStore = defineStore("instrument", () => {
   const allInstruments: Ref<Instrument[]> = ref([]);
   const showedInstruments: Ref<Instrument[]> = ref([]);
-  const assignmentAll: Ref<boolean> = ref(false)
+  const assignmentAll: Ref<boolean> = ref(false);
 
   const getInstruments = async () => {
     const { data, error } = await supabase.from("instruments").select();
@@ -102,6 +102,6 @@ export const useInstrumentStore = defineStore("instrument", () => {
     bulkUploadInstruments,
     addSingleInstrument,
     deleteInstruments,
-    assignmentAll
+    assignmentAll,
   };
 });

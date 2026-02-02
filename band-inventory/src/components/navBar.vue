@@ -19,7 +19,10 @@
               />
             </svg>
           </div>
-          <ul tabindex="0" class="menu menu-sm dropdown-content bg-deep-blue rounded-box z-1 mt-3 w-52 p-2 shadow">
+          <ul
+            tabindex="0"
+            class="menu menu-sm dropdown-content bg-deep-blue rounded-box z-1 mt-3 w-52 p-2 shadow"
+          >
             <li><router-link to="/home">Instruments</router-link></li>
             <li><router-link to="/music">Music</router-link></li>
           </ul>
@@ -40,7 +43,11 @@
         </ul>
       </div>
       <div class="navbar-end">
-        <router-link to="/profile"><img src="/user.svg" class="w-1/12 place-self-end"></router-link>
+        <router-link to="/profile"
+          ><img
+            src="/user.svg"
+            class="w-1/5 md:w-1/12 lg:w-1/15 place-self-end"
+        /></router-link>
         <!-- <a class="btn mr-4" @click="signOut">Sign Out</a> -->
       </div>
     </div>

@@ -1,20 +1,18 @@
 <template>
   <div>
-    <assignmentView/>
+    <assignmentView />
   </div>
 </template>
 
-<script setup>
-import assignmentView from '@/components/assignmentView.vue';
-import { onMounted } from 'vue';
-import { useInstrumentStore } from '@/stores/instrumentStore';
+<script setup lang="ts">
+import assignmentView from "@/components/assignmentView.vue";
+import { onMounted } from "vue";
+import { useInstrumentStore } from "@/stores/instrumentStore";
 
-const instrumentStore = useInstrumentStore()
+const instrumentStore = useInstrumentStore();
 onMounted(() => {
-  instrumentStore.assignmentAll = true
-})
+  instrumentStore.assignmentAll = true;
+});
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -40,7 +40,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useUserStore } from "@/stores/authStore";
-import router from "@/routes/index";
 import type { Ref } from "vue";
 
 const userStore = useUserStore();
@@ -49,14 +48,7 @@ const password: Ref<string> = ref("");
 
 async function signIn() {
   try {
-    const { error } = await userStore.login(email.value, password.value);
-    if (error) {
-      alert(error);
-      throw error;
-    } else {
-      console.log("sucessfully logged in!");
-      router.push({ path: "/home" });
-    }
+    await userStore.login(email.value, password.value);
   } catch (error) {
     console.log(error);
   }
