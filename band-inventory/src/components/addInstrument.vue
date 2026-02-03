@@ -224,7 +224,7 @@ const processExcelData = async () => {
             row["YearPurchased"] ||
             "0",
         ) || 0,
-      price: parseInt(row.price || row["Price"] || row["Price"] || "0") || 0,
+      price: parseInt(row.price || row["Price"] || "0") || 0,
       retired: (row.retired || row.Retired || "Active") === "Retired",
       barcode: parseInt(row.barcode || row.Barcode || "0") || 0,
       notes: row.notes || row.Notes || "",
