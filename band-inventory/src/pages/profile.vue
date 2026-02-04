@@ -1,8 +1,8 @@
 <template>
-  <navBar />
+  <navBar class="mb-2"/>
   <a
     @click="$router.back()"
-    class="text-emerald-600 font-bold hover:cursor-pointer hover:underline p-4 pt-4"
+    class="text-emerald-600 font-bold hover:cursor-pointer hover:underline p-4"
   >
     🡨 Back to Instruments</a
   >
@@ -10,10 +10,10 @@
     <fieldset
       class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4"
     >
-      <legend class="fieldset-name">User</legend>
-      <input type="text" :value="user" class="input" disabled />
+      <legend class="fieldset-name text-lg">User</legend>
+      <input type="text" :value="user" class="input text-lg" disabled />
       <button
-        class="underline text-blue-600 place-self-start"
+        class="underline text-blue-600 place-self-start text-md"
         @click="showChangeUser = !showChangeUser"
       >
         Change email?
@@ -37,14 +37,14 @@
     <fieldset
       class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4"
     >
-      <legend class="fieldset-name">Password</legend>
-      <input type="text" value="**********" class="input" disabled />
-      <p
-        class="underline text-blue-600"
+      <legend class="fieldset-name text-lg">Password</legend>
+      <input type="text" value="**********" class="input text-lg" disabled />
+      <button
+        class="underline text-blue-600 place-self-start"
         @click="showChangePassword = !showChangePassword"
       >
         Change password?
-      </p>
+      </button>
       <div v-if="showChangePassword" class="space-y-2">
         <input
           type="password"
