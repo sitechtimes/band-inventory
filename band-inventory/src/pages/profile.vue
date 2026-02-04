@@ -4,20 +4,20 @@
     @click="$router.back()"
     class="text-emerald-600 font-bold hover:cursor-pointer hover:underline p-4 pt-4"
   >
-    🡨 Back to Instrument details</a
+    🡨 Back to Instruments</a
   >
   <div class="flex flex-col place-items-center space-y-3">
     <fieldset
       class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4"
     >
-      <legend class="fieldset-name">user</legend>
+      <legend class="fieldset-name">User</legend>
       <input type="text" :value="user" class="input" disabled />
-      <p
-        class="underline text-blue-600"
+      <button
+        class="underline text-blue-600 place-self-start"
         @click="showChangeUser = !showChangeUser"
       >
         Change email?
-      </p>
+      </button>
       <div v-if="showChangeUser" class="space-y-2">
         <input
           type="text"
@@ -37,7 +37,7 @@
     <fieldset
       class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4"
     >
-      <legend class="fieldset-name">password</legend>
+      <legend class="fieldset-name">Password</legend>
       <input type="text" value="**********" class="input" disabled />
       <p
         class="underline text-blue-600"
@@ -47,13 +47,13 @@
       </p>
       <div v-if="showChangePassword" class="space-y-2">
         <input
-          type="text"
+          type="password"
           class="input"
           placeholder="Enter your new password"
           v-model="newPass"
         />
         <input
-          type="text"
+          type="password"
           class="input"
           placeholder="Confirm your new password"
           v-model="confirmPass"
