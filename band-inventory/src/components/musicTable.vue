@@ -43,12 +43,23 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="music in musicStore.shownMusic" :key="music.id" class="cursor-pointer">
-            <td><input type="checkbox" @click.stop :value="music.id" v-model="selectedIds" /></td>
+          <tr
+            v-for="music in musicStore.shownMusic"
+            :key="music.id"
+            class="cursor-pointer"
+          >
+            <td>
+              <input
+                type="checkbox"
+                @click.stop
+                :value="music.id"
+                v-model="selectedIds"
+              />
+            </td>
             <td>{{ music.title }}</td>
             <td>{{ music.category }}</td>
             <td>{{ music.serial_id }}</td>
-            <td>{{ music.scanned ? 'Yes' : 'No' }}</td>
+            <td>{{ music.scanned ? "Yes" : "No" }}</td>
             <td>{{ music.composer }}</td>
             <td>{{ music.arranger }}</td>
             <td>{{ music.level }}</td>
@@ -58,21 +69,31 @@
         </tbody>
       </table>
     </div>
-    <div v-if="showFilterPopup"
-      class="fixed inset-0 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50" @click="closePopup">
-      <div class="border-2 border-gray-200 bg-white rounded-lg p-6 max-w-4xl w-full mx-4 max-h-[90vh] overflow-visible"
-        @click.stop>
+    <div
+      v-if="showFilterPopup"
+      class="fixed inset-0 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50"
+      @click="closePopup"
+    >
+      <div
+        class="border-2 border-gray-200 bg-white rounded-lg p-6 max-w-4xl w-full mx-4 max-h-[90vh] overflow-visible"
+        @click.stop
+      >
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-xl font-bold">Filter Music</h2>
-          <button @click="showFilterPopup = false" class="text-gray-600 hover:text-gray-800 hover:cursor-pointer">
+          <button
+            @click="showFilterPopup = false"
+            class="text-gray-600 hover:text-gray-800 hover:cursor-pointer"
+          >
             Close
           </button>
         </div>
         <musicFilter @close="showFilterPopup = false" />
       </div>
     </div>
-    <div v-if="showConfirmModal"
-      class="fixed inset-0 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50">
+    <div
+      v-if="showConfirmModal"
+      class="fixed inset-0 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50"
+    >
       <div class="bg-white rounded-lg shadow-xl p-6 max-w-md w-full mx-4">
         <h3 class="text-xl font-bold text-gray-900 mb-4">Confirm Deletion</h3>
         <p class="text-gray-600 mb-6">
@@ -116,9 +137,9 @@ const showFilterPopup = ref(false);
 
 const closePopup = (event: Event) => {
   if (event.target === event.currentTarget) {
-    showFilterPopup.value = false
+    showFilterPopup.value = false;
   }
-}
+};
 
 const getMusic = async () => {
   try {
