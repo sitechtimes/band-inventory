@@ -3,27 +3,20 @@
     <div class="flex justify-between items-center mt-2 mb-8">
       <h1 class="font-bold text-2xl">Instrument Listing</h1>
       <div class="flex flex-row">
-        <button
-          @click="showFilterPopup = true"
-          class="btn bg-deep-green hover:bg-emerald-900 text-white px-7 py-2 rounded-md flex items-center gap-2"
-        >
+        <button @click="showFilterPopup = true"
+          class="btn bg-deep-green hover:bg-emerald-900 text-white px-7 py-2 rounded-md flex items-center gap-2">
           Filter
         </button>
         <exportInstruments />
         <button
-          class="btn ml-4 bg-deep-green hover:bg-emerald-900 text-white px-7 py-2 rounded-md flex items-center gap-2"
-        >
+          class="btn ml-4 bg-deep-green hover:bg-emerald-900 text-white px-7 py-2 rounded-md flex items-center gap-2">
           <router-link to="/add-instrument">Add Instruments</router-link>
         </button>
       </div>
     </div>
     <div class="flex items-center gap-3 mb-3" v-if="selectedIds.length > 0">
       <span class="text-sm">{{ selectedIds.length }} selected</span>
-      <button
-        class="btn bg-red-400 btn-sm"
-        @click="showDeleteConfirmation"
-        :disabled="isDeleting"
-      >
+      <button class="btn bg-red-400 btn-sm" @click="showDeleteConfirmation" :disabled="isDeleting">
         Delete
       </button>
     </div>
@@ -32,11 +25,7 @@
         <thead>
           <tr class="bg-sky-blue">
             <th class="w-10">
-              <input
-                type="checkbox"
-                :checked="allChecked"
-                @change="toggleAll"
-              />
+              <input type="checkbox" :checked="allChecked" @change="toggleAll" />
             </th>
             <th>Category</th>
             <th>Section</th>
@@ -51,19 +40,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr
-            @click="clickInstrument(instrument.id)"
-            v-for="instrument in instrumentStore.showedInstruments"
-            :key="instrument.id"
-            class="cursor-pointer"
-          >
+          <tr @click="clickInstrument(instrument.id)" v-for="instrument in instrumentStore.showedInstruments"
+            :key="instrument.id" class="cursor-pointer">
             <td>
-              <input
-                type="checkbox"
-                @click.stop
-                :value="instrument.id"
-                v-model="selectedIds"
-              />
+              <input type="checkbox" @click.stop :value="instrument.id" v-model="selectedIds" />
             </td>
             <td>{{ instrument.category }}</td>
             <td>{{ instrument.section }}</td>
@@ -84,31 +64,21 @@
         </tbody>
       </table>
     </div>
-    <div
-      v-if="showFilterPopup"
-      class="fixed inset-0 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50"
-      @click="closePopup"
-    >
-      <div
-        class="border-2 border-gray-200 bg-white rounded-lg p-6 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto"
-        @click.stop
-      >
+    <div v-if="showFilterPopup"
+      class="fixed inset-0 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50" @click="closePopup">
+      <div class="border-2 border-gray-200 bg-white rounded-lg p-6 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto"
+        @click.stop>
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-xl font-bold">Filter Instruments</h2>
-          <button
-            @click="showFilterPopup = false"
-            class="text-gray-600 hover:text-gray-800 hover:cursor-pointer"
-          >
+          <button @click="showFilterPopup = false" class="text-gray-600 hover:text-gray-800 hover:cursor-pointer">
             Close
           </button>
         </div>
         <instrumentFilter @close="showFilterPopup = false" />
       </div>
     </div>
-    <div
-      v-if="showConfirmModal"
-      class="fixed inset-0 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50"
-    >
+    <div v-if="showConfirmModal"
+      class="fixed inset-0 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50">
       <div class="bg-white rounded-lg shadow-xl p-6 max-w-md w-full mx-4">
         <h3 class="text-xl font-bold text-gray-900 mb-4">Confirm Deletion</h3>
         <p class="text-gray-600 mb-6">
@@ -117,17 +87,13 @@
           }}? This action cannot be undone.
         </p>
         <div class="flex justify-end gap-3">
-          <button
-            @click="showConfirmModal = false"
-            class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500"
-          >
+          <button @click="showConfirmModal = false"
+            class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500">
             Cancel
           </button>
-          <button
-            @click="confirmDelete"
+          <button @click="confirmDelete"
             class="px-4 py-2 text-sm font-medium bg-red-400 border border-transparent rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
-            :disabled="isDeleting"
-          >
+            :disabled="isDeleting">
             <span v-if="isDeleting">Deleting...</span>
             <span v-else>Delete</span>
           </button>
