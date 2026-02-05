@@ -1,24 +1,23 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { supabase } from "@/lib/supabaseClient";
+import router from "@/routes/index";
 import type { Ref } from "vue";
 
 export const useUserStore = defineStore("auth", () => {
   const user: Ref<string | null> = ref(null);
 
   const login = async (email: string, password: string) => {
-    const result = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
-    if (result.data.user) {
-      user.value = result.data.user.email ?? null;
+    if (error) {
+      alert(error);
+    } else {
+      user.value = email;
+      router.push({ path: "/home" });
     }
-    return result;
-  };
-  const logout = async () => {
-    await supabase.auth.signOut();
-    user.value = null;
   };
   const initAuth = () => {
     supabase.auth.onAuthStateChange((event, session) => {
@@ -29,5 +28,17 @@ export const useUserStore = defineStore("auth", () => {
       user.value = session?.user?.email ?? null;
     });
   };
-  return { user, login, logout, initAuth };
+  const changeEmail = async (newEmail: string) => {
+    const { error } = await supabase.auth.updateUser({
+      email: newEmail,
+    });
+    console.log("success");
+    if (error) {
+      alert(error);
+    } else {
+      user.value = newEmail;
+    }
+  };
+
+  return { user, login, changeEmail, initAuth };
 });

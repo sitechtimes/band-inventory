@@ -89,7 +89,6 @@ export const useDetailStore = defineStore("details", () => {
       .select("*")
       .eq("serial_model", instrumentData.serial_model)
       .order("assigned_date", { ascending: false });
-    console.log(data);
 
     if (data!.length > 10) {
       const { error } = await supabase

@@ -79,11 +79,11 @@ import type { Ref } from "vue";
 import { storeToRefs } from "pinia";
 
 const emit = defineEmits<{
-  close: []
-}>()
+  close: [];
+}>();
 
-const musicStore = useMusicStore()
-const { allMusic, shownMusic } = storeToRefs(musicStore)
+const musicStore = useMusicStore();
+const { allMusic, shownMusic } = storeToRefs(musicStore);
 
 const title: Ref<string> = ref("");
 const category: Ref<string> = ref("");
@@ -116,18 +116,36 @@ const NYSSMALevelOptions = [
 async function filter() {
   const filteredMusic = allMusic.value.filter(
     (music) =>
-      (title.value === "" || (music.title && music.title.toLowerCase().includes(title.value.toLowerCase()))) &&
-      (category.value === "" || (music.category && music.category.toLowerCase().includes(category.value.toLowerCase()))) &&
-      (serial_id.value === "" || (music.serial_id && music.serial_id.toLowerCase().includes(serial_id.value.toLowerCase()))) &&
+      (title.value === "" ||
+        (music.title &&
+          music.title.toLowerCase().includes(title.value.toLowerCase()))) &&
+      (category.value === "" ||
+        (music.category &&
+          music.category
+            .toLowerCase()
+            .includes(category.value.toLowerCase()))) &&
+      (serial_id.value === "" ||
+        (music.serial_id &&
+          music.serial_id
+            .toLowerCase()
+            .includes(serial_id.value.toLowerCase()))) &&
       (scanned.value === "" || music.scanned === scanned.value) &&
-      (composer.value === "" || (music.composer && music.composer.toLowerCase().includes(composer.value.toLowerCase()))) &&
-      (arranger.value === "" || (music.arranger && music.arranger.toLowerCase().includes(arranger.value.toLowerCase()))) &&
+      (composer.value === "" ||
+        (music.composer &&
+          music.composer
+            .toLowerCase()
+            .includes(composer.value.toLowerCase()))) &&
+      (arranger.value === "" ||
+        (music.arranger &&
+          music.arranger
+            .toLowerCase()
+            .includes(arranger.value.toLowerCase()))) &&
       (level.value === "" || music.level === level.value) &&
-      (NYSSMA_level.value === "" || music.NYSSMA_level === NYSSMA_level.value)
+      (NYSSMA_level.value === "" || music.NYSSMA_level === NYSSMA_level.value),
   );
-  shownMusic.value = []
-  filteredMusic.forEach((music) => shownMusic.value.push(music))
-  emit('close')
+  shownMusic.value = [];
+  filteredMusic.forEach((music) => shownMusic.value.push(music));
+  emit("close");
 }
 
 async function reset() {
