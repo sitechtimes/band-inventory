@@ -6,20 +6,32 @@ import type { Ref } from "vue";
 
 export const useUserStore = defineStore("auth", () => {
   const user: Ref<string | null> = ref(null);
+  const EXPIRY_WARNING_MS = 60_000;
   let logoutTimer: ReturnType<typeof setTimeout> | null = null;
-  const scheduleLogout = (session: { expires_at?: number } | null) => {
+  let warningTimer: ReturnType<typeof setTimeout> | null = null;
+  const scheduleLogout = (session: { expires_in?: number } | null) => {
     if (logoutTimer) {
       clearTimeout(logoutTimer);
       logoutTimer = null;
     }
-    if (!session?.expires_at) {
+    if (warningTimer) {
+      clearTimeout(warningTimer);
+      warningTimer = null;
+    }
+    const expiresInSeconds = session?.expires_in;
+    if (expiresInSeconds == null) {
       return;
     }
-    const expiresAtMs = session.expires_at * 1000;
-    const msUntilExpires = expiresAtMs - Date.now();
+    const msUntilExpires = expiresInSeconds * 1000;
     if (msUntilExpires <= 0) {
       supabase.auth.signOut();
       return;
+    }
+    const warningDelay = msUntilExpires - EXPIRY_WARNING_MS;
+    if (warningDelay > 0) {
+      warningTimer = setTimeout(() => {
+        alert("Session will expire soon.");
+      }, warningDelay);
     }
     logoutTimer = setTimeout(() => {
       supabase.auth.signOut();
