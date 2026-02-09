@@ -53,9 +53,10 @@
               <h4 class="font-bold text-gray-400">Repair Date</h4>
               <p>{{ formatDate(repair.repair_date) }}</p>
             </div>
-            <div>
-              <h4 class="font-bold text-gray-400">Repair Type</h4>
-              <p>{{ repair.repair_needed }}</p>
+            <div v-if="detailStore.repairs.length === 0"
+                class="bg-sky-50 border-1 rounded-sm border-gray p-8 text-center space-y-2">
+                <p>No current repairs on this instrument</p>
+                <p class="font-semibold">Instruments in poor quality will need to have their repairs tracked.</p>
             </div>
             <div>
               <h4 class="font-bold text-gray-400">Requested By</h4>
