@@ -93,7 +93,7 @@
         </div>
       </div>
       <div v-if="activeTab === 'manual'">
-        <manuallyAdd />
+        <manuallyAddInstruments />
       </div>
       <div
         v-if="message && activeTab === 'excel'"
@@ -114,7 +114,7 @@
 import { ref } from "vue";
 import * as ExcelJS from "exceljs";
 import { useInstrumentStore } from "@/stores/instrumentStore";
-import manuallyAdd from "./manuallyAdd.vue";
+import manuallyAddInstruments from "./manuallyAddInstruments.vue";
 import templateDownload from "./templateDownload.vue";
 
 const instrumentStore = useInstrumentStore();

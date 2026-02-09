@@ -93,7 +93,7 @@
         </div>
       </div>
       <div v-if="activeTab === 'manual'">
-        <manuallyAdd />
+        <manuallyAddMusic />
       </div>
       <div
         v-if="message && activeTab === 'excel'"
@@ -114,7 +114,7 @@
 import { ref } from "vue";
 import * as ExcelJS from "exceljs";
 import { useMusicStore } from "@/stores/musicStore";
-import manuallyAdd from "./manuallyAdd.vue";
+import manuallyAddMusic from "./manuallyAddMusic.vue";
 import templateDownload from "./templateDownload.vue";
 
 const musicStore = useMusicStore();
@@ -202,8 +202,8 @@ const processExcelData = async () => {
   message.value = "";
   try {
     const music = excelData.value.map(row => ({
+      title: row.title || row.Title || '',
       category: row.category || row.Category || '',
-      section: row.section || row.Section || '',
       serial_model: parseInt(row.serial_model || row['Serial/Model'] || row['Serial Model'] || '0') || 0,
       case_number: parseInt(row.case_number || row['Case Number'] || row['CaseNumber'] || '0') || 0,
       manufacturer: row.manufacturer || row.Manufacturer || '',
@@ -218,8 +218,8 @@ const processExcelData = async () => {
       description: row.description || row.Description || ''
     }))
 
-    const validInstruments = instruments.filter(
-      (instrument) =>
+    const validInstruments = music.filter(
+      (music) =>
         instrument.category && instrument.section && instrument.manufacturer,
     );
 
