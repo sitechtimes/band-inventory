@@ -177,7 +177,7 @@ import navBar from "@/components/navBar.vue";
 import { assign } from "unplugin-vue-router/runtime";
 
 const detailStore = useDetailStore();
-const instrumentStore = useInstrumentStore()
+const instrumentStore = useInstrumentStore();
 const route = useRoute();
 const router = useRouter();
 const i = ref();
