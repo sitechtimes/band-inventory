@@ -33,7 +33,7 @@
           <h2 class="text-xl font-semibold text-gray-700">
             Upload Excel File of Instruments
           </h2>
-          <templateDownload />
+          <instrumentTemplateDownload />
         </div>
         <div
           class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-grey-blue transition-colors"
@@ -115,7 +115,7 @@ import { ref } from "vue";
 import * as ExcelJS from "exceljs";
 import { useInstrumentStore } from "@/stores/instrumentStore";
 import manuallyAddInstruments from "./manuallyAddInstruments.vue";
-import templateDownload from "./templateDownload.vue";
+import instrumentTemplateDownload from "./instrumentTemplateDownload.vue";
 
 const instrumentStore = useInstrumentStore();
 
