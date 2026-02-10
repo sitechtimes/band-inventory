@@ -1,13 +1,24 @@
 <template>
   <div class="m-4">
-    <h2 class="text-xl font-semibold text-gray-700">
-      Add Single Instrument Manually
-    </h2>
+    <h2 class="text-xl font-semibold text-gray-700">Add Music Manually</h2>
     <form
-      @submit.prevent="submitInstrument"
+      @submit.prevent="submitMusic"
       class="shadow-sm rounded-sm gap-x-4 mt-4"
     >
       <div class="grid @max-md:grid-rows-2 md:grid-cols-2">
+        <div class="flex flex-col m-2 md:ml-4">
+          <label for="title"
+            >Title <span class="text-red-500">*</span></label
+          >
+          <input
+            id="title"
+            v-model="formData.title"
+            type="text"
+            required
+            class="input w-7/8 focus:border-green"
+            placeholder="Enter title"
+          />
+        </div>
         <div class="flex flex-col m-2 md:ml-4">
           <label for="category"
             >Category <span class="text-red-500">*</span></label
@@ -22,125 +33,75 @@
           />
         </div>
         <div class="flex flex-col m-2 md:ml-4">
-          <label for="section"
-            >Section <span class="text-red-500">*</span></label
+          <label for="serial_id"
+            >Serial ID <span class="text-red-500">*</span></label
           >
           <input
-            id="section"
-            v-model="formData.section"
+            id="serial_id"
+            v-model="formData.serial_id"
             type="text"
             required
             class="input w-7/8 focus:border-green"
-            placeholder="Enter section"
+            placeholder="Enter serial ID"
           />
         </div>
         <div class="flex flex-col m-2 md:ml-4">
-          <label for="serial_model">Serial/Model Number</label>
-          <input
-            id="serial_model"
-            v-model.number="formData.serial_model"
-            type="number"
+          <label for="scanned">Scanned?</label>
+          <select
+            id="scanned"
+            v-model="formData.scanned"
             class="input w-7/8 focus:border-green"
-            placeholder="Enter serial or model number"
-          />
-        </div>
-        <div class="flex flex-col m-2 md:ml-4">
-          <label for="case_number">Case Number</label>
-          <input
-            id="case_number"
-            v-model.number="formData.case_number"
-            type="number"
-            class="input w-7/8 focus:border-green"
-            placeholder="Enter case number"
-          />
-        </div>
-        <div class="flex flex-col m-2 md:ml-4">
-          <label for="manufacturer"
-            >Manufacturer <span class="text-red-500">*</span></label
           >
+            <option :value="true">Yes</option>
+            <option :value="false">No</option>
+          </select>
+        </div>
+        <div class="flex flex-col m-2 md:ml-4">
+          <label for="composer">Composer</label>
           <input
-            id="manufacturer"
-            v-model="formData.manufacturer"
+            id="composer"
+            v-model="formData.composer"
             type="text"
-            required
             class="input w-7/8 focus:border-green"
-            placeholder="Enter manufacturer"
+            placeholder="Enter composer"
           />
         </div>
         <div class="flex flex-col m-2 md:ml-4">
-          <label for="siths_id">SITHS ID</label>
+          <label for="arranger">Arranger</label>
           <input
-            id="siths_id"
-            v-model.number="formData.siths_id"
-            type="number"
+            id="arranger"
+            v-model="formData.arranger"
+            type="text"
             class="input w-7/8 focus:border-green"
-            placeholder="Enter SITHS ID"
+            placeholder="Enter arranger"
           />
         </div>
         <div class="flex flex-col m-2 md:ml-4">
-          <label for="condition">Condition</label>
-          <select
-            id="condition"
-            v-model="formData.condition"
-            class="input w-7/8 focus:border-green"
-          >
-            <option value="Excellent">Excellent</option>
-            <option value="Good">Good</option>
-            <option value="Fair">Fair</option>
-            <option value="Poor">Poor</option>
-            <option value="Needs Repair">Needs Repair</option>
-          </select>
-        </div>
-        <div class="flex flex-col m-2 md:ml-4">
-          <label for="year_purchased">Year Purchased</label>
+          <label for="level">Level</label>
           <input
-            id="year_purchased"
-            v-model.number="formData.year_purchased"
-            type="number"
-            min="1900"
-            :max="new Date().getFullYear()"
+            id="level"
+            v-model="formData.level"
+            type="text"
             class="input w-7/8 focus:border-green"
-            placeholder="Enter year purchased"
+            placeholder="Enter level (ex: ME, E, VE)"
           />
         </div>
         <div class="flex flex-col m-2 md:ml-4">
-          <label for="price">Price</label>
+          <label for="NYSSMA_level">NYSSMA Level</label>
           <input
-            id="price"
-            v-model.number="formData.price"
-            type="number"
+            id="NYSSMA_level"
+            v-model="formData.NYSSMA_level"
+            type="text"
             class="input w-7/8 focus:border-green"
-            placeholder="Enter price"
+            placeholder="Enter NYSSMA level"
           />
         </div>
         <div class="flex flex-col m-2 md:ml-4">
-          <label for="retired">Retired?</label>
-          <select
-            id="retired"
-            v-model="formData.retired"
-            class="input w-7/8 focus:border-green"
-          >
-            <option value="Retired">Retired</option>
-            <option value="Active">Active</option>
-          </select>
-        </div>
-        <div class="flex flex-col m-2 md:ml-4">
-          <label for="barcode">Barcode</label>
-          <input
-            id="barcode"
-            v-model.number="formData.barcode"
-            type="number"
-            class="input w-7/8 focus:border-green"
-            placeholder="Enter barcode number"
-          />
-        </div>
-        <div class="flex flex-col m-2 md:ml-4">
-          <label for="notes">Notes <span class="text-red-500">*</span></label>
+          <label for="notes">Notes</label>
           <input
             id="notes"
             v-model="formData.notes"
             type="text"
-            required
             class="input w-7/8 focus:border-green"
             placeholder="Enter notes"
           />
@@ -152,8 +113,8 @@
           :disabled="isSubmitting"
           class="btn mx-2 md:ml-4 my-4 align-self-center bg-deep-green hover:bg-emerald-900 text-white"
         >
-          <span v-if="isSubmitting">Adding Instrument...</span>
-          <span v-else>Add Instrument</span>
+          <span v-if="isSubmitting">Adding Music...</span>
+          <span v-else>Add Music</span>
         </button>
         <button
           type="button"
@@ -180,22 +141,19 @@
 
 <script setup lang="ts">
 import { ref, reactive } from "vue";
-import { useInstrumentStore } from "@/stores/instrumentStore";
+import { useMusicStore } from "@/stores/musicStore";
 
-const instrumentStore = useInstrumentStore();
+const musicStore = useMusicStore();
 
 const formData = reactive({
+  title: "",
   category: "",
-  section: "",
-  serial_model: 0,
-  case_number: 0,
-  manufacturer: "",
-  siths_id: 0,
-  condition: "Good",
-  year_purchased: 0,
-  price: 0,
-  retired: "Active",
-  barcode: 0,
+  serial_id: "",
+  scanned: false,
+  composer: "",
+  arranger: "",
+  level: "",
+  NYSSMA_level: "",
   notes: "",
 });
 
@@ -203,50 +161,41 @@ const isSubmitting = ref(false);
 const message = ref("");
 const messageType = ref<"success" | "error">("success");
 
-const submitInstrument = async () => {
+const submitMusic = async () => {
   isSubmitting.value = true;
   message.value = "";
 
   try {
-    if (!formData.category || !formData.section || !formData.manufacturer) {
+    if (!formData.title || !formData.category || !formData.serial_id) {
       showMessage(
-        "Please fill in all required fields (Category, Section, Manufacturer)",
+        "Please fill in all required fields (Title, Category, Serial ID)",
         "error",
       );
       return;
     }
 
-    const instrumentData = {
+    const musicData = {
+      title: formData.title.trim(),
       category: formData.category.trim(),
-      section: formData.section.trim(),
-      serial_model: formData.serial_model || 0,
-      case_number: formData.case_number || 0,
-      manufacturer: formData.manufacturer.trim(),
-      siths_id: formData.siths_id || 0,
-      condition: formData.condition,
-      year_purchased: formData.year_purchased || 0,
-      price: formData.price || 0,
-      retired: formData.retired === "Retired",
-      barcode: formData.barcode || 0,
+      serial_id: formData.serial_id.trim(),
+      scanned: formData.scanned,
+      composer: formData.composer.trim(),
+      arranger: formData.arranger.trim(),
+      level: formData.level.trim(),
+      NYSSMA_level: formData.NYSSMA_level.trim(),
       notes: formData.notes.trim(),
-      location: "",
-      description: "",
-      assignments: [],
     };
 
-    await instrumentStore.addSingleInstrument(instrumentData as any);
+    await musicStore.addSingleMusic(musicData as any);
 
-    showMessage("Instrument added successfully", "success");
-    resetForm();
-
-    showMessage("Instrument added successfully", "success");
+    showMessage("Music added successfully", "success");
     resetForm();
   } catch (error) {
     showMessage(
-      `Error adding instrument: ${error instanceof Error ? error.message : "Unknown error"}`,
+      `Error adding music: ${error instanceof Error ? error.message : "Unknown error"}`,
       "error",
     );
-    console.error("Add instrument error:", error);
+    console.error("Add music error:", error);
   } finally {
     isSubmitting.value = false;
   }
@@ -254,17 +203,14 @@ const submitInstrument = async () => {
 
 const resetForm = () => {
   Object.assign(formData, {
+    title: "",
     category: "",
-    section: "",
-    serial_model: 0,
-    case_number: 0,
-    manufacturer: "",
-    siths_id: 0,
-    condition: "Good",
-    year_purchased: 0,
-    price: 0,
-    retired: "Active",
-    barcode: 0,
+    serial_id: "",
+    scanned: false,
+    composer: "",
+    arranger: "",
+    level: "",
+    NYSSMA_level: "",
     notes: "",
   });
   message.value = "";

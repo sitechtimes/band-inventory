@@ -33,7 +33,7 @@
           <h2 class="text-xl font-semibold text-gray-700">
             Upload Excel File of Music
           </h2>
-          <templateDownload />
+          <musicTemplateDownload />
         </div>
         <div
           class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-grey-blue transition-colors"
@@ -115,7 +115,7 @@ import { ref } from "vue";
 import * as ExcelJS from "exceljs";
 import { useMusicStore } from "@/stores/musicStore";
 import manuallyAddMusic from "./manuallyAddMusic.vue";
-import templateDownload from "./templateDownload.vue";
+import musicTemplateDownload from "./musicTemplateDownload.vue";
 
 const musicStore = useMusicStore();
 
@@ -196,60 +196,67 @@ const parseExcelFile = async (file: File) => {
   }
 };
 
+const parseBoolean = (value: unknown) => {
+  if (typeof value === "boolean") return value;
+  if (typeof value === "number") return value !== 0;
+  if (typeof value === "string") {
+    const normalized = value.trim().toLowerCase();
+    return ["yes", "y", "true", "1"].includes(normalized);
+  }
+  return false;
+};
+
 const processExcelData = async () => {
   if (excelData.value.length === 0) return;
   isProcessing.value = true;
   message.value = "";
   try {
-    const music = excelData.value.map(row => ({
-      title: row.title || row.Title || '',
-      category: row.category || row.Category || '',
-      serial_model: parseInt(row.serial_model || row['Serial/Model'] || row['Serial Model'] || '0') || 0,
-      case_number: parseInt(row.case_number || row['Case Number'] || row['CaseNumber'] || '0') || 0,
-      manufacturer: row.manufacturer || row.Manufacturer || '',
-      siths_id: parseInt(row.siths_id || row['SITHS ID'] || row['SITHS_ID'] || '0') || 0,
-      condition: row.condition || row.Condition || 'Good',
-      year_purchased: parseInt(row.year_purchased || row['Year Purchased'] || row['YearPurchased'] || '0') || 0,
-      price: parseInt(row.price || row['Price'] || row['Price'] || '0') || 0,
-      retired: (row.retired || row.Retired || 'Active') === 'Retired',
-      barcode: parseInt(row.barcode || row.Barcode || '0') || 0,
-      notes: row.notes || row.Notes || '',
-      location: row.location || row.Location || '',
-      description: row.description || row.Description || ''
-    }))
+    const music = excelData.value.map((row) => {
+      const serialId =
+        row.serial_id ||
+        row["Serial ID"] ||
+        row["Serial Id"] ||
+        row["SerialID"] ||
+        "";
+      return {
+      title: row.title || row.Title || "",
+      category: row.category || row.Category || "",
+      serial_id: serialId ? String(serialId).trim() : "",
+      scanned: parseBoolean(row.scanned ?? row.Scanned ?? false),
+      composer: row.composer || row.Composer || "",
+      arranger: row.arranger || row.Arranger || "",
+      level: row.level || row.Level || "",
+      NYSSMA_level:
+        row.NYSSMA_level || row["NYSSMA Level"] || row["NYSSMA_level"] || "",
+      notes: row.notes || row.Notes || "",
+      };
+    });
 
-    const validInstruments = music.filter(
-      (music) =>
-        instrument.category && instrument.section && instrument.manufacturer,
+    const validMusic = music.filter(
+      (item) => item.title && item.category && item.serial_id,
     );
 
-    if (validInstruments.length === 0) {
+    if (validMusic.length === 0) {
       showMessage(
-        "No valid instruments found in Excel file. Please check your data format.",
+        "No valid music found in Excel file. Please check your data format.",
         "error",
       );
       return;
     }
 
-    await musicStore.bulkUploadInstruments(validInstruments as any);
+    await musicStore.bulkUploadMusic(validMusic as any);
 
     showMessage(
-      `Successfully uploaded ${validInstruments.length} instruments to the database!`,
-      "success",
-    );
-    clearFile();
-
-    showMessage(
-      `Successfully uploaded ${validInstruments.length} instruments to the database!`,
+      `Successfully uploaded ${validMusic.length} music records to the database!`,
       "success",
     );
     clearFile();
   } catch (error) {
     showMessage(
-      `Error uploading instruments: ${error instanceof Error ? error.message : "Unknown error"}`,
+      `Error uploading music: ${error instanceof Error ? error.message : "Unknown error"}`,
       "error",
     );
-    console.error("Upload error:", error);
+    console.error("Music upload error:", error);
   } finally {
     isProcessing.value = false;
   }

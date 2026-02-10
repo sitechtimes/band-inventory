@@ -7,7 +7,7 @@ interface Music {
   id: number;
   title: string;
   category: string;
-  number: number;
+  serial_id: string;
   scanned: boolean;
   composer: string;
   arranger: string;
@@ -38,5 +38,33 @@ export const useMusicStore = defineStore("music", () => {
     shownMusic.value = shownMusic.value.filter((i) => !ids.includes(i.id));
   };
 
-  return { getMusic, allMusic, shownMusic, deleteMusic };
+  const bulkUploadMusic = async (music: Omit<Music, "id">[]) => {
+    const { data, error } = await supabase
+      .from("music")
+      .upsert(music, { onConflict: "serial_id" })
+      .select();
+    if (error) {
+      throw new Error(error.message);
+    }
+    await getMusic();
+    return data;
+  };
+
+  const addSingleMusic = async (music: Omit<Music, "id">) => {
+    const { data, error } = await supabase.from("music").insert([music]).select();
+    if (error) {
+      throw new Error(error.message);
+    }
+    await getMusic();
+    return data;
+  };
+
+  return {
+    getMusic,
+    allMusic,
+    shownMusic,
+    deleteMusic,
+    bulkUploadMusic,
+    addSingleMusic,
+  };
 });
