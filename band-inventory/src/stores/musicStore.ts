@@ -51,6 +51,16 @@ export const useMusicStore = defineStore("music", () => {
   };
 
   const addSingleMusic = async (music: Omit<Music, "id">) => {
+    const { data: existingMusic, error: existingError } = await supabase
+      .from("music")
+      .select("id")
+      .eq("serial_id", music.serial_id);
+    if (existingError) {
+      throw new Error(existingError.message);
+    }
+    if (existingMusic && existingMusic.length > 0) {
+      throw new Error(`Music with serial ID ${music.serial_id} already exists.`);
+    }
     const { data, error } = await supabase.from("music").insert([music]).select();
     if (error) {
       throw new Error(error.message);

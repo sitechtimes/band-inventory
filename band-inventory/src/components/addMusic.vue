@@ -197,13 +197,9 @@ const parseExcelFile = async (file: File) => {
 };
 
 const parseBoolean = (value: unknown) => {
-  if (typeof value === "boolean") return value;
-  if (typeof value === "number") return value !== 0;
-  if (typeof value === "string") {
-    const normalized = value.trim().toLowerCase();
-    return ["yes", "y", "true", "1"].includes(normalized);
-  }
-  return false;
+  if (typeof value !== "string") return Boolean(value);
+  const normalized = value.trim().toLowerCase();
+  return ["yes", "y", "true", "1"].includes(normalized);
 };
 
 const processExcelData = async () => {
