@@ -2,7 +2,7 @@
   <div class="p-6">
     <div class="flex justify-between items-center mt-2 mb-8">
       <h1 class="font-bold text-2xl">Instrument Listing</h1>
-      <div class="flex flex-row">
+      <div class="flex flex-col md:flex-row gap-3">
         <button @click="showFilterPopup = true"
           class="btn bg-deep-green hover:bg-emerald-900 text-white px-7 py-2 rounded-md flex items-center gap-2">
           Filter
