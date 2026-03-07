@@ -1,24 +1,24 @@
 <template>
   <div class="p-6">
-    <div class="flex justify-between items-center mt-2 mb-8">
+    <div class="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center mt-2 mb-8">
       <h1 class="font-bold text-2xl">Instrument Listing</h1>
-      <div class="flex flex-row">
+      <div class="flex flex-col gap-2 sm:flex-row sm:gap-4 w-full sm:w-auto">
+        <div v-if="selectedIds.length > 0" class="flex items-center gap-3 w-full sm:w-auto">
+          <span class="text-sm">{{ selectedIds.length }} selected</span>
+          <button class="btn bg-red-400 btn-sm w-full sm:w-auto" @click="showDeleteConfirmation" :disabled="isDeleting">
+            Delete
+          </button>
+        </div>
         <button @click="showFilterPopup = true"
-          class="btn bg-deep-green hover:bg-emerald-900 text-white px-7 py-2 rounded-md flex items-center gap-2">
+          class="btn bg-deep-green hover:bg-emerald-900 text-white px-7 py-2 rounded-md flex items-center gap-2 w-full sm:w-auto">
           Filter
         </button>
         <exportInstruments />
         <button
-          class="btn ml-4 bg-deep-green hover:bg-emerald-900 text-white px-7 py-2 rounded-md flex items-center gap-2">
+          class="btn bg-deep-green hover:bg-emerald-900 text-white px-7 py-2 rounded-md flex items-center gap-2 w-full sm:w-auto">
           <router-link to="/add-instrument">Add Instruments</router-link>
         </button>
       </div>
-    </div>
-    <div class="flex items-center gap-3 mb-3" v-if="selectedIds.length > 0">
-      <span class="text-sm">{{ selectedIds.length }} selected</span>
-      <button class="btn bg-red-400 btn-sm" @click="showDeleteConfirmation" :disabled="isDeleting">
-        Delete
-      </button>
     </div>
     <div class="overflow-x-auto">
       <table class="table text-center text-base">
