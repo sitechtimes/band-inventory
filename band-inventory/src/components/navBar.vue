@@ -46,7 +46,7 @@
         <router-link to="/profile"
           ><img
             src="/user.png"
-            class="w-1/5 md:w-1/7 lg:w-1/9 place-self-end mr-4"
+            class="w-1/5 md:w-1/7 lg:w-1/9 place-self-end mr-8 md:mr-4"  
         /></router-link>
         <!-- <a class="btn mr-4" @click="signOut">Sign Out</a> -->
       </div>
