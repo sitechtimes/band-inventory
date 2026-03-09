@@ -1,35 +1,31 @@
 <template>
   <div class="p-6">
-    <div class="flex justify-between items-center mt-2 mb-8">
+    <div class="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center mt-2 mb-8">
       <h1 class="font-bold text-2xl">Music Listing</h1>
-      <button
-        @click="showFilterPopup = true"
-        class="btn bg-deep-green hover:bg-emerald-900 text-white px-7 py-2 rounded-md flex items-center gap-2"
-      >
-        Filter
-      </button>
-      <exportMusic />
-    </div>
-    <div class="flex items-center gap-3 mb-3" v-if="selectedIds.length > 0">
-      <span class="text-sm">{{ selectedIds.length }} selected</span>
-      <button
-        class="btn bg-red-400 btn-sm"
-        @click="showDeleteConfirmation"
-        :disabled="isDeleting"
-      >
-        Delete
-      </button>
+      <div class="flex flex-col gap-2 sm:flex-row sm:gap-4 w-full sm:w-auto">
+        <div v-if="selectedIds.length > 0" class="flex items-center gap-3 w-full sm:w-auto">
+          <span class="text-sm">{{ selectedIds.length }} selected</span>
+          <button class="btn bg-red-400 btn-sm w-full sm:w-auto" @click="showDeleteConfirmation" :disabled="isDeleting">
+            Delete
+          </button>
+        </div>
+        <button @click="showFilterPopup = true"
+          class="btn bg-deep-green hover:bg-emerald-900 text-white px-7 py-2 rounded-md flex items-center gap-2 w-full sm:w-auto">
+          Filter
+        </button>
+        <exportMusic />
+        <button
+          class="btn bg-deep-green hover:bg-emerald-900 text-white px-7 py-2 rounded-md flex items-center gap-2 w-full sm:w-auto">
+          <router-link to="/add-music">Add Music</router-link>
+        </button>
+      </div>
     </div>
     <div class="overflow-x-auto">
       <table class="table text-center text-base">
         <thead>
           <tr class="bg-sky-blue">
             <th class="w-10">
-              <input
-                type="checkbox"
-                :checked="allChecked"
-                @change="toggleAll"
-              />
+              <input type="checkbox" :checked="allChecked" @change="toggleAll" />
             </th>
             <th>Title</th>
             <th>Category</th>
@@ -102,17 +98,13 @@
           }}? This action cannot be undone.
         </p>
         <div class="flex justify-end gap-3">
-          <button
-            @click="showConfirmModal = false"
-            class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500"
-          >
+          <button @click="showConfirmModal = false"
+            class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500">
             Cancel
           </button>
-          <button
-            @click="confirmDelete"
+          <button @click="confirmDelete"
             class="px-4 py-2 text-sm font-medium bg-red-400 border border-transparent rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
-            :disabled="isDeleting"
-          >
+            :disabled="isDeleting">
             <span v-if="isDeleting">Deleting...</span>
             <span v-else>Delete</span>
           </button>
